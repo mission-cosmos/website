@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -19,7 +20,7 @@ const Index = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <Rocket className="h-8 w-8 text-yellow-400" />
+              <img src="/lovable-uploads/ca01a316-f75c-41f4-bebf-192c2e931dbd.png" alt="Mission Cosmos Logo" className="h-8 w-8" />
               <h1 className="text-2xl font-bold text-white">Mission Cosmos</h1>
             </div>
             <div className="hidden md:flex items-center space-x-6">

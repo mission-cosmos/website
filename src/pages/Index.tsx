@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -118,6 +117,14 @@ const Index = () => {
                     <CardDescription className="text-gray-400">Reflect and imagine the universe</CardDescription>
                   </CardHeader>
                 </Card>
+              </div>
+
+              {/* About Mission Cosmos Section */}
+              <div className="mt-20 mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">About Mission Cosmos</h2>
+                <p className="text-lg text-gray-300 leading-relaxed max-w-3xl mx-auto">
+                  We believe that astronomy is for everyone—and our mission is to make learning about space immersive, inclusive, and fun. From journaling your dreams of the stars to playing our space-themed mini-games, there's something here for every explorer. Come embark with us on a cosmic journey with Mission Cosmos and discover the wonders of the universe through our interactive experiences.
+                </p>
               </div>
 
               <div className="mt-12">

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Brain, Shuffle, Star, Planet, Rocket, Telescope } from "lucide-react";
+import { Brain, Shuffle, Star, Globe, Rocket, Telescope } from "lucide-react";
 
 const CosmicFacts = () => {
   const [currentFactIndex, setCurrentFactIndex] = useState(0);
@@ -22,7 +22,7 @@ const CosmicFacts = () => {
     {
       id: 2,
       category: "Planets",
-      icon: Planet,
+      icon: Globe,
       color: "blue",
       title: "Jupiter's Great Red Spot",
       fact: "Jupiter's Great Red Spot is a storm that has been raging for over 300 years and is larger than Earth!",
@@ -52,7 +52,7 @@ const CosmicFacts = () => {
     {
       id: 5,
       category: "Planets",
-      icon: Planet,
+      icon: Globe,
       color: "orange",
       title: "Mars' Olympus Mons",
       fact: "Olympus Mons on Mars is the largest volcano in our solar system, standing 21 kilometers (13 miles) tall!",
@@ -206,7 +206,7 @@ const CosmicFacts = () => {
         <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { name: "Stars", icon: Star, color: "text-yellow-400", count: facts.filter(f => f.category === "Stars").length },
-            { name: "Planets", icon: Planet, color: "text-blue-400", count: facts.filter(f => f.category === "Planets").length },
+            { name: "Planets", icon: Globe, color: "text-blue-400", count: facts.filter(f => f.category === "Planets").length },
             { name: "Space Travel", icon: Rocket, color: "text-red-400", count: facts.filter(f => f.category === "Space Travel").length },
             { name: "Universe", icon: Telescope, color: "text-purple-400", count: facts.filter(f => f.category === "Universe").length }
           ].map((category) => (

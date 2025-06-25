@@ -75,11 +75,14 @@ const Index = () => {
               <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
                 Mission <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-purple-400">Cosmos</span>
               </h1>
-              <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed">
-                Explore space, learn science, and express curiosity—no telescope required!
+              <p className="text-xl md:text-2xl text-gray-300 mb-4 leading-relaxed">
+                Making space accessible and exciting for all.
+              </p>
+              <p className="text-lg md:text-xl text-yellow-400 mb-6 font-semibold">
+                Explore. Play. Dream Big.
               </p>
               <p className="text-lg text-gray-400 mb-12 max-w-2xl mx-auto">
-                Making space science engaging and accessible through interactive games, fascinating facts, and creative exploration.
+                Mission Cosmos is an interactive digital space lab for students and dreamers to discover the wonders of the universe through games, stories, and cosmic creativity.
               </p>
               
               {/* Feature Cards */}

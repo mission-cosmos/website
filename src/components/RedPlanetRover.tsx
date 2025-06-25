@@ -1,242 +1,202 @@
 
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import React, { useState, useRef, useEffect, useCallback } from "react";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Target, Battery, Wifi } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Droplet, Wifi, Target } from "lucide-react";
 
-const RedPlanetRover = () => {
-  const [roverPosition, setRoverPosition] = useState({ x: 2, y: 2 });
-  const [score, setScore] = useState(0);
+export default function RedPlanetRover() {
+  // Game UI state
   const [gameStarted, setGameStarted] = useState(false);
-  const [targets, setTargets] = useState([
-    { x: 0, y: 0, collected: false },
-    { x: 4, y:1, collected: false },
-    { x: 1, y: 4, collected: false }
-  ]);
-  const [battery, setBattery] = useState(100);
+  const [gameOver, setGameOver] = useState(false);
+  const [score, setScore] = useState(0);
+  const [waterPoints, setWaterPoints] = useState(0);
 
-  const gridSize = 5;
+  // Canvas & refs
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const animationId = useRef<number>();
+  const frame = useRef(0);
 
+  // Assets
+  const hillsImg = useRef(new Image());
+  const roverImg = useRef(new Image());
+  const iceImg = useRef(new Image());
+  const dustImg = useRef(new Image());
+  const rockImg = useRef(new Image());
+
+  // Game constants
+  const W = 640;
+  const H = 360;
+  const rover = useRef({ x: 40, y: H - 75, w: 64, h: 48, speed: 7 });
+  const iceChunks = useRef<Array<{ x: number; y: number }>>([]);
+  const dusts = useRef<Array<{ x: number; y: number }>>([]);
+  const rocks = useRef<Array<{ x: number; y: number }>>([]);
+
+  // Load images once
   useEffect(() => {
-    if (gameStarted && battery > 0) {
-      const timer = setInterval(() => {
-        setBattery(prev => prev - 1);
-      }, 1000);
-      return () => clearInterval(timer);
+    hillsImg.current.src = "/lovable-uploads/0a3db819-fa9b-43a5-85f7-c8fa75998d9b.png";
+    roverImg.current.src = "/lovable-uploads/ecec65ca-3cd0-4791-917b-3eac62c8aa01.png";
+    iceImg.current.src = "/lovable-uploads/2d686005-6624-4dfa-beae-25c3708b4ad0.png";
+    dustImg.current.src = "/lovable-uploads/6880029a-1c2d-49a1-873b-e8edd82f4bdb.png";
+    rockImg.current.src = "/lovable-uploads/5c716d72-ed18-4132-9b8c-1faf06d8de33.png";
+  }, []);
+
+  const isColliding = useCallback((a: any, b: any, aw: number, ah: number) => {
+    return (
+      a.x < b.x + b.w &&
+      a.x + aw > b.x &&
+      a.y < b.y + b.h &&
+      a.y + ah > b.y
+    );
+  }, []);
+
+  const endGame = useCallback(() => {
+    setGameOver(true);
+    cancelAnimationFrame(animationId.current!);
+  }, []);
+
+  const spawnIce = useCallback(() => {
+    iceChunks.current.push({ x: Math.random() * (W - 16), y: -16 });
+  }, []);
+  const spawnDust = useCallback(() => {
+    dusts.current.push({ x: Math.random() * (W - 32), y: -32 });
+  }, []);
+  const spawnRock = useCallback(() => {
+    rocks.current.push({ x: Math.random() * (W - 28), y: -28 });
+  }, []);
+
+  // Input
+  const keys = useRef<Record<string, boolean>>({});
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => (keys.current[e.code] = true);
+    const up = (e: KeyboardEvent) => (keys.current[e.code] = false);
+    window.addEventListener("keydown", down);
+    window.addEventListener("keyup", up);
+    return () => {
+      window.removeEventListener("keydown", down);
+      window.removeEventListener("keyup", up);
+    };
+  }, []);
+
+  // Main loop
+  useEffect(() => {
+    if (!gameStarted) return;
+    const ctx = canvasRef.current!.getContext("2d")!;
+
+    function drawBackground() {
+      // sky gradient
+      const grad = ctx.createLinearGradient(0, 0, 0, H);
+      grad.addColorStop(0, "#3a0f1d");
+      grad.addColorStop(1, "#6b1e2e");
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+      // hills parallax
+      const offset = -(frame.current * 0.3) % W;
+      ctx.drawImage(hillsImg.current, offset, H - 120, W, 120);
+      ctx.drawImage(hillsImg.current, offset + W, H - 120, W, 120);
     }
-  }, [gameStarted, battery]);
 
-  const moveRover = (direction: string) => {
-    if (!gameStarted || battery <= 0) return;
+    function loop() {
+      if (gameOver) return;
+      const f = frame.current;
+      frame.current += 1;
 
-    setRoverPosition(prev => {
-      let newX = prev.x;
-      let newY = prev.y;
+      drawBackground();
+      // spawn entities
+      if (f % 90 === 0) spawnIce();
+      if (f % 150 === 0) spawnDust();
+      if (f % 200 === 0) spawnRock();
 
-      switch (direction) {
-        case 'up':
-          newY = Math.max(0, prev.y - 1);
-          break;
-        case 'down':
-          newY = Math.min(gridSize - 1, prev.y + 1);
-          break;
-        case 'left':
-          newX = Math.max(0, prev.x - 1);
-          break;
-        case 'right':
-          newX = Math.min(gridSize - 1, prev.x + 1);
-          break;
-      }
+      // move rover
+      if (keys.current.ArrowLeft && rover.current.x > 0) rover.current.x -= rover.current.speed;
+      if (keys.current.ArrowRight && rover.current.x < W - rover.current.w) rover.current.x += rover.current.speed;
+      // draw rover
+      ctx.drawImage(roverImg.current, rover.current.x, rover.current.y, rover.current.w, rover.current.h);
 
-      // Check for target collection
-      const targetIndex = targets.findIndex(target => 
-        target.x === newX && target.y === newY && !target.collected
-      );
-      
-      if (targetIndex !== -1) {
-        setTargets(prev => prev.map((target, index) => 
-          index === targetIndex ? { ...target, collected: true } : target
-        ));
-        setScore(prev => prev + 100);
-        setBattery(prev => Math.min(100, prev + 20));
-      }
+      // ice
+      iceChunks.current.forEach((i, idx) => {
+        i.y += 2 + f * 0.0005;
+        ctx.drawImage(iceImg.current, i.x, i.y, 16, 16);
+        if (isColliding(i, rover.current, 16, 16)) {
+          iceChunks.current.splice(idx, 1);
+          setWaterPoints(w => w + 50);
+        }
+      });
+      // dust
+      dusts.current.forEach((d, idx) => {
+        d.y += 1.5 + f * 0.003;
+        ctx.drawImage(dustImg.current, d.x, d.y, 32, 32);
+        if (isColliding(d, rover.current, 32, 32)) endGame();
+      });
+      // rocks
+      rocks.current.forEach((r, idx) => {
+        r.y += 1.8 + f * 0.003;
+        ctx.drawImage(rockImg.current, r.x, r.y, 28, 24);
+        if (isColliding(r, rover.current, 28, 24)) endGame();
+      });
 
-      return { x: newX, y: newY };
-    });
-  };
+      animationId.current = requestAnimationFrame(loop);
+    }
 
-  const startGame = () => {
+    animationId.current = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(animationId.current!);
+  }, [gameStarted, gameOver, isColliding, spawnIce, spawnDust, spawnRock, endGame]);
+
+  const start = () => {
     setGameStarted(true);
-    setScore(0);
-    setBattery(100);
-    setRoverPosition({ x: 2, y: 2 });
-    setTargets([
-      { x: 0, y: 0, collected: false },
-      { x: 4, y: 1, collected: false },
-      { x: 1, y: 4, collected: false }
-    ]);
+    setGameOver(false);
+    setWaterPoints(0);
+    frame.current = 0;
+    rover.current = { x: 40, y: H - 75, w: 64, h: 48, speed: 7 };
+    iceChunks.current = [];
+    dusts.current = [];
+    rocks.current = [];
   };
-
-  const resetGame = () => {
-    setGameStarted(false);
-    setScore(0);
-    setBattery(100);
-    setRoverPosition({ x: 2, y: 2 });
-    setTargets([
-      { x: 0, y: 0, collected: false },
-      { x: 4, y: 1, collected: false },
-      { x: 1, y: 4, collected: false }
-    ]);
-  };
-
-  const renderGrid = () => {
-    const grid = [];
-    for (let y = 0; y < gridSize; y++) {
-      for (let x = 0; x < gridSize; x++) {
-        const isRover = roverPosition.x === x && roverPosition.y === y;
-        const target = targets.find(t => t.x === x && t.y === y);
-        const isTarget = target && !target.collected;
-        
-        grid.push(
-          <div
-            key={`${x}-${y}`}
-            className={`w-16 h-16 border border-red-800/30 flex items-center justify-center text-2xl
-              ${isRover ? 'bg-red-600/80' : 'bg-red-900/20'}
-              ${isTarget ? 'bg-yellow-500/30' : ''}
-            `}
-          >
-            {isRover && '🚗'}
-            {isTarget && '🎯'}
-          </div>
-        );
-      }
-    }
-    return grid;
-  };
-
-  const targetsCollected = targets.filter(t => t.collected).length;
-  const isGameWon = targetsCollected === targets.length;
-  const isGameOver = battery <= 0 && !isGameWon;
 
   return (
-    <Card className="bg-slate-800/50 border-red-500/20 max-w-4xl mx-auto">
+    <Card className="bg-slate-800/50 border-blue-500/20 max-w-3xl mx-auto">
       <CardHeader className="text-center">
         <CardTitle className="text-2xl text-white flex items-center justify-center gap-2">
-          <Target className="h-6 w-6 text-red-400" />
-          Red-Planet Rover Mission
+          <Target className="h-6 w-6 text-blue-400" /> Red-Planet Rover
         </CardTitle>
         <CardDescription className="text-gray-300">
-          Navigate your rover across Mars to collect samples before your battery runs out!
+          Navigate Mars, collect ice, avoid dust & rocks!
         </CardDescription>
       </CardHeader>
-      
-      <CardContent className="space-y-6">
-        {/* Game Stats */}
-        <div className="flex justify-center gap-6 flex-wrap">
-          <Badge variant="outline" className="border-green-500/50 text-green-400">
-            Score: {score}
+      <CardContent className="space-y-4">
+        <div className="flex justify-center gap-4">
+          <Badge variant="outline" className="border-white text-white">
+            <Droplet className="h-4 w-4 mr-1" /> {waterPoints}
           </Badge>
-          <Badge variant="outline" className="border-yellow-500/50 text-yellow-400">
-            <Battery className="h-4 w-4 mr-1" />
-            Battery: {battery}%
-          </Badge>
-          <Badge variant="outline" className="border-blue-500/50 text-blue-400">
-            Targets: {targetsCollected}/{targets.length}
+          <Badge variant="outline" className="border-white text-white">
+            <Wifi className="h-4 w-4 mr-1" /> {score}
           </Badge>
         </div>
-
-        {/* Game Grid */}
         <div className="flex justify-center">
-          <div className="grid grid-cols-5 gap-1 p-4 bg-red-950/30 rounded-lg border border-red-500/20">
-            {renderGrid()}
-          </div>
+          <canvas
+            ref={canvasRef}
+            width={W}
+            height={H}
+            className="rounded-lg border border-white/30"
+          />
         </div>
-
-        {/* Controls */}
-        {gameStarted && !isGameOver && !isGameWon && (
-          <div className="flex flex-col items-center space-y-4">
-            <div className="grid grid-cols-3 gap-2">
-              <div></div>
-              <Button
-                onClick={() => moveRover('up')}
-                variant="outline"
-                className="border-red-500/50 text-red-400 hover:bg-red-500/20"
-              >
-                <ArrowUp className="h-4 w-4" />
-              </Button>
-              <div></div>
-              
-              <Button
-                onClick={() => moveRover('left')}
-                variant="outline"
-                className="border-red-500/50 text-red-400 hover:bg-red-500/20"
-              >
-                <ArrowLeft className="h-4 w-4" />
-              </Button>
-              <div></div>
-              <Button
-                onClick={() => moveRover('right')}
-                variant="outline"
-                className="border-red-500/50 text-red-400 hover:bg-red-500/20"
-              >
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-              
-              <div></div>
-              <Button
-                onClick={() => moveRover('down')}
-                variant="outline"
-                className="border-red-500/50 text-red-400 hover:bg-red-500/20"
-              >
-                <ArrowDown className="h-4 w-4" />
-              </Button>
-              <div></div>
-            </div>
-          </div>
-        )}
-
-        {/* Game States */}
         {!gameStarted && (
-          <div className="text-center space-y-4">
-            <p className="text-gray-300">Ready to explore Mars? Use the arrow buttons to move your rover!</p>
-            <Button 
-              onClick={startGame}
-              className="bg-red-600 hover:bg-red-700 text-white"
-            >
+          <div className="text-center">
+            <Button onClick={start} className="bg-blue-600 text-white">
               Start Mission
             </Button>
+            <p className="text-sm text-gray-400 mt-2">Use arrow keys to move the rover</p>
           </div>
         )}
-
-        {isGameWon && (
-          <div className="text-center space-y-4">
-            <h3 className="text-2xl font-bold text-green-400">Mission Accomplished! 🎉</h3>
-            <p className="text-gray-300">You collected all samples with {battery}% battery remaining!</p>
-            <Button 
-              onClick={resetGame}
-              className="bg-green-600 hover:bg-green-700 text-white"
-            >
-              New Mission
-            </Button>
-          </div>
-        )}
-
-        {isGameOver && (
-          <div className="text-center space-y-4">
-            <h3 className="text-2xl font-bold text-red-400">Mission Failed</h3>
-            <p className="text-gray-300">Your rover ran out of battery! Try again.</p>
-            <Button 
-              onClick={resetGame}
-              className="bg-red-600 hover:bg-red-700 text-white"
-            >
-              Retry Mission
+        {gameOver && (
+          <div className="text-center space-y-2">
+            <p className="text-red-400 font-bold">Mission Failed!</p>
+            <Button onClick={start} className="bg-white text-black">
+              Retry
             </Button>
           </div>
         )}
       </CardContent>
     </Card>
   );
-};
-
-export default RedPlanetRover;
+}

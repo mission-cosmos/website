@@ -218,8 +218,8 @@ const CosmicJournal = () => {
           </Card>
         )}
 
-        {/* Writing Tips */}
-        <Card className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 border-blue-500/20">
+        {/* Writing Tips - Updated with better contrast */}
+        <Card className="bg-slate-800/80 border-yellow-500/30">
           <CardHeader>
             <CardTitle className="text-lg text-white flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-yellow-400" />
@@ -227,7 +227,7 @@ const CosmicJournal = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-300">
+            <div className="grid md:grid-cols-2 gap-4 text-sm text-white">
               <div className="space-y-2">
                 <p><strong className="text-yellow-400">Be Creative:</strong> There are no wrong answers in space imagination!</p>
                 <p><strong className="text-blue-400">Use Details:</strong> Describe what you see, hear, and feel.</p>

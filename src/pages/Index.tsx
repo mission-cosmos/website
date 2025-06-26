@@ -1,14 +1,14 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Rocket, Globe, BookOpen, PenTool, Star, Zap, Target, Brain } from "lucide-react";
+import { Rocket, Globe, BookOpen, PenTool, Star, Zap, Target, Brain, Mail } from "lucide-react";
 import RedPlanetRover from "../components/RedPlanetRover";
 import AstroRun from "../components/AstroRun";
 import CosmicFacts from "../components/CosmicFacts";
 import CosmicJournal from "../components/CosmicJournal";
+import Contact from "../components/Contact";
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState("home");
@@ -56,12 +56,20 @@ const Index = () => {
               >
                 Journal
               </button>
+              <button
+                onClick={() => setActiveSection("contact")}
+                className={`text-sm font-medium transition-colors ${
+                  activeSection === "contact" ? "text-yellow-400" : "text-gray-300 hover:text-white"
+                }`}
+              >
+                Contact
+              </button>
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
+      {/* Home Section */}
       {activeSection === "home" && (
         <div className="pt-20 pb-16">
           <div className="container mx-auto px-4">
@@ -186,6 +194,13 @@ const Index = () => {
         </div>
       )}
 
+      {/* Contact Section */}
+      {activeSection === "contact" && (
+        <div className="pt-20 pb-16">
+          <Contact />
+        </div>
+      )}
+
       {/* Mobile Navigation */}
       <div className="fixed bottom-0 left-0 right-0 bg-slate-900/90 backdrop-blur-md border-t border-purple-500/20 md:hidden">
         <div className="flex justify-around py-2">
@@ -224,6 +239,15 @@ const Index = () => {
           >
             <PenTool className="h-5 w-5" />
             <span className="text-xs mt-1">Journal</span>
+          </button>
+          <button
+            onClick={() => setActiveSection("contact")}
+            className={`flex flex-col items-center p-2 ${
+              activeSection === "contact" ? "text-yellow-400" : "text-gray-400"
+            }`}
+          >
+            <Mail className="h-5 w-5" />
+            <span className="text-xs mt-1">Contact</span>
           </button>
         </div>
       </div>

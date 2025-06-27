@@ -1,56 +1,21 @@
-
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import React from "react";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 import { Mail, MapPin, Send } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
 
-const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: ""
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const { toast } = useToast();
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    // Create mailto link
-    const subject = encodeURIComponent(`Contact from ${formData.name}`);
-    const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`);
-    const mailtoLink = `mailto:missioncosmosinquiry@gmail.com?subject=${subject}&body=${body}`;
-    
-    // Open email client
-    window.open(mailtoLink, '_blank');
-
-    toast({
-      title: "Email Client Opened!",
-      description: "Your default email client should open with the message pre-filled.",
-    });
-
-    setFormData({ name: "", email: "", message: "" });
-    setIsSubmitting(false);
-  };
-
+export default function Contact() {
   return (
     <div className="container mx-auto px-4">
       <div className="text-center mb-12">
-        <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Contact Mission Cosmos</h2>
-        <p className="text-xl text-gray-300">Ready to embark on your cosmic journey? Get in touch!</p>
+        <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          Contact Mission Cosmos
+        </h2>
+        <p className="text-xl text-gray-300">
+          Ready to embark on your cosmic journey? Get in touch!
+        </p>
       </div>
 
       <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
@@ -58,62 +23,73 @@ const Contact = () => {
         <Card className="bg-slate-800/50 border-purple-500/20">
           <CardHeader>
             <CardTitle className="text-white flex items-center">
-              <Send className="h-6 w-6 text-yellow-400 mr-2" />
-              Send us a Message
+              <Send className="h-6 w-6 text-yellow-400 mr-2" /> Send us a
+              Message
             </CardTitle>
             <CardDescription className="text-gray-400">
-              Have questions about space exploration or our interactive experiences? We'd love to hear from you!
+              Have questions about space exploration or our interactive
+              experiences? We'd love to hear from you!
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
+            {/* ← Netlify will detect this at build time */}
+            <form
+              name="contact"
+              method="POST"
+              data-netlify="true"
+              netlify-honeypot="bot-field"
+              className="space-y-6"
+            >
+              {/* required hidden fields */}
+              <input type="hidden" name="form-name" value="contact" />
+              <input type="hidden" name="bot-field" />
+
               <div>
-                <Label htmlFor="name" className="text-gray-300">Name</Label>
+                <Label htmlFor="name" className="text-gray-300">
+                  Name
+                </Label>
                 <Input
                   id="name"
                   name="name"
                   type="text"
-                  value={formData.name}
-                  onChange={handleInputChange}
                   required
                   className="bg-slate-700/50 border-purple-500/30 text-white placeholder:text-gray-400"
                   placeholder="Your name"
                 />
               </div>
-              
+
               <div>
-                <Label htmlFor="email" className="text-gray-300">Email</Label>
+                <Label htmlFor="email" className="text-gray-300">
+                  Email
+                </Label>
                 <Input
                   id="email"
                   name="email"
                   type="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
                   required
                   className="bg-slate-700/50 border-purple-500/30 text-white placeholder:text-gray-400"
                   placeholder="your.email@example.com"
                 />
               </div>
-              
+
               <div>
-                <Label htmlFor="message" className="text-gray-300">Message</Label>
+                <Label htmlFor="message" className="text-gray-300">
+                  Message
+                </Label>
                 <Textarea
                   id="message"
                   name="message"
-                  value={formData.message}
-                  onChange={handleInputChange}
                   required
                   className="bg-slate-700/50 border-purple-500/30 text-white placeholder:text-gray-400 min-h-[120px]"
                   placeholder="Tell us about your cosmic curiosity..."
                 />
               </div>
-              
+
               <Button
                 type="submit"
-                disabled={isSubmitting}
                 className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold"
               >
-                {isSubmitting ? "Opening Email..." : "Send Message"}
+                Send Message
               </Button>
             </form>
           </CardContent>
@@ -133,15 +109,19 @@ const Contact = () => {
                 <Mail className="h-6 w-6 text-blue-400" />
                 <div>
                   <p className="text-white font-medium">Email</p>
-                  <p className="text-gray-400">missioncosmosinquiry@gmail.com</p>
+                  <p className="text-gray-400">
+                    missioncosmosinquiry@gmail.com
+                  </p>
                 </div>
               </div>
-              
+
               <div className="flex items-center space-x-4">
                 <MapPin className="h-6 w-6 text-red-400" />
                 <div>
                   <p className="text-white font-medium">Location</p>
-                  <p className="text-gray-400">Somewhere in the Milky Way Galaxy</p>
+                  <p className="text-gray-400">
+                    Somewhere in the Milky Way Galaxy
+                  </p>
                 </div>
               </div>
             </CardContent>
@@ -153,7 +133,10 @@ const Contact = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-2 text-gray-300">
-                <p><span className="text-yellow-400">Monday - Sunday:</span> Always available (Orbiting through time zones)</p>
+                <p>
+                  <span className="text-yellow-400">Monday - Sunday:</span>{" "}
+                  Always available (Orbiting through time zones)
+                </p>
               </div>
             </CardContent>
           </Card>
@@ -161,6 +144,4 @@ const Contact = () => {
       </div>
     </div>
   );
-};
-
-export default Contact;
+}

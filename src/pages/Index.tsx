@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Rocket, Globe, BookOpen, PenTool, Star, Zap, Target, Brain, Mail } from "lucide-react";
-import RedPlanetRover from "../components/RedPlanetRover";
+import RedPlanetRoverWrapper from "../components/RedPlanetRoverWrapper";
 import AstroRun from "../components/AstroRun";
 import CosmicFacts from "../components/CosmicFacts";
 import CosmicJournal from "../components/CosmicJournal";
@@ -169,7 +169,7 @@ const Index = () => {
               </TabsList>
               
               <TabsContent value="rover" className="mt-8">
-                <RedPlanetRover />
+                <RedPlanetRoverWrapper />
               </TabsContent>
               
               <TabsContent value="astro" className="mt-8">

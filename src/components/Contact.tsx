@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Mail, Phone, MapPin, Send } from "lucide-react";
+import { Mail, MapPin, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const Contact = () => {
@@ -29,12 +29,17 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // Create mailto link
+    const subject = encodeURIComponent(`Contact from ${formData.name}`);
+    const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`);
+    const mailtoLink = `mailto:missioncosmosinquiry@gmail.com?subject=${subject}&body=${body}`;
+    
+    // Open email client
+    window.location.href = mailtoLink;
 
     toast({
-      title: "Message Sent!",
-      description: "Thank you for reaching out. We'll get back to you soon!",
+      title: "Email Client Opened!",
+      description: "Your default email client should open with the message pre-filled.",
     });
 
     setFormData({ name: "", email: "", message: "" });
@@ -108,7 +113,7 @@ const Contact = () => {
                 disabled={isSubmitting}
                 className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold"
               >
-                {isSubmitting ? "Sending..." : "Send Message"}
+                {isSubmitting ? "Opening Email..." : "Send Message"}
               </Button>
             </form>
           </CardContent>
@@ -133,14 +138,6 @@ const Contact = () => {
               </div>
               
               <div className="flex items-center space-x-4">
-                <Phone className="h-6 w-6 text-green-400" />
-                <div>
-                  <p className="text-white font-medium">Phone</p>
-                  <p className="text-gray-400">+1 (555) COSMOS-1</p>
-                </div>
-              </div>
-              
-              <div className="flex items-center space-x-4">
                 <MapPin className="h-6 w-6 text-red-400" />
                 <div>
                   <p className="text-white font-medium">Location</p>
@@ -156,9 +153,7 @@ const Contact = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-2 text-gray-300">
-                <p><span className="text-yellow-400">Monday - Friday:</span> 9:00 AM - 6:00 PM EST</p>
-                <p><span className="text-yellow-400">Saturday:</span> 10:00 AM - 4:00 PM EST</p>
-                <p><span className="text-yellow-400">Sunday:</span> Closed (Exploring distant galaxies)</p>
+                <p><span className="text-yellow-400">Monday - Sunday:</span> Always available (Orbiting through time zones)</p>
               </div>
             </CardContent>
           </Card>

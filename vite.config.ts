@@ -12,8 +12,16 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
-    mode === 'development' &&
-    componentTagger(),
+    viteStaticCopy({
+      targets: [
+        {
+          src: 'public/redirects',
+          dest: '.',
+          rename: '_redirects'
+        }
+      ]
+    }),
+    mode === 'development' && componentTagger(),
   ].filter(Boolean),
   resolve: {
     alias: {

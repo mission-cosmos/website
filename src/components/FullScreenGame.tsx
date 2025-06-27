@@ -38,7 +38,7 @@ const FullScreenGame: React.FC<FullScreenGameProps> = ({ children, title }) => {
   }, []);
 
   return (
-    <div ref={containerRef} className={`relative ${isFullScreen ? 'bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center min-h-screen' : ''}`}>
+    <div ref={containerRef} className={`relative ${isFullScreen ? 'bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center min-h-screen p-4' : ''}`}>
       <div className="absolute top-4 right-4 z-10">
         <Button
           onClick={toggleFullScreen}
@@ -59,7 +59,10 @@ const FullScreenGame: React.FC<FullScreenGameProps> = ({ children, title }) => {
           )}
         </Button>
       </div>
-      {children}
+      
+      <div className={isFullScreen ? 'w-full max-w-6xl' : ''}>
+        {children}
+      </div>
     </div>
   );
 };

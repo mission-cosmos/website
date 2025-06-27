@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -154,49 +153,56 @@ export default function RedPlanetRover() {
   };
 
   return (
-    <Card className="bg-slate-800/50 border-blue-500/20 max-w-3xl mx-auto">
-      <CardHeader className="text-center">
-        <CardTitle className="text-2xl text-white flex items-center justify-center gap-2">
-          <Target className="h-6 w-6 text-blue-400" /> Red-Planet Rover
-        </CardTitle>
-        <CardDescription className="text-gray-300">
-          Navigate Mars, collect ice, avoid dust & rocks!
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="flex justify-center gap-4">
-          <Badge variant="outline" className="border-white text-white">
-            <Droplet className="h-4 w-4 mr-1" /> {waterPoints}
-          </Badge>
-          <Badge variant="outline" className="border-white text-white">
-            <Wifi className="h-4 w-4 mr-1" /> {score}
-          </Badge>
-        </div>
-        <div className="flex justify-center">
-          <canvas
-            ref={canvasRef}
-            width={W}
-            height={H}
-            className="rounded-lg border border-white/30"
-          />
-        </div>
-        {!gameStarted && (
-          <div className="text-center">
-            <Button onClick={start} className="bg-blue-600 text-white">
-              Start Mission
-            </Button>
-            <p className="text-sm text-gray-400 mt-2">Use arrow keys to move the rover</p>
+    <Card className="bg-slate-800/50 border-red-500/20 max-w-3xl mx-auto relative overflow-hidden">
+      {/* Mars rover background image */}
+      <div 
+        className="absolute inset-0 opacity-10 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: 'url(/lovable-uploads/2f88afbf-c39c-420f-811c-7519f6b8f9c7.png)' }}
+      />
+      <div className="relative z-10">
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl text-white flex items-center justify-center gap-2">
+            <Target className="h-6 w-6 text-red-400" /> Red-Planet Rover
+          </CardTitle>
+          <CardDescription className="text-gray-300">
+            Navigate Mars, collect ice, avoid dust & rocks!
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex justify-center gap-4">
+            <Badge variant="outline" className="border-white text-white">
+              <Droplet className="h-4 w-4 mr-1" /> {waterPoints}
+            </Badge>
+            <Badge variant="outline" className="border-white text-white">
+              <Wifi className="h-4 w-4 mr-1" /> {score}
+            </Badge>
           </div>
-        )}
-        {gameOver && (
-          <div className="text-center space-y-2">
-            <p className="text-red-400 font-bold">Mission Failed!</p>
-            <Button onClick={start} className="bg-white text-black">
-              Retry
-            </Button>
+          <div className="flex justify-center">
+            <canvas
+              ref={canvasRef}
+              width={W}
+              height={H}
+              className="rounded-lg border border-red-500/30"
+            />
           </div>
-        )}
-      </CardContent>
+          {!gameStarted && (
+            <div className="text-center">
+              <Button onClick={start} className="bg-red-600 text-white">
+                Start Mission
+              </Button>
+              <p className="text-sm text-gray-400 mt-2">Use arrow keys to move the rover</p>
+            </div>
+          )}
+          {gameOver && (
+            <div className="text-center space-y-2">
+              <p className="text-red-400 font-bold">Mission Failed!</p>
+              <Button onClick={start} className="bg-white text-black">
+                Retry
+              </Button>
+            </div>
+          )}
+        </CardContent>
+      </div>
     </Card>
   );
 }

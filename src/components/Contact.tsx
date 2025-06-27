@@ -34,10 +34,10 @@ export default function Contact() {
               name="contact"
               method="POST"
               data-netlify="true"
+              action="/success"
               netlify-honeypot="bot-field"
               className="space-y-6"
             >
-              {/* Hidden inputs for Netlify */}
               <input type="hidden" name="form-name" value="contact" />
               <p style={{ display: "none" }}>
                 <label>

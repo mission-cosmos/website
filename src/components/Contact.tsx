@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -7,6 +8,11 @@ import { Button } from "@/components/ui/button";
 import { Mail, MapPin, Send } from "lucide-react";
 
 export default function Contact() {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    // Let Netlify handle the form submission
+    console.log("Form submitted to Netlify");
+  };
+
   return (
     <div className="container mx-auto px-4">
       <div className="text-center mb-12">
@@ -32,17 +38,21 @@ export default function Contact() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {/* ← Netlify will detect this at build time */}
             <form
               name="contact"
               method="POST"
               data-netlify="true"
               netlify-honeypot="bot-field"
+              onSubmit={handleSubmit}
               className="space-y-6"
             >
               {/* required hidden fields */}
               <input type="hidden" name="form-name" value="contact" />
-              <input type="hidden" name="bot-field" />
+              <p style={{ display: "none" }}>
+                <label>
+                  Don't fill this out if you're human: <input name="bot-field" />
+                </label>
+              </p>
 
               <div>
                 <Label htmlFor="name" className="text-gray-300">

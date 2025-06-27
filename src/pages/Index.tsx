@@ -58,12 +58,16 @@ const Index = () => {
               </button>
               <button
                 onClick={() => setActiveSection("contact")}
+              <a
+                href="#contact"
                 className={`text-sm font-medium transition-colors ${
                   activeSection === "contact" ? "text-yellow-400" : "text-gray-300 hover:text-white"
                 }`}
               >
+              >
                 Contact
               </button>
+              </a>
             </div>
           </div>
         </div>

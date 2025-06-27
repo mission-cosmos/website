@@ -37,7 +37,7 @@ export default function Contact() {
               netlify-honeypot="bot-field"
               className="space-y-6"
             >
-              {/* Netlify hidden fields */}
+              {/* Hidden inputs for Netlify */}
               <input type="hidden" name="form-name" value="contact" />
               <p style={{ display: "none" }}>
                 <label>
@@ -95,9 +95,7 @@ export default function Contact() {
           <Card className="bg-slate-800/50 border-purple-500/20">
             <CardHeader>
               <CardTitle className="text-white">Get in Touch</CardTitle>
-              <CardDescription className="text-gray-400">
-                Connect with our mission control team
-              </CardDescription>
+              <CardDescription className="text-gray-400">Connect with our mission control team</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="flex items-center space-x-4">
@@ -107,7 +105,6 @@ export default function Contact() {
                   <p className="text-gray-400">missioncosmosinquiry@gmail.com</p>
                 </div>
               </div>
-              
               <div className="flex items-center space-x-4">
                 <MapPin className="h-6 w-6 text-red-400" />
                 <div>
@@ -117,7 +114,6 @@ export default function Contact() {
               </div>
             </CardContent>
           </Card>
-
           <Card className="bg-slate-800/50 border-purple-500/20">
             <CardHeader>
               <CardTitle className="text-white">Mission Hours</CardTitle>

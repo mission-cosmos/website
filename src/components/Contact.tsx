@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -8,11 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Mail, MapPin, Send } from "lucide-react";
 
 export default function Contact() {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    // Let Netlify handle the form submission
-    console.log("Form submitted to Netlify");
-  };
-
   return (
     <div className="container mx-auto px-4">
       <div className="text-center mb-12">
@@ -29,12 +23,10 @@ export default function Contact() {
         <Card className="bg-slate-800/50 border-purple-500/20">
           <CardHeader>
             <CardTitle className="text-white flex items-center">
-              <Send className="h-6 w-6 text-yellow-400 mr-2" /> Send us a
-              Message
+              <Send className="h-6 w-6 text-yellow-400 mr-2" /> Send us a Message
             </CardTitle>
             <CardDescription className="text-gray-400">
-              Have questions about space exploration or our interactive
-              experiences? We'd love to hear from you!
+              Have questions about space exploration or our interactive experiences? We'd love to hear from you!
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -43,21 +35,18 @@ export default function Contact() {
               method="POST"
               data-netlify="true"
               netlify-honeypot="bot-field"
-              onSubmit={handleSubmit}
               className="space-y-6"
             >
-              {/* required hidden fields */}
+              {/* Netlify hidden fields */}
               <input type="hidden" name="form-name" value="contact" />
               <p style={{ display: "none" }}>
                 <label>
-                  Don't fill this out if you're human: <input name="bot-field" />
+                  Don’t fill this out if you’re human: <input name="bot-field" />
                 </label>
               </p>
 
               <div>
-                <Label htmlFor="name" className="text-gray-300">
-                  Name
-                </Label>
+                <Label htmlFor="name" className="text-gray-300">Name</Label>
                 <Input
                   id="name"
                   name="name"
@@ -69,9 +58,7 @@ export default function Contact() {
               </div>
 
               <div>
-                <Label htmlFor="email" className="text-gray-300">
-                  Email
-                </Label>
+                <Label htmlFor="email" className="text-gray-300">Email</Label>
                 <Input
                   id="email"
                   name="email"
@@ -83,9 +70,7 @@ export default function Contact() {
               </div>
 
               <div>
-                <Label htmlFor="message" className="text-gray-300">
-                  Message
-                </Label>
+                <Label htmlFor="message" className="text-gray-300">Message</Label>
                 <Textarea
                   id="message"
                   name="message"
@@ -119,19 +104,15 @@ export default function Contact() {
                 <Mail className="h-6 w-6 text-blue-400" />
                 <div>
                   <p className="text-white font-medium">Email</p>
-                  <p className="text-gray-400">
-                    missioncosmosinquiry@gmail.com
-                  </p>
+                  <p className="text-gray-400">missioncosmosinquiry@gmail.com</p>
                 </div>
               </div>
-
+              
               <div className="flex items-center space-x-4">
                 <MapPin className="h-6 w-6 text-red-400" />
                 <div>
                   <p className="text-white font-medium">Location</p>
-                  <p className="text-gray-400">
-                    Somewhere in the Milky Way Galaxy
-                  </p>
+                  <p className="text-gray-400">Somewhere in the Milky Way Galaxy</p>
                 </div>
               </div>
             </CardContent>
@@ -143,10 +124,7 @@ export default function Contact() {
             </CardHeader>
             <CardContent>
               <div className="space-y-2 text-gray-300">
-                <p>
-                  <span className="text-yellow-400">Monday - Sunday:</span>{" "}
-                  Always available (Orbiting through time zones)
-                </p>
+                <p><span className="text-yellow-400">Monday - Sunday:</span> Always available (Orbiting through time zones)</p>
               </div>
             </CardContent>
           </Card>

@@ -34,14 +34,16 @@ export default function Contact() {
               name="contact"
               method="POST"
               data-netlify="true"
-              action="/success"
               netlify-honeypot="bot-field"
               className="space-y-6"
             >
+              {/* Netlify required hidden field */}
               <input type="hidden" name="form-name" value="contact" />
-              <p style={{ display: "none" }}>
+
+              {/* Honeypot (spam prevention) */}
+              <p className="hidden">
                 <label>
-                  Don’t fill this out if you’re human: <input name="bot-field" />
+                  Don’t fill this out if you're human: <input name="bot-field" />
                 </label>
               </p>
 

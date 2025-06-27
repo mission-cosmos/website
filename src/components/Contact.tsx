@@ -8,7 +8,7 @@ import { Mail, MapPin, Send } from "lucide-react";
 
 export default function Contact() {
   return (
-    <div className="container mx-auto px-4">
+    <div id="contact" className="container mx-auto px-4">
       <div className="text-center mb-12">
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
           Contact Mission Cosmos

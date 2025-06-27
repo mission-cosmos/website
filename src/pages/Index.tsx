@@ -56,17 +56,16 @@ const Index = () => {
               >
                 Journal
               </button>
-              <button
-                onClick={() => setActiveSection("contact")}
               <a
+                onClick={() => setActiveSection("contact")}
                 href="#contact"
                 className={`text-sm font-medium transition-colors ${
-                  activeSection === "contact" ? "text-yellow-400" : "text-gray-300 hover:text-white"
+                  activeSection === "contact"
+                    ? "text-yellow-400"
+                    : "text-gray-300 hover:text-white"
                 }`}
               >
-              >
                 Contact
-              </button>
               </a>
             </div>
           </div>

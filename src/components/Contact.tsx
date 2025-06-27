@@ -35,7 +35,7 @@ const Contact = () => {
     const mailtoLink = `mailto:missioncosmosinquiry@gmail.com?subject=${subject}&body=${body}`;
     
     // Open email client
-    window.location.href = mailtoLink;
+    window.open(mailtoLink, '_blank');
 
     toast({
       title: "Email Client Opened!",

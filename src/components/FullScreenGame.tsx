@@ -10,14 +10,14 @@ interface FullScreenGameProps {
 
 const FullScreenGame: React.FC<FullScreenGameProps> = ({ children, title }) => {
   const [isFullScreen, setIsFullScreen] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const gameRef = useRef<HTMLDivElement>(null);
 
   const toggleFullScreen = async () => {
-    if (!containerRef.current) return;
+    if (!gameRef.current) return;
 
     try {
       if (!isFullScreen) {
-        await containerRef.current.requestFullscreen();
+        await gameRef.current.requestFullscreen();
         setIsFullScreen(true);
       } else {
         await document.exitFullscreen();
@@ -38,7 +38,7 @@ const FullScreenGame: React.FC<FullScreenGameProps> = ({ children, title }) => {
   }, []);
 
   return (
-    <div ref={containerRef} className={`relative ${isFullScreen ? 'bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center min-h-screen p-4' : ''}`}>
+    <div className="relative">
       <div className="absolute top-4 right-4 z-10">
         <Button
           onClick={toggleFullScreen}
@@ -60,8 +60,10 @@ const FullScreenGame: React.FC<FullScreenGameProps> = ({ children, title }) => {
         </Button>
       </div>
       
-      <div className={isFullScreen ? 'w-full max-w-6xl' : ''}>
-        {children}
+      <div ref={gameRef} className={isFullScreen ? 'bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center min-h-screen p-4' : ''}>
+        <div className={isFullScreen ? 'w-full max-w-6xl' : ''}>
+          {children}
+        </div>
       </div>
     </div>
   );

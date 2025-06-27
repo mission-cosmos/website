@@ -168,7 +168,7 @@ export default function AstroRun() {
 
   return (
     <FullScreenGame title="Astro Run Adventure">
-      <Card className="bg-slate-800/50 border-blue-500/20 max-w-4xl mx-auto relative overflow-hidden">
+      <Card className="bg-slate-800/50 border-blue-500/20 max-w-3xl mx-auto relative overflow-hidden">
         {/* Astronaut background image */}
         <div 
           className="absolute inset-0 opacity-10 bg-cover bg-center bg-no-repeat"
@@ -180,51 +180,36 @@ export default function AstroRun() {
               <Rocket className="h-6 w-6 text-blue-400" /> Astro Run Adventure
             </CardTitle>
             <CardDescription className="text-gray-300">
-              Use ↑/↓ arrows to dodge asteroids and collect score.
+              Navigate through space and dodge asteroids!
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-6">
-            {/* Stats */}
-            <div className="flex justify-center gap-6 flex-wrap">
-              <Badge variant="outline" className="border-green-500/50 text-green-400">
-                Score: {score}
-              </Badge>
-              <Badge variant="outline" className="border-purple-500/50 text-purple-400">
-                <Zap className="h-4 w-4 mr-1" /> Speed: {speed.current.toFixed(1)}x
+          <CardContent className="space-y-4">
+            <div className="flex justify-center gap-4">
+              <Badge variant="outline" className="border-white text-white">
+                <Zap className="h-4 w-4 mr-1" /> {score}
               </Badge>
             </div>
-            {/* Game Canvas */}
             <div className="flex justify-center">
               <canvas
                 ref={canvasRef}
                 width={gameWidth}
                 height={gameHeight}
-                className="bg-gradient-to-r from-indigo-900 via-purple-900 to-indigo-900 border border-blue-500/20 rounded-lg"
+                className="rounded-lg border-transparent"
               />
             </div>
-            {/* Game Over Screen */}
-            {gameOver && (
-              <div className="text-center space-y-4">
-                <p className="text-red-400 font-bold">Game Over! Final Score: {score}</p>
-                <Button onClick={resetGame} className="bg-blue-600 hover:bg-blue-700 text-white">
-                  Try Again
+            {!gameStarted && (
+              <div className="text-center">
+                <Button onClick={startGame} className="bg-blue-600 text-white">
+                  Launch Mission
                 </Button>
+                <p className="text-sm text-gray-400 mt-2">Use arrow keys to navigate</p>
               </div>
             )}
-            {/* Start Screen */}
-            {!gameStarted && (
-              <div className="text-center space-y-4">
-                <p className="text-gray-300">
-                  Navigate through space by using arrow keys to dodge asteroids!
-                </p>
-                <p className="text-sm text-gray-400">
-                  Press the button to launch your mission.
-                </p>
-                <Button
-                  onClick={startGame}
-                  className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-3"
-                >
-                  Launch Mission
+            {gameOver && (
+              <div className="text-center space-y-2">
+                <p className="text-blue-400 font-bold">Mission Failed!</p>
+                <Button onClick={resetGame} className="bg-white text-black">
+                  Retry
                 </Button>
               </div>
             )}

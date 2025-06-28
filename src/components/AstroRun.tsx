@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardDescription, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Rocket, Zap } from "lucide-react";
+import { Rocket, Zap, Gauge } from "lucide-react";
 import FullScreenGame from "./FullScreenGame";
 
 interface Obstacle {
@@ -16,6 +16,7 @@ export default function AstroRun() {
   const [gameStarted, setGameStarted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [score, setScore] = useState(0);
+  const [currentSpeed, setCurrentSpeed] = useState(3);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationId = useRef<number>();
@@ -123,6 +124,7 @@ export default function AstroRun() {
       // Score and speed update
       setScore((s) => s + 1);
       speed.current = Math.min(6, speed.current + 0.0005);
+      setCurrentSpeed(Math.round(speed.current * 10) / 10);
 
       if (!gameOver) animationId.current = requestAnimationFrame(update);
     }
@@ -168,7 +170,7 @@ export default function AstroRun() {
 
   return (
     <FullScreenGame title="Astro Run Adventure">
-      <Card className="bg-slate-800/50 border-blue-500/20 max-w-3xl mx-auto relative overflow-hidden">
+      <Card className="bg-slate-800/50 border-transparent max-w-3xl mx-auto relative overflow-hidden">
         {/* Astronaut background image */}
         <div 
           className="absolute inset-0 opacity-10 bg-cover bg-center bg-no-repeat"
@@ -187,6 +189,9 @@ export default function AstroRun() {
             <div className="flex justify-center gap-4">
               <Badge variant="outline" className="border-white text-white">
                 <Zap className="h-4 w-4 mr-1" /> {score}
+              </Badge>
+              <Badge variant="outline" className="border-white text-orange-400">
+                <Gauge className="h-4 w-4 mr-1" /> {currentSpeed}x
               </Badge>
             </div>
             <div className="flex justify-center">

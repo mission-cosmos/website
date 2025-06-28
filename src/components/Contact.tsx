@@ -1,4 +1,5 @@
-import React from "react";
+
+import React, { useState } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -7,6 +8,29 @@ import { Button } from "@/components/ui/button";
 import { Mail, MapPin, Send } from "lucide-react";
 
 export default function Contact() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSendMessage = () => {
+    const { name, email, message } = formData;
+    const subject = `Message from ${name} - Mission Cosmos Contact`;
+    const body = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
+    
+    const mailtoLink = `mailto:missioncosmosinquiry@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoLink;
+  };
+
   return (
     <div id="contact" className="container mx-auto px-4">
       <div className="text-center mb-12">
@@ -30,30 +54,15 @@ export default function Contact() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form
-              name="contact"
-              method="POST"
-              data-netlify="true"
-              netlify-honeypot="bot-field"
-              className="space-y-6"
-            >
-              {/* Netlify required hidden field */}
-              <input type="hidden" name="form-name" value="contact" />
-
-              {/* Honeypot (spam prevention) */}
-              <p className="hidden">
-                <label>
-                  Don’t fill this out if you're human: <input name="bot-field" />
-                </label>
-              </p>
-
+            <div className="space-y-6">
               <div>
                 <Label htmlFor="name" className="text-gray-300">Name</Label>
                 <Input
                   id="name"
                   name="name"
                   type="text"
-                  required
+                  value={formData.name}
+                  onChange={handleInputChange}
                   className="bg-slate-700/50 border-purple-500/30 text-white placeholder:text-gray-400"
                   placeholder="Your name"
                 />
@@ -65,7 +74,8 @@ export default function Contact() {
                   id="email"
                   name="email"
                   type="email"
-                  required
+                  value={formData.email}
+                  onChange={handleInputChange}
                   className="bg-slate-700/50 border-purple-500/30 text-white placeholder:text-gray-400"
                   placeholder="your.email@example.com"
                 />
@@ -76,19 +86,20 @@ export default function Contact() {
                 <Textarea
                   id="message"
                   name="message"
-                  required
+                  value={formData.message}
+                  onChange={handleInputChange}
                   className="bg-slate-700/50 border-purple-500/30 text-white placeholder:text-gray-400 min-h-[120px]"
                   placeholder="Tell us about your cosmic curiosity..."
                 />
               </div>
 
               <Button
-                type="submit"
+                onClick={handleSendMessage}
                 className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold"
               >
                 Send Message
               </Button>
-            </form>
+            </div>
           </CardContent>
         </Card>
 

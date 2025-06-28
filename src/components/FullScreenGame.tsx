@@ -60,7 +60,11 @@ const FullScreenGame: React.FC<FullScreenGameProps> = ({ children, title }) => {
         </Button>
       </div>
       
-      <div ref={gameRef} className={isFullScreen ? 'bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center min-h-screen p-4' : ''}>
+      <div 
+        ref={gameRef} 
+        className={isFullScreen ? 'fixed inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-4 z-50' : ''}
+        style={isFullScreen ? { zIndex: 9999 } : {}}
+      >
         <div className={isFullScreen ? 'w-full max-w-6xl' : ''}>
           {children}
         </div>

@@ -10,6 +10,7 @@ export default function RedPlanetRover() {
   const [gameOver, setGameOver] = useState(false);
   const [score, setScore] = useState(0);
   const [waterPoints, setWaterPoints] = useState(0);
+  const [signalStrength, setSignalStrength] = useState(100);
 
   // Canvas & refs
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -100,6 +101,11 @@ export default function RedPlanetRover() {
       const f = frame.current;
       frame.current += 1;
 
+      // Update signal strength based on distance from base (simulated)
+      const distanceFromBase = Math.floor(f / 100);
+      const newSignal = Math.max(20, 100 - distanceFromBase);
+      setSignalStrength(newSignal);
+
       drawBackground();
       // spawn entities
       if (f % 90 === 0) spawnIce();
@@ -134,6 +140,9 @@ export default function RedPlanetRover() {
         if (isColliding(r, rover.current, 28, 24)) endGame();
       });
 
+      // Update score
+      setScore(Math.floor(f / 10));
+
       animationId.current = requestAnimationFrame(loop);
     }
 
@@ -145,11 +154,18 @@ export default function RedPlanetRover() {
     setGameStarted(true);
     setGameOver(false);
     setWaterPoints(0);
+    setSignalStrength(100);
     frame.current = 0;
     rover.current = { x: 40, y: H - 75, w: 64, h: 48, speed: 7 };
     iceChunks.current = [];
     dusts.current = [];
     rocks.current = [];
+  };
+
+  const getSignalColor = () => {
+    if (signalStrength > 70) return "text-green-400";
+    if (signalStrength > 40) return "text-yellow-400";
+    return "text-red-400";
   };
 
   return (
@@ -173,8 +189,11 @@ export default function RedPlanetRover() {
             <Badge variant="outline" className="border-white text-white">
               <Droplet className="h-4 w-4 mr-1" /> {waterPoints}
             </Badge>
+            <Badge variant="outline" className={`border-white ${getSignalColor()}`}>
+              <Wifi className="h-4 w-4 mr-1" /> {signalStrength}%
+            </Badge>
             <Badge variant="outline" className="border-white text-white">
-              <Wifi className="h-4 w-4 mr-1" /> {score}
+              <Target className="h-4 w-4 mr-1" /> {score}
             </Badge>
           </div>
           <div className="flex justify-center">

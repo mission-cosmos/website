@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -28,7 +27,9 @@ export default function Contact() {
     const body = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
     
     const mailtoLink = `mailto:missioncosmosinquiry@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailtoLink;
+    
+    // Use window.open instead of window.location.href for better compatibility
+    window.open(mailtoLink, '_self');
   };
 
   return (

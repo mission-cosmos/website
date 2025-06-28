@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -12,6 +13,36 @@ import Contact from "../components/Contact";
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState("home");
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Update active section based on URL
+  useEffect(() => {
+    const path = location.pathname;
+    switch (path) {
+      case '/games':
+        setActiveSection('games');
+        break;
+      case '/facts':
+        setActiveSection('facts');
+        break;
+      case '/journal':
+        setActiveSection('journal');
+        break;
+      case '/contact':
+        setActiveSection('contact');
+        break;
+      default:
+        setActiveSection('home');
+    }
+  }, [location.pathname]);
+
+  // Update URL when section changes
+  const handleSectionChange = (section: string) => {
+    setActiveSection(section);
+    const path = section === 'home' ? '/' : `/${section}`;
+    navigate(path);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
@@ -25,7 +56,7 @@ const Index = () => {
             </div>
             <div className="hidden md:flex items-center space-x-6">
               <button
-                onClick={() => setActiveSection("home")}
+                onClick={() => handleSectionChange("home")}
                 className={`text-sm font-medium transition-colors ${
                   activeSection === "home" ? "text-yellow-400" : "text-gray-300 hover:text-white"
                 }`}
@@ -33,7 +64,7 @@ const Index = () => {
                 Home
               </button>
               <button
-                onClick={() => setActiveSection("games")}
+                onClick={() => handleSectionChange("games")}
                 className={`text-sm font-medium transition-colors ${
                   activeSection === "games" ? "text-yellow-400" : "text-gray-300 hover:text-white"
                 }`}
@@ -41,7 +72,7 @@ const Index = () => {
                 Games
               </button>
               <button
-                onClick={() => setActiveSection("facts")}
+                onClick={() => handleSectionChange("facts")}
                 className={`text-sm font-medium transition-colors ${
                   activeSection === "facts" ? "text-yellow-400" : "text-gray-300 hover:text-white"
                 }`}
@@ -49,24 +80,21 @@ const Index = () => {
                 Cosmic Facts
               </button>
               <button
-                onClick={() => setActiveSection("journal")}
+                onClick={() => handleSectionChange("journal")}
                 className={`text-sm font-medium transition-colors ${
                   activeSection === "journal" ? "text-yellow-400" : "text-gray-300 hover:text-white"
                 }`}
               >
                 Journal
               </button>
-              <a
-                onClick={() => setActiveSection("contact")}
-                href="#contact"
+              <button
+                onClick={() => handleSectionChange("contact")}
                 className={`text-sm font-medium transition-colors ${
-                  activeSection === "contact"
-                    ? "text-yellow-400"
-                    : "text-gray-300 hover:text-white"
+                  activeSection === "contact" ? "text-yellow-400" : "text-gray-300 hover:text-white"
                 }`}
               >
                 Contact
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -141,7 +169,7 @@ const Index = () => {
 
               <div className="mt-12">
                 <Button 
-                  onClick={() => setActiveSection("games")}
+                  onClick={() => handleSectionChange("games")}
                   className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold text-lg px-8 py-3 rounded-full transform hover:scale-105 transition-all"
                 >
                   Start Your Mission
@@ -208,7 +236,7 @@ const Index = () => {
       <div className="fixed bottom-0 left-0 right-0 bg-slate-900/90 backdrop-blur-md border-t border-purple-500/20 md:hidden">
         <div className="flex justify-around py-2">
           <button
-            onClick={() => setActiveSection("home")}
+            onClick={() => handleSectionChange("home")}
             className={`flex flex-col items-center p-2 ${
               activeSection === "home" ? "text-yellow-400" : "text-gray-400"
             }`}
@@ -217,7 +245,7 @@ const Index = () => {
             <span className="text-xs mt-1">Home</span>
           </button>
           <button
-            onClick={() => setActiveSection("games")}
+            onClick={() => handleSectionChange("games")}
             className={`flex flex-col items-center p-2 ${
               activeSection === "games" ? "text-yellow-400" : "text-gray-400"
             }`}
@@ -226,7 +254,7 @@ const Index = () => {
             <span className="text-xs mt-1">Games</span>
           </button>
           <button
-            onClick={() => setActiveSection("facts")}
+            onClick={() => handleSectionChange("facts")}
             className={`flex flex-col items-center p-2 ${
               activeSection === "facts" ? "text-yellow-400" : "text-gray-400"
             }`}
@@ -235,7 +263,7 @@ const Index = () => {
             <span className="text-xs mt-1">Facts</span>
           </button>
           <button
-            onClick={() => setActiveSection("journal")}
+            onClick={() => handleSectionChange("journal")}
             className={`flex flex-col items-center p-2 ${
               activeSection === "journal" ? "text-yellow-400" : "text-gray-400"
             }`}
@@ -244,7 +272,7 @@ const Index = () => {
             <span className="text-xs mt-1">Journal</span>
           </button>
           <button
-            onClick={() => setActiveSection("contact")}
+            onClick={() => handleSectionChange("contact")}
             className={`flex flex-col items-center p-2 ${
               activeSection === "contact" ? "text-yellow-400" : "text-gray-400"
             }`}

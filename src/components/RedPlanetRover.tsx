@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -24,10 +25,10 @@ export default function RedPlanetRover() {
   const dustImg = useRef(new Image());
   const rockImg = useRef(new Image());
 
-  // Game constants
+  // Game constants - restored original rover speed
   const W = 640;
   const H = 360;
-  const rover = useRef({ x: 40, y: H - 75, w: 64, h: 48, speed: 7 });
+  const rover = useRef({ x: 40, y: H - 75, w: 64, h: 48, speed: 12 });
   const iceChunks = useRef<Array<{ x: number; y: number }>>([]);
   const dusts = useRef<Array<{ x: number; y: number }>>([]);
   const rocks = useRef<Array<{ x: number; y: number }>>([]);
@@ -156,7 +157,7 @@ export default function RedPlanetRover() {
     setWaterPoints(0);
     setSignalStrength(100);
     frame.current = 0;
-    rover.current = { x: 40, y: H - 75, w: 64, h: 48, speed: 7 };
+    rover.current = { x: 40, y: H - 75, w: 64, h: 48, speed: 12 };
     iceChunks.current = [];
     dusts.current = [];
     rocks.current = [];

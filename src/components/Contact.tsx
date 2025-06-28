@@ -7,27 +7,22 @@ import { Button } from "@/components/ui/button";
 import { Mail, MapPin, Send } from "lucide-react";
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSendMessage = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSendMessage = () => {
     const { name, email, message } = formData;
-
-    // Build mailto URL and navigate current window
+    if (!name || !email || !message) {
+      alert('Please fill out all fields before sending.');
+      return;
+    }
     const subject = encodeURIComponent(`Message from ${name}`);
     const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
     const mailtoUrl = `mailto:missioncosmosinquiry@gmail.com?subject=${subject}&body=${body}`;
-
-    // Directly use window.location to open default mail client
     window.location.href = mailtoUrl;
   };
 
@@ -37,9 +32,7 @@ export default function Contact() {
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
           Contact Mission Cosmos
         </h2>
-        <p className="text-xl text-gray-300">
-          Ready to embark on your cosmic journey? Get in touch!
-        </p>
+        <p className="text-xl text-gray-300">Ready to embark on your cosmic journey? Get in touch!</p>
       </div>
 
       <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
@@ -54,7 +47,8 @@ export default function Contact() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSendMessage} className="space-y-6">
+            {/* Using div + onClick to reliably trigger mailto without form submission issues */}
+            <div className="space-y-6">
               <div>
                 <Label htmlFor="name" className="text-gray-300">Name</Label>
                 <Input
@@ -63,9 +57,9 @@ export default function Contact() {
                   type="text"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="bg-slate-700/50 border-purple-500/30 text-white placeholder:text-gray-400"
                   placeholder="Your name"
                   required
+                  className="bg-slate-700/50 border-purple-500/30 text-white placeholder:text-gray-400"
                 />
               </div>
 
@@ -77,9 +71,9 @@ export default function Contact() {
                   type="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="bg-slate-700/50 border-purple-500/30 text-white placeholder:text-gray-400"
                   placeholder="your.email@example.com"
                   required
+                  className="bg-slate-700/50 border-purple-500/30 text-white placeholder:text-gray-400"
                 />
               </div>
 
@@ -90,19 +84,20 @@ export default function Contact() {
                   name="message"
                   value={formData.message}
                   onChange={handleInputChange}
-                  className="bg-slate-700/50 border-purple-500/30 text-white placeholder:text-gray-400 min-h-[120px]"
                   placeholder="Tell us about your cosmic curiosity..."
                   required
+                  className="bg-slate-700/50 border-purple-500/30 text-white placeholder:text-gray-400 min-h-[120px]"
                 />
               </div>
 
               <Button
-                type="submit"
+                type="button"
+                onClick={handleSendMessage}
                 className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold"
               >
                 Send Message
               </Button>
-            </form>
+            </div>
           </CardContent>
         </Card>
 

@@ -14,17 +14,14 @@ export default function Contact() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSendMessage = () => {
+  const buildMailToLink = () => {
     const { name, email, message } = formData;
-    if (!name || !email || !message) {
-      alert('Please fill out all fields before sending.');
-      return;
-    }
     const subject = encodeURIComponent(`Message from ${name}`);
     const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
-    const mailtoUrl = `mailto:missioncosmosinquiry@gmail.com?subject=${subject}&body=${body}`;
-    window.location.href = mailtoUrl;
+    return `mailto:missioncosmosinquiry@gmail.com?subject=${subject}&body=${body}`;
   };
+
+  const isFormComplete = formData.name.trim() !== '' && formData.email.trim() !== '' && formData.message.trim() !== '';
 
   return (
     <div id="contact" className="container mx-auto px-4">
@@ -47,7 +44,6 @@ export default function Contact() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {/* Using div + onClick to reliably trigger mailto without form submission issues */}
             <div className="space-y-6">
               <div>
                 <Label htmlFor="name" className="text-gray-300">Name</Label>
@@ -58,7 +54,6 @@ export default function Contact() {
                   value={formData.name}
                   onChange={handleInputChange}
                   placeholder="Your name"
-                  required
                   className="bg-slate-700/50 border-purple-500/30 text-white placeholder:text-gray-400"
                 />
               </div>
@@ -72,7 +67,6 @@ export default function Contact() {
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder="your.email@example.com"
-                  required
                   className="bg-slate-700/50 border-purple-500/30 text-white placeholder:text-gray-400"
                 />
               </div>
@@ -85,18 +79,28 @@ export default function Contact() {
                   value={formData.message}
                   onChange={handleInputChange}
                   placeholder="Tell us about your cosmic curiosity..."
-                  required
                   className="bg-slate-700/50 border-purple-500/30 text-white placeholder:text-gray-400 min-h-[120px]"
                 />
               </div>
 
-              <Button
-                type="button"
-                onClick={handleSendMessage}
-                className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold"
+              {/* Anchor-based mailto to ensure reliable trigger */}
+              <a
+                href={isFormComplete ? buildMailToLink() : undefined}
+                onClick={e => {
+                  if (!isFormComplete) {
+                    e.preventDefault();
+                    alert('Please fill out all fields before sending.');
+                  }
+                }}
+                className="block"
               >
-                Send Message
-              </Button>
+                <Button
+                  type="button"
+                  className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold"
+                >
+                  Send Message
+                </Button>
+              </a>
             </div>
           </CardContent>
         </Card>

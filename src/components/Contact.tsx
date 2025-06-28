@@ -14,14 +14,17 @@ export default function Contact() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const buildMailToLink = () => {
+  const buildGmailLink = () => {
     const { name, email, message } = formData;
     const subject = encodeURIComponent(`Message from ${name}`);
     const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
-    return `mailto:missioncosmosinquiry@gmail.com?subject=${subject}&body=${body}`;
+    return `https://mail.google.com/mail/?view=cm&fs=1&to=missioncosmosinquiry@gmail.com&su=${subject}&body=${body}`;
   };
 
-  const isFormComplete = formData.name.trim() !== '' && formData.email.trim() !== '' && formData.message.trim() !== '';
+  const isFormComplete = 
+    formData.name.trim() !== '' && 
+    formData.email.trim() !== '' && 
+    formData.message.trim() !== '';
 
   return (
     <div id="contact" className="container mx-auto px-4">
@@ -83,22 +86,24 @@ export default function Contact() {
                 />
               </div>
 
-              {/* Anchor-based mailto to ensure reliable trigger */}
+              {/* Anchor-based Gmail web compose link */}
               <a
-                href={isFormComplete ? buildMailToLink() : undefined}
+                href={isFormComplete ? buildGmailLink() : undefined}
                 onClick={e => {
                   if (!isFormComplete) {
                     e.preventDefault();
                     alert('Please fill out all fields before sending.');
                   }
                 }}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="block"
               >
                 <Button
                   type="button"
                   className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold"
                 >
-                  Send Message
+                  Send Message via Gmail
                 </Button>
               </a>
             </div>

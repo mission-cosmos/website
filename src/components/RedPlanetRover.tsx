@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -12,7 +11,7 @@ export default function RedPlanetRover() {
   const [score, setScore] = useState(0);
   const [waterPoints, setWaterPoints] = useState(0);
   const [signalStrength, setSignalStrength] = useState(100);
-  const [isFullScreen, setIsFullScreen] = useState(false);
+  const [isCanvasFullScreen, setIsCanvasFullScreen] = useState(false);
 
   // Canvas & refs
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -43,10 +42,11 @@ export default function RedPlanetRover() {
     rockImg.current.src = "/lovable-uploads/5c716d72-ed18-4132-9b8c-1faf06d8de33.png";
   }, []);
 
-  // Check fullscreen state
+  // Check fullscreen state specifically for the canvas
   useEffect(() => {
     const handleFullScreenChange = () => {
-      setIsFullScreen(!!document.fullscreenElement);
+      const canvas = canvasRef.current;
+      setIsCanvasFullScreen(canvas && document.fullscreenElement === canvas);
     };
 
     document.addEventListener("fullscreenchange", handleFullScreenChange);
@@ -180,29 +180,29 @@ export default function RedPlanetRover() {
     return "text-red-400";
   };
 
-  // Fullscreen UI overlay
+  // Fullscreen UI overlay - NOW SHOWS WHEN CANVAS IS IN FULLSCREEN
   const FullscreenOverlay = () => (
-    <div className="absolute inset-0 pointer-events-none z-20">
+    <div className="absolute inset-0 pointer-events-none z-50">
       {/* Score badges - top */}
       <div className="absolute top-4 left-1/2 transform -translate-x-1/2 flex gap-4 pointer-events-auto">
-        <Badge variant="outline" className="border-white text-white bg-black/50">
+        <Badge variant="outline" className="border-white text-white bg-black/80">
           <Droplet className="h-4 w-4 mr-1" /> {waterPoints}
         </Badge>
-        <Badge variant="outline" className={`border-white ${getSignalColor()} bg-black/50`}>
+        <Badge variant="outline" className={`border-white ${getSignalColor()} bg-black/80`}>
           <Wifi className="h-4 w-4 mr-1" /> {signalStrength}%
         </Badge>
-        <Badge variant="outline" className="border-white text-white bg-black/50">
+        <Badge variant="outline" className="border-white text-white bg-black/80">
           <Target className="h-4 w-4 mr-1" /> {score}
         </Badge>
       </div>
       
       {/* Game over overlay */}
       {gameOver && (
-        <div className="absolute inset-0 bg-black/50 flex items-center justify-center pointer-events-auto">
-          <div className="text-center space-y-4 bg-slate-800/90 p-6 rounded-lg">
-            <p className="text-red-400 font-bold text-xl">Mission Failed!</p>
-            <Button onClick={start} className="bg-white text-black">
-              Retry
+        <div className="absolute inset-0 bg-black/70 flex items-center justify-center pointer-events-auto">
+          <div className="text-center space-y-4 bg-slate-800/95 p-8 rounded-lg border border-red-500/50">
+            <p className="text-red-400 font-bold text-2xl">Mission Failed!</p>
+            <Button onClick={start} className="bg-white text-black text-lg px-8 py-3">
+              Retry Mission
             </Button>
           </div>
         </div>
@@ -210,12 +210,12 @@ export default function RedPlanetRover() {
 
       {/* Start game overlay */}
       {!gameStarted && (
-        <div className="absolute inset-0 bg-black/50 flex items-center justify-center pointer-events-auto">
-          <div className="text-center space-y-4 bg-slate-800/90 p-6 rounded-lg">
-            <Button onClick={start} className="bg-red-600 text-white">
+        <div className="absolute inset-0 bg-black/70 flex items-center justify-center pointer-events-auto">
+          <div className="text-center space-y-4 bg-slate-800/95 p-8 rounded-lg border border-red-500/50">
+            <Button onClick={start} className="bg-red-600 text-white text-lg px-8 py-3">
               Start Mission
             </Button>
-            <p className="text-sm text-gray-400">Use arrow keys to move the rover</p>
+            <p className="text-sm text-gray-300">Use arrow keys to move the rover</p>
           </div>
         </div>
       )}
@@ -239,7 +239,7 @@ export default function RedPlanetRover() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          {!isFullScreen && (
+          {!isCanvasFullScreen && (
             <div className="flex justify-center gap-4">
               <Badge variant="outline" className="border-white text-white">
                 <Droplet className="h-4 w-4 mr-1" /> {waterPoints}
@@ -259,9 +259,9 @@ export default function RedPlanetRover() {
               height={H}
               className="rounded-lg border border-red-500/30"
             />
-            {isFullScreen && <FullscreenOverlay />}
+            {isCanvasFullScreen && <FullscreenOverlay />}
           </div>
-          {!isFullScreen && !gameStarted && (
+          {!isCanvasFullScreen && !gameStarted && (
             <div className="text-center">
               <Button onClick={start} className="bg-red-600 text-white">
                 Start Mission
@@ -269,7 +269,7 @@ export default function RedPlanetRover() {
               <p className="text-sm text-gray-400 mt-2">Use arrow keys to move the rover</p>
             </div>
           )}
-          {!isFullScreen && gameOver && (
+          {!isCanvasFullScreen && gameOver && (
             <div className="text-center space-y-2">
               <p className="text-red-400 font-bold">Mission Failed!</p>
               <Button onClick={start} className="bg-white text-black">

@@ -22,15 +22,30 @@ export default function Contact() {
     }));
   };
 
-  const handleSendMessage = () => {
+  const handleSendMessage = (e: React.FormEvent) => {
+    e.preventDefault();
     const { name, email, message } = formData;
-    const subject = `Message from ${name} - Mission Cosmos Contact`;
-    const body = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
     
-    const mailtoLink = `mailto:missioncosmosinquiry@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    // Create the mailto URL
+    const subject = encodeURIComponent(`Message from ${name} - Mission Cosmos Contact`);
+    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
+    const mailtoUrl = `mailto:missioncosmosinquiry@gmail.com?subject=${subject}&body=${body}`;
     
-    // Use window.location.href directly - most reliable method
-    window.location.href = mailtoLink;
+    // Create a temporary anchor element and click it
+    const link = document.createElement('a');
+    link.href = mailtoUrl;
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // Also try the direct approach as backup
+    try {
+      window.open(mailtoUrl, '_blank');
+    } catch (error) {
+      // Final fallback - direct location change
+      window.location.href = mailtoUrl;
+    }
   };
 
   return (
@@ -56,7 +71,7 @@ export default function Contact() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-6">
+            <form onSubmit={handleSendMessage} className="space-y-6">
               <div>
                 <Label htmlFor="name" className="text-gray-300">Name</Label>
                 <Input
@@ -67,6 +82,7 @@ export default function Contact() {
                   onChange={handleInputChange}
                   className="bg-slate-700/50 border-purple-500/30 text-white placeholder:text-gray-400"
                   placeholder="Your name"
+                  required
                 />
               </div>
 
@@ -80,6 +96,7 @@ export default function Contact() {
                   onChange={handleInputChange}
                   className="bg-slate-700/50 border-purple-500/30 text-white placeholder:text-gray-400"
                   placeholder="your.email@example.com"
+                  required
                 />
               </div>
 
@@ -92,16 +109,17 @@ export default function Contact() {
                   onChange={handleInputChange}
                   className="bg-slate-700/50 border-purple-500/30 text-white placeholder:text-gray-400 min-h-[120px]"
                   placeholder="Tell us about your cosmic curiosity..."
+                  required
                 />
               </div>
 
               <Button
-                onClick={handleSendMessage}
+                type="submit"
                 className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold"
               >
                 Send Message
               </Button>
-            </div>
+            </form>
           </CardContent>
         </Card>
 

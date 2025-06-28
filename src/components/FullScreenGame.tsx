@@ -43,7 +43,7 @@ const FullScreenGame: React.FC<FullScreenGameProps> = ({ children, title }) => {
 
   return (
     <div className="relative">
-      <div className="absolute top-4 right-4 z-10">
+      <div className="absolute top-4 right-4 z-10 flex flex-col items-end gap-2">
         <Button
           onClick={toggleFullScreen}
           variant="outline"
@@ -62,6 +62,11 @@ const FullScreenGame: React.FC<FullScreenGameProps> = ({ children, title }) => {
             </>
           )}
         </Button>
+        {!isFullScreen && (
+          <p className="text-xs text-gray-400 max-w-[200px] text-right">
+            💡 Start the game first, then click fullscreen for best experience
+          </p>
+        )}
       </div>
       
       <div ref={gameContainerRef}>

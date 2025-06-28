@@ -12,6 +12,7 @@ export default function RedPlanetRover() {
   const [score, setScore] = useState(0);
   const [waterPoints, setWaterPoints] = useState(0);
   const [signalStrength, setSignalStrength] = useState(100);
+  const [isFullScreen, setIsFullScreen] = useState(false);
 
   // Canvas & refs
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -40,6 +41,16 @@ export default function RedPlanetRover() {
     iceImg.current.src = "/lovable-uploads/2d686005-6624-4dfa-beae-25c3708b4ad0.png";
     dustImg.current.src = "/lovable-uploads/6880029a-1c2d-49a1-873b-e8edd82f4bdb.png";
     rockImg.current.src = "/lovable-uploads/5c716d72-ed18-4132-9b8c-1faf06d8de33.png";
+  }, []);
+
+  // Check fullscreen state
+  useEffect(() => {
+    const handleFullScreenChange = () => {
+      setIsFullScreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener("fullscreenchange", handleFullScreenChange);
+    return () => document.removeEventListener("fullscreenchange", handleFullScreenChange);
   }, []);
 
   const isColliding = useCallback((a: any, b: any, aw: number, ah: number) => {
@@ -169,6 +180,48 @@ export default function RedPlanetRover() {
     return "text-red-400";
   };
 
+  // Fullscreen UI overlay
+  const FullscreenOverlay = () => (
+    <div className="absolute inset-0 pointer-events-none z-20">
+      {/* Score badges - top */}
+      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 flex gap-4 pointer-events-auto">
+        <Badge variant="outline" className="border-white text-white bg-black/50">
+          <Droplet className="h-4 w-4 mr-1" /> {waterPoints}
+        </Badge>
+        <Badge variant="outline" className={`border-white ${getSignalColor()} bg-black/50`}>
+          <Wifi className="h-4 w-4 mr-1" /> {signalStrength}%
+        </Badge>
+        <Badge variant="outline" className="border-white text-white bg-black/50">
+          <Target className="h-4 w-4 mr-1" /> {score}
+        </Badge>
+      </div>
+      
+      {/* Game over overlay */}
+      {gameOver && (
+        <div className="absolute inset-0 bg-black/50 flex items-center justify-center pointer-events-auto">
+          <div className="text-center space-y-4 bg-slate-800/90 p-6 rounded-lg">
+            <p className="text-red-400 font-bold text-xl">Mission Failed!</p>
+            <Button onClick={start} className="bg-white text-black">
+              Retry
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* Start game overlay */}
+      {!gameStarted && (
+        <div className="absolute inset-0 bg-black/50 flex items-center justify-center pointer-events-auto">
+          <div className="text-center space-y-4 bg-slate-800/90 p-6 rounded-lg">
+            <Button onClick={start} className="bg-red-600 text-white">
+              Start Mission
+            </Button>
+            <p className="text-sm text-gray-400">Use arrow keys to move the rover</p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <Card className="bg-slate-800/50 border-red-500/20 max-w-3xl mx-auto relative overflow-hidden">
       {/* Mars rover background image */}
@@ -186,26 +239,29 @@ export default function RedPlanetRover() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex justify-center gap-4">
-            <Badge variant="outline" className="border-white text-white">
-              <Droplet className="h-4 w-4 mr-1" /> {waterPoints}
-            </Badge>
-            <Badge variant="outline" className={`border-white ${getSignalColor()}`}>
-              <Wifi className="h-4 w-4 mr-1" /> {signalStrength}%
-            </Badge>
-            <Badge variant="outline" className="border-white text-white">
-              <Target className="h-4 w-4 mr-1" /> {score}
-            </Badge>
-          </div>
-          <div className="flex justify-center">
+          {!isFullScreen && (
+            <div className="flex justify-center gap-4">
+              <Badge variant="outline" className="border-white text-white">
+                <Droplet className="h-4 w-4 mr-1" /> {waterPoints}
+              </Badge>
+              <Badge variant="outline" className={`border-white ${getSignalColor()}`}>
+                <Wifi className="h-4 w-4 mr-1" /> {signalStrength}%
+              </Badge>
+              <Badge variant="outline" className="border-white text-white">
+                <Target className="h-4 w-4 mr-1" /> {score}
+              </Badge>
+            </div>
+          )}
+          <div className="flex justify-center relative">
             <canvas
               ref={canvasRef}
               width={W}
               height={H}
               className="rounded-lg border border-red-500/30"
             />
+            {isFullScreen && <FullscreenOverlay />}
           </div>
-          {!gameStarted && (
+          {!isFullScreen && !gameStarted && (
             <div className="text-center">
               <Button onClick={start} className="bg-red-600 text-white">
                 Start Mission
@@ -213,7 +269,7 @@ export default function RedPlanetRover() {
               <p className="text-sm text-gray-400 mt-2">Use arrow keys to move the rover</p>
             </div>
           )}
-          {gameOver && (
+          {!isFullScreen && gameOver && (
             <div className="text-center space-y-2">
               <p className="text-red-400 font-bold">Mission Failed!</p>
               <Button onClick={start} className="bg-white text-black">

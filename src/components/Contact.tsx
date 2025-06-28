@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -28,18 +29,8 @@ export default function Contact() {
     
     const mailtoLink = `mailto:missioncosmosinquiry@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     
-    // Create a temporary anchor element and click it
-    const tempLink = document.createElement('a');
-    tempLink.href = mailtoLink;
-    tempLink.target = '_blank';
-    document.body.appendChild(tempLink);
-    tempLink.click();
-    document.body.removeChild(tempLink);
-    
-    // Also try window.location.href as a fallback
-    setTimeout(() => {
-      window.location.href = mailtoLink;
-    }, 100);
+    // Use window.location.href directly - most reliable method
+    window.location.href = mailtoLink;
   };
 
   return (

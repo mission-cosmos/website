@@ -25,10 +25,10 @@ export default function RedPlanetRover() {
   const dustImg = useRef(new Image());
   const rockImg = useRef(new Image());
 
-  // Game constants - restored original rover speed
+  // Game constants - RESTORED ORIGINAL ROVER SPEED
   const W = 640;
   const H = 360;
-  const rover = useRef({ x: 40, y: H - 75, w: 64, h: 48, speed: 12 });
+  const rover = useRef({ x: 40, y: H - 75, w: 64, h: 48, speed: 8 });
   const iceChunks = useRef<Array<{ x: number; y: number }>>([]);
   const dusts = useRef<Array<{ x: number; y: number }>>([]);
   const rocks = useRef<Array<{ x: number; y: number }>>([]);
@@ -157,7 +157,7 @@ export default function RedPlanetRover() {
     setWaterPoints(0);
     setSignalStrength(100);
     frame.current = 0;
-    rover.current = { x: 40, y: H - 75, w: 64, h: 48, speed: 12 };
+    rover.current = { x: 40, y: H - 75, w: 64, h: 48, speed: 8 };
     iceChunks.current = [];
     dusts.current = [];
     rocks.current = [];

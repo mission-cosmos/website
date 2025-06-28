@@ -10,15 +10,19 @@ interface FullScreenGameProps {
 
 const FullScreenGame: React.FC<FullScreenGameProps> = ({ children, title }) => {
   const [isFullScreen, setIsFullScreen] = useState(false);
-  const gameRef = useRef<HTMLDivElement>(null);
+  const gameContainerRef = useRef<HTMLDivElement>(null);
 
   const toggleFullScreen = async () => {
-    if (!gameRef.current) return;
+    if (!gameContainerRef.current) return;
 
     try {
       if (!isFullScreen) {
-        await gameRef.current.requestFullscreen();
-        setIsFullScreen(true);
+        // Find the canvas element within the game container
+        const canvas = gameContainerRef.current.querySelector('canvas');
+        if (canvas) {
+          await canvas.requestFullscreen();
+          setIsFullScreen(true);
+        }
       } else {
         await document.exitFullscreen();
         setIsFullScreen(false);
@@ -60,14 +64,8 @@ const FullScreenGame: React.FC<FullScreenGameProps> = ({ children, title }) => {
         </Button>
       </div>
       
-      <div 
-        ref={gameRef} 
-        className={isFullScreen ? 'fixed inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-4 z-50' : ''}
-        style={isFullScreen ? { zIndex: 9999 } : {}}
-      >
-        <div className={isFullScreen ? 'w-full max-w-6xl' : ''}>
-          {children}
-        </div>
+      <div ref={gameContainerRef}>
+        {children}
       </div>
     </div>
   );

@@ -28,8 +28,18 @@ export default function Contact() {
     
     const mailtoLink = `mailto:missioncosmosinquiry@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     
-    // Use window.open instead of window.location.href for better compatibility
-    window.open(mailtoLink, '_self');
+    // Create a temporary anchor element and click it
+    const tempLink = document.createElement('a');
+    tempLink.href = mailtoLink;
+    tempLink.target = '_blank';
+    document.body.appendChild(tempLink);
+    tempLink.click();
+    document.body.removeChild(tempLink);
+    
+    // Also try window.location.href as a fallback
+    setTimeout(() => {
+      window.location.href = mailtoLink;
+    }, 100);
   };
 
   return (

@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -16,36 +15,20 @@ export default function Contact() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
     const { name, email, message } = formData;
-    
-    // Create the mailto URL
-    const subject = encodeURIComponent(`Message from ${name} - Mission Cosmos Contact`);
+
+    // Build mailto URL and navigate current window
+    const subject = encodeURIComponent(`Message from ${name}`);
     const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
     const mailtoUrl = `mailto:missioncosmosinquiry@gmail.com?subject=${subject}&body=${body}`;
-    
-    // Create a temporary anchor element and click it
-    const link = document.createElement('a');
-    link.href = mailtoUrl;
-    link.target = '_blank';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    
-    // Also try the direct approach as backup
-    try {
-      window.open(mailtoUrl, '_blank');
-    } catch (error) {
-      // Final fallback - direct location change
-      window.location.href = mailtoUrl;
-    }
+
+    // Directly use window.location to open default mail client
+    window.location.href = mailtoUrl;
   };
 
   return (

@@ -1,5 +1,3 @@
-
-
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -220,26 +218,26 @@ export default function RedPlanetRover() {
               height={H}
               className="rounded-lg border border-red-500/30"
             />
-            {/* Fullscreen overlay - renders when in fullscreen */}
+            {/* Fullscreen overlay - renders when in fullscreen with higher z-index */}
             {isCanvasFullScreen && (
-              <div className="fixed inset-0 pointer-events-none z-[9999] bg-transparent">
-                {/* Score badges - ALWAYS visible in fullscreen */}
-                <div className="absolute top-4 left-1/2 transform -translate-x-1/2 flex gap-4 pointer-events-auto">
-                  <Badge variant="outline" className="border-white text-white bg-black/80">
+              <div className="fixed inset-0 pointer-events-none z-[99999] bg-transparent">
+                {/* Score badges - ALWAYS visible in fullscreen with very high z-index */}
+                <div className="absolute top-4 left-1/2 transform -translate-x-1/2 flex gap-4 pointer-events-auto z-[100000]">
+                  <Badge variant="outline" className="border-white text-white bg-black/90 backdrop-blur-sm">
                     <Droplet className="h-4 w-4 mr-1" /> {waterPoints}
                   </Badge>
-                  <Badge variant="outline" className={`border-white ${getSignalColor()} bg-black/80`}>
+                  <Badge variant="outline" className={`border-white ${getSignalColor()} bg-black/90 backdrop-blur-sm`}>
                     <Wifi className="h-4 w-4 mr-1" /> {signalStrength}%
                   </Badge>
-                  <Badge variant="outline" className="border-white text-white bg-black/80">
+                  <Badge variant="outline" className="border-white text-white bg-black/90 backdrop-blur-sm">
                     <Target className="h-4 w-4 mr-1" /> {score}
                   </Badge>
                 </div>
                 
                 {/* Game over overlay - shows in fullscreen when game is over */}
                 {gameOver && (
-                  <div className="absolute inset-0 bg-black/70 flex items-center justify-center pointer-events-auto">
-                    <div className="text-center space-y-4 bg-slate-800/95 p-8 rounded-lg border border-red-500/50">
+                  <div className="absolute inset-0 bg-black/80 flex items-center justify-center pointer-events-auto z-[100000]">
+                    <div className="text-center space-y-4 bg-slate-800/95 p-8 rounded-lg border border-red-500/50 backdrop-blur-sm">
                       <p className="text-red-400 font-bold text-2xl">Mission Failed!</p>
                       <Button onClick={start} className="bg-white text-black text-lg px-8 py-3">
                         Retry Mission
@@ -250,8 +248,8 @@ export default function RedPlanetRover() {
 
                 {/* Start game overlay - shows in fullscreen when game hasn't started */}
                 {!gameStarted && (
-                  <div className="absolute inset-0 bg-black/70 flex items-center justify-center pointer-events-auto">
-                    <div className="text-center space-y-4 bg-slate-800/95 p-8 rounded-lg border border-red-500/50">
+                  <div className="absolute inset-0 bg-black/80 flex items-center justify-center pointer-events-auto z-[100000]">
+                    <div className="text-center space-y-4 bg-slate-800/95 p-8 rounded-lg border border-red-500/50 backdrop-blur-sm">
                       <Button onClick={start} className="bg-red-600 text-white text-lg px-8 py-3">
                         Start Mission
                       </Button>
@@ -283,4 +281,3 @@ export default function RedPlanetRover() {
     </Card>
   );
 }
-

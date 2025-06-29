@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -46,7 +47,9 @@ export default function RedPlanetRover() {
   useEffect(() => {
     const handleFullScreenChange = () => {
       const canvas = canvasRef.current;
-      setIsCanvasFullScreen(canvas && document.fullscreenElement === canvas);
+      const isFullscreen = canvas && document.fullscreenElement === canvas;
+      console.log('Fullscreen change detected:', isFullscreen);
+      setIsCanvasFullScreen(!!isFullscreen);
     };
 
     document.addEventListener("fullscreenchange", handleFullScreenChange);
@@ -180,10 +183,10 @@ export default function RedPlanetRover() {
     return "text-red-400";
   };
 
-  // Fullscreen UI overlay - NOW SHOWS WHEN CANVAS IS IN FULLSCREEN
+  // Fullscreen UI overlay - ALWAYS SHOWS WHEN CANVAS IS IN FULLSCREEN
   const FullscreenOverlay = () => (
     <div className="absolute inset-0 pointer-events-none z-50">
-      {/* Score badges - top */}
+      {/* Score badges - ALWAYS visible in fullscreen */}
       <div className="absolute top-4 left-1/2 transform -translate-x-1/2 flex gap-4 pointer-events-auto">
         <Badge variant="outline" className="border-white text-white bg-black/80">
           <Droplet className="h-4 w-4 mr-1" /> {waterPoints}
@@ -196,7 +199,7 @@ export default function RedPlanetRover() {
         </Badge>
       </div>
       
-      {/* Game over overlay */}
+      {/* Game over overlay - shows in fullscreen when game is over */}
       {gameOver && (
         <div className="absolute inset-0 bg-black/70 flex items-center justify-center pointer-events-auto">
           <div className="text-center space-y-4 bg-slate-800/95 p-8 rounded-lg border border-red-500/50">
@@ -208,7 +211,7 @@ export default function RedPlanetRover() {
         </div>
       )}
 
-      {/* Start game overlay */}
+      {/* Start game overlay - shows in fullscreen when game hasn't started */}
       {!gameStarted && (
         <div className="absolute inset-0 bg-black/70 flex items-center justify-center pointer-events-auto">
           <div className="text-center space-y-4 bg-slate-800/95 p-8 rounded-lg border border-red-500/50">
@@ -259,6 +262,7 @@ export default function RedPlanetRover() {
               height={H}
               className="rounded-lg border border-red-500/30"
             />
+            {/* ALWAYS show overlay when in fullscreen */}
             {isCanvasFullScreen && <FullscreenOverlay />}
           </div>
           {!isCanvasFullScreen && !gameStarted && (

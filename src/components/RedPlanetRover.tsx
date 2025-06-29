@@ -1,4 +1,5 @@
 
+
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -46,10 +47,9 @@ export default function RedPlanetRover() {
   // Check fullscreen state specifically for the canvas
   useEffect(() => {
     const handleFullScreenChange = () => {
-      const canvas = canvasRef.current;
-      const isFullscreen = canvas && document.fullscreenElement === canvas;
-      console.log('Fullscreen change detected:', isFullscreen);
-      setIsCanvasFullScreen(!!isFullscreen);
+      const isFullscreen = !!document.fullscreenElement;
+      console.log('Fullscreen change detected:', isFullscreen, 'Element:', document.fullscreenElement);
+      setIsCanvasFullScreen(isFullscreen);
     };
 
     document.addEventListener("fullscreenchange", handleFullScreenChange);
@@ -183,48 +183,6 @@ export default function RedPlanetRover() {
     return "text-red-400";
   };
 
-  // Fullscreen UI overlay - ALWAYS SHOWS WHEN CANVAS IS IN FULLSCREEN
-  const FullscreenOverlay = () => (
-    <div className="absolute inset-0 pointer-events-none z-50">
-      {/* Score badges - ALWAYS visible in fullscreen */}
-      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 flex gap-4 pointer-events-auto">
-        <Badge variant="outline" className="border-white text-white bg-black/80">
-          <Droplet className="h-4 w-4 mr-1" /> {waterPoints}
-        </Badge>
-        <Badge variant="outline" className={`border-white ${getSignalColor()} bg-black/80`}>
-          <Wifi className="h-4 w-4 mr-1" /> {signalStrength}%
-        </Badge>
-        <Badge variant="outline" className="border-white text-white bg-black/80">
-          <Target className="h-4 w-4 mr-1" /> {score}
-        </Badge>
-      </div>
-      
-      {/* Game over overlay - shows in fullscreen when game is over */}
-      {gameOver && (
-        <div className="absolute inset-0 bg-black/70 flex items-center justify-center pointer-events-auto">
-          <div className="text-center space-y-4 bg-slate-800/95 p-8 rounded-lg border border-red-500/50">
-            <p className="text-red-400 font-bold text-2xl">Mission Failed!</p>
-            <Button onClick={start} className="bg-white text-black text-lg px-8 py-3">
-              Retry Mission
-            </Button>
-          </div>
-        </div>
-      )}
-
-      {/* Start game overlay - shows in fullscreen when game hasn't started */}
-      {!gameStarted && (
-        <div className="absolute inset-0 bg-black/70 flex items-center justify-center pointer-events-auto">
-          <div className="text-center space-y-4 bg-slate-800/95 p-8 rounded-lg border border-red-500/50">
-            <Button onClick={start} className="bg-red-600 text-white text-lg px-8 py-3">
-              Start Mission
-            </Button>
-            <p className="text-sm text-gray-300">Use arrow keys to move the rover</p>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-
   return (
     <Card className="bg-slate-800/50 border-red-500/20 max-w-3xl mx-auto relative overflow-hidden">
       {/* Mars rover background image */}
@@ -262,8 +220,47 @@ export default function RedPlanetRover() {
               height={H}
               className="rounded-lg border border-red-500/30"
             />
-            {/* ALWAYS show overlay when in fullscreen */}
-            {isCanvasFullScreen && <FullscreenOverlay />}
+            {/* Fullscreen overlay - renders when in fullscreen */}
+            {isCanvasFullScreen && (
+              <div className="fixed inset-0 pointer-events-none z-[9999] bg-transparent">
+                {/* Score badges - ALWAYS visible in fullscreen */}
+                <div className="absolute top-4 left-1/2 transform -translate-x-1/2 flex gap-4 pointer-events-auto">
+                  <Badge variant="outline" className="border-white text-white bg-black/80">
+                    <Droplet className="h-4 w-4 mr-1" /> {waterPoints}
+                  </Badge>
+                  <Badge variant="outline" className={`border-white ${getSignalColor()} bg-black/80`}>
+                    <Wifi className="h-4 w-4 mr-1" /> {signalStrength}%
+                  </Badge>
+                  <Badge variant="outline" className="border-white text-white bg-black/80">
+                    <Target className="h-4 w-4 mr-1" /> {score}
+                  </Badge>
+                </div>
+                
+                {/* Game over overlay - shows in fullscreen when game is over */}
+                {gameOver && (
+                  <div className="absolute inset-0 bg-black/70 flex items-center justify-center pointer-events-auto">
+                    <div className="text-center space-y-4 bg-slate-800/95 p-8 rounded-lg border border-red-500/50">
+                      <p className="text-red-400 font-bold text-2xl">Mission Failed!</p>
+                      <Button onClick={start} className="bg-white text-black text-lg px-8 py-3">
+                        Retry Mission
+                      </Button>
+                    </div>
+                  </div>
+                )}
+
+                {/* Start game overlay - shows in fullscreen when game hasn't started */}
+                {!gameStarted && (
+                  <div className="absolute inset-0 bg-black/70 flex items-center justify-center pointer-events-auto">
+                    <div className="text-center space-y-4 bg-slate-800/95 p-8 rounded-lg border border-red-500/50">
+                      <Button onClick={start} className="bg-red-600 text-white text-lg px-8 py-3">
+                        Start Mission
+                      </Button>
+                      <p className="text-sm text-gray-300">Use arrow keys to move the rover</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
           {!isCanvasFullScreen && !gameStarted && (
             <div className="text-center">
@@ -286,3 +283,4 @@ export default function RedPlanetRover() {
     </Card>
   );
 }
+

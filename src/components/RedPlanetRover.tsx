@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -182,102 +183,106 @@ export default function RedPlanetRover() {
   };
 
   return (
-    <Card className="bg-slate-800/50 border-red-500/20 max-w-3xl mx-auto relative overflow-hidden">
-      {/* Mars rover background image */}
-      <div 
-        className="absolute inset-0 opacity-10 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: 'url(/lovable-uploads/2f88afbf-c39c-420f-811c-7519f6b8f9c7.png)' }}
-      />
-      <div className="relative z-10">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl text-white flex items-center justify-center gap-2">
-            <Target className="h-6 w-6 text-red-400" /> Red-Planet Rover
-          </CardTitle>
-          <CardDescription className="text-gray-300">
-            Navigate Mars, collect ice, avoid dust & rocks!
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {!isCanvasFullScreen && (
-            <div className="flex justify-center gap-4">
-              <Badge variant="outline" className="border-white text-white">
-                <Droplet className="h-4 w-4 mr-1" /> {waterPoints}
-              </Badge>
-              <Badge variant="outline" className={`border-white ${getSignalColor()}`}>
-                <Wifi className="h-4 w-4 mr-1" /> {signalStrength}%
-              </Badge>
-              <Badge variant="outline" className="border-white text-white">
-                <Target className="h-4 w-4 mr-1" /> {score}
-              </Badge>
-            </div>
-          )}
-          <div className="flex justify-center relative">
-            <canvas
-              ref={canvasRef}
-              width={W}
-              height={H}
-              className="rounded-lg border border-red-500/30"
-            />
-            {/* Fullscreen overlay - renders when in fullscreen with higher z-index */}
-            {isCanvasFullScreen && (
-              <div className="fixed inset-0 pointer-events-none z-[99999] bg-transparent">
-                {/* Score badges - ALWAYS visible in fullscreen with very high z-index */}
-                <div className="absolute top-4 left-1/2 transform -translate-x-1/2 flex gap-4 pointer-events-auto z-[100000]">
-                  <Badge variant="outline" className="border-white text-white bg-black/90 backdrop-blur-sm">
-                    <Droplet className="h-4 w-4 mr-1" /> {waterPoints}
-                  </Badge>
-                  <Badge variant="outline" className={`border-white ${getSignalColor()} bg-black/90 backdrop-blur-sm`}>
-                    <Wifi className="h-4 w-4 mr-1" /> {signalStrength}%
-                  </Badge>
-                  <Badge variant="outline" className="border-white text-white bg-black/90 backdrop-blur-sm">
-                    <Target className="h-4 w-4 mr-1" /> {score}
-                  </Badge>
-                </div>
-                
-                {/* Game over overlay - shows in fullscreen when game is over */}
-                {gameOver && (
-                  <div className="absolute inset-0 bg-black/80 flex items-center justify-center pointer-events-auto z-[100000]">
-                    <div className="text-center space-y-4 bg-slate-800/95 p-8 rounded-lg border border-red-500/50 backdrop-blur-sm">
-                      <p className="text-red-400 font-bold text-2xl">Mission Failed!</p>
-                      <Button onClick={start} className="bg-white text-black text-lg px-8 py-3">
-                        Retry Mission
-                      </Button>
-                    </div>
-                  </div>
-                )}
-
-                {/* Start game overlay - shows in fullscreen when game hasn't started */}
-                {!gameStarted && (
-                  <div className="absolute inset-0 bg-black/80 flex items-center justify-center pointer-events-auto z-[100000]">
-                    <div className="text-center space-y-4 bg-slate-800/95 p-8 rounded-lg border border-red-500/50 backdrop-blur-sm">
-                      <Button onClick={start} className="bg-red-600 text-white text-lg px-8 py-3">
-                        Start Mission
-                      </Button>
-                      <p className="text-sm text-gray-300">Use arrow keys to move the rover</p>
-                    </div>
-                  </div>
-                )}
+    <>
+      <Card className="bg-slate-800/50 border-red-500/20 max-w-3xl mx-auto relative overflow-hidden">
+        {/* Mars rover background image */}
+        <div 
+          className="absolute inset-0 opacity-10 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: 'url(/lovable-uploads/2f88afbf-c39c-420f-811c-7519f6b8f9c7.png)' }}
+        />
+        <div className="relative z-10">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl text-white flex items-center justify-center gap-2">
+              <Target className="h-6 w-6 text-red-400" /> Red-Planet Rover
+            </CardTitle>
+            <CardDescription className="text-gray-300">
+              Navigate Mars, collect ice, avoid dust & rocks!
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {!isCanvasFullScreen && (
+              <div className="flex justify-center gap-4">
+                <Badge variant="outline" className="border-white text-white">
+                  <Droplet className="h-4 w-4 mr-1" /> {waterPoints}
+                </Badge>
+                <Badge variant="outline" className={`border-white ${getSignalColor()}`}>
+                  <Wifi className="h-4 w-4 mr-1" /> {signalStrength}%
+                </Badge>
+                <Badge variant="outline" className="border-white text-white">
+                  <Target className="h-4 w-4 mr-1" /> {score}
+                </Badge>
               </div>
             )}
+            <div className="flex justify-center relative">
+              <canvas
+                ref={canvasRef}
+                width={W}
+                height={H}
+                className="rounded-lg border border-red-500/30"
+              />
+            </div>
+            {!isCanvasFullScreen && !gameStarted && (
+              <div className="text-center">
+                <Button onClick={start} className="bg-red-600 text-white">
+                  Start Mission
+                </Button>
+                <p className="text-sm text-gray-400 mt-2">Use arrow keys to move the rover</p>
+              </div>
+            )}
+            {!isCanvasFullScreen && gameOver && (
+              <div className="text-center space-y-2">
+                <p className="text-red-400 font-bold">Mission Failed!</p>
+                <Button onClick={start} className="bg-white text-black">
+                  Retry
+                </Button>
+              </div>
+            )}
+          </CardContent>
+        </div>
+      </Card>
+
+      {/* Fullscreen overlay - rendered using portal to ensure it's on top */}
+      {isCanvasFullScreen && createPortal(
+        <div className="fixed inset-0 pointer-events-none z-[999999]">
+          {/* Score badges - ALWAYS visible in fullscreen */}
+          <div className="absolute top-8 left-1/2 transform -translate-x-1/2 flex gap-4 pointer-events-auto z-[1000000]">
+            <Badge variant="outline" className="border-white text-white bg-black/90 backdrop-blur-sm text-lg px-4 py-2">
+              <Droplet className="h-5 w-5 mr-2" /> {waterPoints}
+            </Badge>
+            <Badge variant="outline" className={`border-white ${getSignalColor()} bg-black/90 backdrop-blur-sm text-lg px-4 py-2`}>
+              <Wifi className="h-5 w-5 mr-2" /> {signalStrength}%
+            </Badge>
+            <Badge variant="outline" className="border-white text-white bg-black/90 backdrop-blur-sm text-lg px-4 py-2">
+              <Target className="h-5 w-5 mr-2" /> {score}
+            </Badge>
           </div>
-          {!isCanvasFullScreen && !gameStarted && (
-            <div className="text-center">
-              <Button onClick={start} className="bg-red-600 text-white">
-                Start Mission
-              </Button>
-              <p className="text-sm text-gray-400 mt-2">Use arrow keys to move the rover</p>
+          
+          {/* Game over overlay */}
+          {gameOver && (
+            <div className="absolute inset-0 bg-black/80 flex items-center justify-center pointer-events-auto z-[1000000]">
+              <div className="text-center space-y-6 bg-slate-800/95 p-12 rounded-lg border border-red-500/50 backdrop-blur-sm">
+                <p className="text-red-400 font-bold text-4xl">Mission Failed!</p>
+                <Button onClick={start} className="bg-white text-black text-xl px-12 py-4">
+                  Retry Mission
+                </Button>
+              </div>
             </div>
           )}
-          {!isCanvasFullScreen && gameOver && (
-            <div className="text-center space-y-2">
-              <p className="text-red-400 font-bold">Mission Failed!</p>
-              <Button onClick={start} className="bg-white text-black">
-                Retry
-              </Button>
+
+          {/* Start game overlay */}
+          {!gameStarted && (
+            <div className="absolute inset-0 bg-black/80 flex items-center justify-center pointer-events-auto z-[1000000]">
+              <div className="text-center space-y-6 bg-slate-800/95 p-12 rounded-lg border border-red-500/50 backdrop-blur-sm">
+                <Button onClick={start} className="bg-red-600 text-white text-xl px-12 py-4">
+                  Start Mission
+                </Button>
+                <p className="text-lg text-gray-300">Use arrow keys to move the rover</p>
+              </div>
             </div>
           )}
-        </CardContent>
-      </div>
-    </Card>
+        </div>,
+        document.body
+      )}
+    </>
   );
 }

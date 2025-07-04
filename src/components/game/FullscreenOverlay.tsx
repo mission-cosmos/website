@@ -53,18 +53,6 @@ export const FullscreenOverlay: React.FC<FullscreenOverlayProps> = ({
           </div>
         </div>
       )}
-
-      {/* Start game overlay */}
-      {!gameStarted && (
-        <div className="absolute inset-0 bg-black/80 flex items-center justify-center pointer-events-auto z-[1000000]">
-          <div className="text-center space-y-6 bg-slate-800/95 p-12 rounded-lg border border-red-500/50 backdrop-blur-sm">
-            <Button onClick={onStart} className="bg-red-600 text-white text-xl px-12 py-4">
-              Start Mission
-            </Button>
-            <p className="text-lg text-gray-300">Use arrow keys to move the rover</p>
-          </div>
-        </div>
-      )}
     </div>,
     document.body
   );

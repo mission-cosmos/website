@@ -35,24 +35,6 @@ export const GameUI: React.FC<GameUIProps> = ({
           <Target className="h-4 w-4 mr-1" /> {score}
         </Badge>
       </div>
-      
-      {!gameStarted && (
-        <div className="text-center">
-          <Button onClick={onStart} className="bg-red-600 text-white">
-            Start Mission
-          </Button>
-          <p className="text-sm text-gray-400 mt-2">Use arrow keys to move the rover</p>
-        </div>
-      )}
-      
-      {gameOver && (
-        <div className="text-center space-y-2">
-          <p className="text-red-400 font-bold">Mission Failed!</p>
-          <Button onClick={onStart} className="bg-white text-black">
-            Retry
-          </Button>
-        </div>
-      )}
     </>
   );
 };

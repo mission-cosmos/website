@@ -1,6 +1,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Target } from "lucide-react";
 import { GAME_CONSTANTS } from "./game/gameUtils";
 import { useGameState } from "./game/useGameState";
@@ -63,6 +64,22 @@ export default function RedPlanetRover() {
                 className="rounded-lg border border-red-500/30"
               />
             </div>
+            {!isCanvasFullScreen && !gameState.gameStarted && (
+              <div className="text-center">
+                <Button onClick={gameState.resetGame} className="bg-red-600 text-white">
+                  Start Mission
+                </Button>
+                <p className="text-sm text-gray-400 mt-2">Use arrow keys to move the rover</p>
+              </div>
+            )}
+            {!isCanvasFullScreen && gameState.gameOver && (
+              <div className="text-center space-y-2">
+                <p className="text-red-400 font-bold">Mission Failed!</p>
+                <Button onClick={gameState.resetGame} className="bg-white text-black">
+                  Retry
+                </Button>
+              </div>
+            )}
           </CardContent>
         </div>
       </Card>

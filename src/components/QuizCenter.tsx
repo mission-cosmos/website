@@ -192,7 +192,7 @@ export default function QuizCenter() {
                     key={level}
                     onClick={() => setDifficulty(level)}
                     variant={difficulty === level ? "default" : "outline"}
-                    className={`${difficulty === level ? 'bg-purple-500 text-white' : 'border-white/20 text-white hover:bg-white/10'}`}
+                    className={`${difficulty === level ? 'bg-purple-500 text-white border-purple-500' : 'border-white/20 text-white hover:bg-white/10 bg-black/20'}`}
                   >
                     {level}
                   </Button>
@@ -310,7 +310,7 @@ export default function QuizCenter() {
           <CardContent className="space-y-4">
             <div className="grid gap-3">
               {question.options.map((option, index) => {
-                let buttonClass = "w-full p-4 text-left border-white/20 text-white hover:bg-white/10 transition-all";
+                let buttonClass = "w-full p-4 text-left border-white/20 text-white hover:bg-white/10 transition-all bg-black/20";
                 
                 if (selectedAnswer !== null) {
                   if (index === question.correctAnswer) {
@@ -318,6 +318,8 @@ export default function QuizCenter() {
                   } else if (index === selectedAnswer && index !== question.correctAnswer) {
                     buttonClass += " bg-red-500/20 border-red-500 text-red-400";
                   }
+                } else {
+                  buttonClass += " hover:bg-white/20";
                 }
 
                 return (

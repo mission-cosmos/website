@@ -174,6 +174,84 @@ interface PlanetProps {
 function Planet({ name, distance, size, color, speed, onClick, position }: PlanetProps) {
   const meshRef = useRef<THREE.Mesh>(null!);
   const [hovered, setHovered] = useState(false);
+  const textureLoader = new THREE.TextureLoader();
+
+  // Create realistic textures for each planet
+  const getTexture = () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 512;
+    canvas.height = 512;
+    const context = canvas.getContext('2d')!;
+    
+    // Create a gradient based on the planet
+    const gradient = context.createLinearGradient(0, 0, 512, 512);
+    
+    switch(name) {
+      case 'Sun':
+        gradient.addColorStop(0, '#FFD700');
+        gradient.addColorStop(0.5, '#FF8C00');
+        gradient.addColorStop(1, '#FF4500');
+        break;
+      case 'Mercury':
+        gradient.addColorStop(0, '#8C7853');
+        gradient.addColorStop(0.5, '#A0895A');
+        gradient.addColorStop(1, '#7A6B47');
+        break;
+      case 'Venus':
+        gradient.addColorStop(0, '#FFC649');
+        gradient.addColorStop(0.5, '#FFB347');
+        gradient.addColorStop(1, '#FF8C69');
+        break;
+      case 'Earth':
+        gradient.addColorStop(0, '#6B93D6');
+        gradient.addColorStop(0.3, '#4169E1');
+        gradient.addColorStop(0.6, '#228B22');
+        gradient.addColorStop(1, '#8FBC8F');
+        break;
+      case 'Mars':
+        gradient.addColorStop(0, '#CD5C5C');
+        gradient.addColorStop(0.5, '#A0522D');
+        gradient.addColorStop(1, '#8B4513');
+        break;
+      case 'Jupiter':
+        gradient.addColorStop(0, '#D2691E');
+        gradient.addColorStop(0.3, '#CD853F');
+        gradient.addColorStop(0.6, '#DEB887');
+        gradient.addColorStop(1, '#F4A460');
+        break;
+      case 'Saturn':
+        gradient.addColorStop(0, '#FAD5A5');
+        gradient.addColorStop(0.5, '#DEB887');
+        gradient.addColorStop(1, '#D2B48C');
+        break;
+      case 'Uranus':
+        gradient.addColorStop(0, '#4FD0E3');
+        gradient.addColorStop(0.5, '#87CEEB');
+        gradient.addColorStop(1, '#4682B4');
+        break;
+      case 'Neptune':
+        gradient.addColorStop(0, '#4B70DD');
+        gradient.addColorStop(0.5, '#1E90FF');
+        gradient.addColorStop(1, '#191970');
+        break;
+      default:
+        gradient.addColorStop(0, color);
+        gradient.addColorStop(1, color);
+    }
+    
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, 512, 512);
+    
+    // Add some texture details
+    for (let i = 0; i < 50; i++) {
+      context.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.1})`;
+      context.beginPath();
+      context.arc(Math.random() * 512, Math.random() * 512, Math.random() * 3, 0, Math.PI * 2);
+      context.fill();
+    }
+    
+    return new THREE.CanvasTexture(canvas);
+  };
 
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
@@ -181,11 +259,17 @@ function Planet({ name, distance, size, color, speed, onClick, position }: Plane
       meshRef.current.position.x = Math.cos(time * speed) * distance;
       meshRef.current.position.z = Math.sin(time * speed) * distance;
     }
+    // Add rotation for realism
+    if (meshRef.current) {
+      meshRef.current.rotation.y += 0.01;
+    }
   });
 
   const handleClick = () => {
     onClick(name);
   };
+
+  const texture = useMemo(() => getTexture(), [name]);
 
   return (
     <group>
@@ -196,24 +280,45 @@ function Planet({ name, distance, size, color, speed, onClick, position }: Plane
         onPointerOut={() => setHovered(false)}
         scale={hovered ? size * 1.2 : size}
         position={position}
+        castShadow
+        receiveShadow
       >
-        <sphereGeometry args={[1, 32, 32]} />
-        <meshStandardMaterial color={color} />
+        <sphereGeometry args={[1, 64, 64]} />
+        <meshPhongMaterial 
+          map={texture}
+          shininess={name === 'Sun' ? 100 : 30}
+          emissive={name === 'Sun' ? '#FFA500' : '#000000'}
+          emissiveIntensity={name === 'Sun' ? 0.3 : 0}
+        />
       </mesh>
+      
+      {/* Saturn's rings */}
+      {name === 'Saturn' && (
+        <mesh rotation={[-Math.PI / 2, 0, 0]}>
+          <ringGeometry args={[1.2, 2.0, 64]} />
+          <meshBasicMaterial 
+            color="#D2B48C" 
+            transparent 
+            opacity={0.6} 
+            side={THREE.DoubleSide}
+          />
+        </mesh>
+      )}
       
       {/* Orbit path */}
       {name !== 'Sun' && (
         <mesh rotation={[-Math.PI / 2, 0, 0]}>
-          <ringGeometry args={[distance - 0.05, distance + 0.05, 64]} />
-          <meshBasicMaterial color="white" transparent opacity={0.3} />
+          <ringGeometry args={[distance - 0.02, distance + 0.02, 128]} />
+          <meshBasicMaterial color="white" transparent opacity={0.2} />
         </mesh>
       )}
       
       {/* Planet label */}
       {hovered && (
         <Html position={[0, size + 1, 0]}>
-          <div className="bg-black/80 text-white px-2 py-1 rounded text-sm pointer-events-none">
-            {name}
+          <div className="bg-black/90 text-white px-3 py-2 rounded-lg text-sm pointer-events-none border border-white/20 backdrop-blur-sm">
+            <div className="font-bold">{name}</div>
+            <div className="text-xs text-gray-300">{celestialBodies[name]?.type}</div>
           </div>
         </Html>
       )}
@@ -312,9 +417,26 @@ export default function SolarSystemExplorer() {
               </div>
             </CardHeader>
             <CardContent className="p-2 h-[520px]">
-              <Canvas camera={{ position: [0, 20, 30], fov: 75 }}>
-                <ambientLight intensity={0.3} />
-                <pointLight position={[0, 0, 0]} intensity={2} />
+              <Canvas 
+                camera={{ position: [0, 20, 30], fov: 75 }}
+                onCreated={({ gl }) => {
+                  gl.shadowMap.enabled = true;
+                  gl.shadowMap.type = THREE.PCFSoftShadowMap;
+                }}
+              >
+                <ambientLight intensity={0.2} />
+                <pointLight 
+                  position={[0, 0, 0]} 
+                  intensity={3} 
+                  castShadow
+                  shadow-mapSize-width={2048}
+                  shadow-mapSize-height={2048}
+                />
+                <directionalLight 
+                  position={[50, 50, 50]} 
+                  intensity={0.5} 
+                  castShadow
+                />
                 <Starfield />
                 
                 {/* Sun */}
@@ -340,7 +462,17 @@ export default function SolarSystemExplorer() {
                 {/* Asteroid Belt */}
                 <AsteroidBelt />
                 
-                <OrbitControls enablePan enableZoom enableRotate />
+                <OrbitControls 
+                  enablePan={true} 
+                  enableZoom={true} 
+                  enableRotate={true}
+                  zoomToCursor={true}
+                  panSpeed={2}
+                  rotateSpeed={1}
+                  zoomSpeed={1.2}
+                  minDistance={5}
+                  maxDistance={200}
+                />
               </Canvas>
             </CardContent>
           </Card>

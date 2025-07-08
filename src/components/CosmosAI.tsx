@@ -13,9 +13,10 @@ interface Message {
 }
 
 const knowledgeBase = {
-  // Solar System
-  "what is the sun": "The Sun is a G-type main-sequence star at the center of our solar system. It's a massive ball of hot plasma held together by gravity, with a core temperature of about 15 million degrees Celsius. The Sun generates energy through nuclear fusion, converting 600 million tons of hydrogen into helium every second, releasing the energy equivalent of 100 billion nuclear bombs per second.",
-  "how many planets": "There are 8 planets in our solar system: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, and Neptune. Pluto was reclassified as a dwarf planet in 2006 by the International Astronomical Union because it doesn't meet all three criteria for a planet.",
+  // Solar System - Comprehensive
+  "what is the sun": "The Sun is a G-type main-sequence star at the center of our solar system. It's a massive ball of hot plasma held together by gravity, with a core temperature of about 15 million degrees Celsius. The Sun generates energy through nuclear fusion, converting 600 million tons of hydrogen into helium every second, releasing the energy equivalent of 100 billion nuclear bombs per second. It contains 99.86% of the solar system's mass and could fit 1.3 million Earths inside it.",
+  "how many planets": "There are 8 planets in our solar system: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, and Neptune. Pluto was reclassified as a dwarf planet in 2006 by the International Astronomical Union because it doesn't meet all three criteria for a planet: it must orbit the Sun, have sufficient mass to be roughly round, and clear its orbital neighborhood.",
+  "solar system formation": "Our solar system formed about 4.6 billion years ago from the gravitational collapse of a giant molecular cloud. The Sun formed at the center, while planets formed from the accretion of dust and gas in the surrounding protoplanetary disk. Inner planets are rocky due to high temperatures, while outer planets are gas/ice giants because volatiles could condense in the cooler outer regions.",
   "mercury facts": "Mercury is the smallest planet and closest to the Sun. It has extreme temperature variations (427°C day, -173°C night), no atmosphere, and takes 88 Earth days to orbit the Sun. One day on Mercury lasts 59 Earth days due to its slow rotation.",
   "venus facts": "Venus is the hottest planet with surface temperatures of 462°C due to its thick carbon dioxide atmosphere creating a runaway greenhouse effect. It rotates backwards (retrograde) and has the longest day of any planet - 243 Earth days.",
   "earth facts": "Earth is the only known planet with life. It's 71% water-covered, has one moon that stabilizes its rotation, and sits in the 'Goldilocks zone' - the perfect distance from the Sun for liquid water to exist.",
@@ -103,7 +104,46 @@ const knowledgeBase = {
   "gravitational waves": "Gravitational waves are ripples in spacetime caused by accelerating massive objects, predicted by Einstein and first detected in 2015. They open a new window for studying the universe.",
   "first black hole image": "In 2019, the Event Horizon Telescope captured the first image of a black hole's event horizon in galaxy M87, confirming Einstein's predictions about how black holes bend light.",
   "water on mars": "Recent missions have confirmed that water exists on Mars as ice at the poles and possibly as seasonal brines. Ancient Mars had rivers, lakes, and possibly oceans.",
-  "potentially habitable exoplanets": "Thousands of potentially habitable exoplanets have been discovered, including Kepler-452b (Earth's cousin), Proxima Centauri b (closest exoplanet), and many others in their star's habitable zone."
+  "potentially habitable exoplanets": "Thousands of potentially habitable exoplanets have been discovered, including Kepler-452b (Earth's cousin), Proxima Centauri b (closest exoplanet), and many others in their star's habitable zone.",
+
+  // Advanced Physics and Cosmology
+  "multiverse theory": "The multiverse hypothesis suggests our universe might be one of many universes. Different types include: the Many Worlds interpretation of quantum mechanics, cosmic inflation creating bubble universes, and mathematical universe hypothesis where every mathematical structure exists as a physical reality.",
+  "string theory": "String theory proposes that fundamental particles are tiny vibrating strings rather than point particles. It attempts to unify quantum mechanics and general relativity, predicting extra spatial dimensions beyond our observed three. Different vibration modes of strings correspond to different particles.",
+  "quantum mechanics space": "Quantum mechanics reveals that space itself has inherent uncertainty and fluctuations. Virtual particles constantly pop in and out of existence, and quantum entanglement shows that widely separated particles can be instantly connected, challenging our classical understanding of space and locality.",
+  "spacetime curvature": "According to Einstein's general relativity, massive objects curve spacetime, and this curvature is what we experience as gravity. The more massive an object, the more it warps spacetime. GPS satellites must account for both special and general relativistic effects to maintain accuracy.",
+  "hawking radiation": "Black holes aren't completely black - they emit Hawking radiation due to quantum effects near the event horizon. This causes black holes to slowly evaporate over time. Smaller black holes radiate faster than larger ones, and stellar-mass black holes would take longer than the age of the universe to evaporate.",
+  "wormholes": "Wormholes are theoretical passages through spacetime that could connect distant regions of the universe or even different universes. While mathematically possible in Einstein's equations, they would require exotic matter with negative energy density to remain stable.",
+
+  // Deep Space Objects and Phenomena
+  "magnetars": "Magnetars are neutron stars with magnetic fields a trillion times stronger than Earth's. Their magnetic fields are so intense they can strip electrons from atoms and cause starquakes that release more energy in seconds than our Sun produces in years.",
+  "strange matter": "Strange matter is a hypothetical form of matter containing strange quarks. If it exists, it might be more stable than normal matter, potentially converting everything it touches into strange matter - a scenario called 'strange matter conversion' or 'ice-nine scenario'.",
+  "cosmic strings": "Cosmic strings are hypothetical one-dimensional topological defects in spacetime that might have formed during the early universe's phase transitions. They would be incredibly thin but enormously massive, potentially causing observable gravitational effects.",
+  "vacuum decay": "Vacuum decay is a theoretical scenario where our universe's vacuum state might not be the lowest energy state possible. If the Higgs field found a lower energy configuration, it could create a bubble of true vacuum that expands at light speed, fundamentally altering physics.",
+
+  // Space Exploration - Extended
+  "space elevator": "A space elevator would be a cable extending from Earth's surface to beyond geostationary orbit, held up by centrifugal force. Materials like carbon nanotubes might make this possible, potentially reducing launch costs to $100/kg compared to current $10,000/kg.",
+  "lunar base": "Plans for permanent lunar bases include NASA's Artemis program and private initiatives. The Moon offers advantages like low gravity (1/6th Earth's), no atmosphere for easy launches, and potential resources like water ice at the poles for fuel and life support.",
+  "mars terraforming": "Terraforming Mars would involve thickening its atmosphere, warming the planet, and creating breathable air. Proposed methods include releasing greenhouse gases, melting polar ice caps, and importing volatiles from asteroids or comets. This could take thousands of years.",
+  "asteroid mining": "Asteroids contain enormous wealth in precious metals and rare earth elements. A single metallic asteroid could contain more platinum than has ever been mined on Earth. Water from asteroids could also fuel deep space missions.",
+  "interstellar travel": "Interstellar travel faces enormous challenges due to vast distances. Proposed solutions include fusion ramjets, antimatter drives, solar sails, and generation ships. Even at 10% light speed, reaching Proxima Centauri would take 43 years.",
+
+  // Cosmic Phenomena - Advanced
+  "dark flow": "Dark flow is a controversial observation suggesting that galaxy clusters are moving in a particular direction, possibly influenced by structures beyond the observable universe. This could indicate the presence of other universes or large-scale structures we cannot see.",
+  "great attractor": "The Great Attractor is a gravitational anomaly in intergalactic space that's pulling our Local Group of galaxies and thousands of others toward it at 600 km/s. It's partially obscured by the Milky Way, making it difficult to study directly.",
+  "boötes void": "The Boötes Void, also called the Great Nothing, is an enormous region of space containing very few galaxies. It's about 330 million light-years in diameter and represents a significant challenge to our understanding of cosmic structure formation.",
+  "cosmic web": "The cosmic web is the largest-scale structure of the universe, consisting of galaxy filaments separated by vast voids. Dark matter forms the scaffolding of this web, with normal matter following its gravitational pull to form the galaxies we observe.",
+
+  // Astrobiology - Comprehensive
+  "fermi paradox": "The Fermi Paradox asks: if the universe should be teeming with life, where is everybody? Proposed solutions include the Great Filter (a step in evolution that's extremely unlikely), self-destruction of civilizations, or that we're among the first intelligent species.",
+  "drake equation": "The Drake Equation estimates the number of communicating civilizations in our galaxy by multiplying factors like star formation rate, fraction of stars with planets, fraction with life, etc. Estimates range from 1 (just us) to millions of civilizations.",
+  "panspermia": "Panspermia is the hypothesis that life on Earth originated from microorganisms or chemical precursors from outer space, possibly transported by asteroids, comets, or meteorites. Some evidence includes organic compounds found in meteorites.",
+  "biosignatures": "Biosignatures are indicators of life that we can detect remotely, such as oxygen and methane in an atmosphere (which react together and require continuous replenishment), specific isotope ratios, or seasonal changes in atmospheric composition.",
+
+  // Space Technology - Cutting Edge
+  "fusion propulsion": "Fusion rockets could achieve specific impulses 10 times higher than chemical rockets, making Mars trips possible in weeks rather than months. Challenges include containing the fusion reaction and converting the energy to thrust efficiently.",
+  "breakthrough starshot": "Breakthrough Starshot aims to send tiny probes to Proxima Centauri using powerful laser arrays to accelerate light sails to 20% light speed. The gram-scale probes would reach the star in 20 years and beam data back.",
+  "space tether": "Space tethers are long cables deployed from spacecraft that can generate electricity from Earth's magnetic field, provide artificial gravity through rotation, or even boost satellites to higher orbits without using fuel.",
+  "alcubierre drive": "The Alcubierre drive is a theoretical faster-than-light propulsion system that works by contracting space in front of a spacecraft and expanding it behind, effectively moving space itself rather than the ship through space."
 };
 
 export default function CosmosAI() {

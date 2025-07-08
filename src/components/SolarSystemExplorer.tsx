@@ -1,6 +1,5 @@
-
 import React, { useRef, useState, useMemo } from 'react';
-import { Canvas, useFrame, ThreeElements } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Text, Html } from '@react-three/drei';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -162,16 +161,17 @@ const celestialBodies: Record<string, CelestialBodyData> = {
   }
 };
 
-interface PlanetProps extends ThreeElements['mesh'] {
+interface PlanetProps {
   name: string;
   distance: number;
   size: number;
   color: string;
   speed: number;
   onClick: (name: string) => void;
+  position?: [number, number, number];
 }
 
-function Planet({ name, distance, size, color, speed, onClick, ...props }: PlanetProps) {
+function Planet({ name, distance, size, color, speed, onClick, position }: PlanetProps) {
   const meshRef = useRef<THREE.Mesh>(null!);
   const [hovered, setHovered] = useState(false);
 
@@ -190,12 +190,12 @@ function Planet({ name, distance, size, color, speed, onClick, ...props }: Plane
   return (
     <group>
       <mesh
-        {...props}
         ref={meshRef}
         onClick={handleClick}
         onPointerOver={() => setHovered(true)}
         onPointerOut={() => setHovered(false)}
         scale={hovered ? size * 1.2 : size}
+        position={position}
       >
         <sphereGeometry args={[1, 32, 32]} />
         <meshStandardMaterial color={color} />

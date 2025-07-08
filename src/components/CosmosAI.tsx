@@ -13,32 +13,104 @@ interface Message {
 }
 
 const knowledgeBase = {
-  "what is the sun": "The Sun is a medium-sized star at the center of our solar system. It's a massive ball of hot plasma held together by gravity, with a core temperature of about 15 million degrees Celsius. The Sun generates energy through nuclear fusion, converting hydrogen into helium.",
-  
-  "how many planets": "There are 8 planets in our solar system: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, and Neptune. Pluto was reclassified as a dwarf planet in 2006.",
-  
-  "what is a black hole": "A black hole is a region of spacetime where gravity is so strong that nothing, not even light, can escape once it crosses the event horizon. They form when massive stars collapse at the end of their lives.",
-  
-  "how big is the universe": "The observable universe is about 93 billion light-years in diameter. However, the entire universe might be infinite. We can only see a portion of it due to the finite speed of light and the age of the universe.",
-  
-  "what is dark matter": "Dark matter is a mysterious form of matter that makes up about 27% of the universe. It doesn't emit, absorb, or reflect light, making it invisible. We know it exists because of its gravitational effects on visible matter.",
-  
-  "how far is mars": "Mars is approximately 227.9 million kilometers (141.6 million miles) away from the Sun on average. The distance between Earth and Mars varies greatly, from about 54.6 million km to 401 million km depending on their positions in orbit.",
-  
-  "what is the milky way": "The Milky Way is our home galaxy, containing over 100 billion stars. It's a spiral galaxy about 100,000 light-years across. Our solar system is located about 26,000 light-years from the galactic center.",
-  
+  // Solar System
+  "what is the sun": "The Sun is a G-type main-sequence star at the center of our solar system. It's a massive ball of hot plasma held together by gravity, with a core temperature of about 15 million degrees Celsius. The Sun generates energy through nuclear fusion, converting 600 million tons of hydrogen into helium every second, releasing the energy equivalent of 100 billion nuclear bombs per second.",
+  "how many planets": "There are 8 planets in our solar system: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, and Neptune. Pluto was reclassified as a dwarf planet in 2006 by the International Astronomical Union because it doesn't meet all three criteria for a planet.",
+  "mercury facts": "Mercury is the smallest planet and closest to the Sun. It has extreme temperature variations (427°C day, -173°C night), no atmosphere, and takes 88 Earth days to orbit the Sun. One day on Mercury lasts 59 Earth days due to its slow rotation.",
+  "venus facts": "Venus is the hottest planet with surface temperatures of 462°C due to its thick carbon dioxide atmosphere creating a runaway greenhouse effect. It rotates backwards (retrograde) and has the longest day of any planet - 243 Earth days.",
+  "earth facts": "Earth is the only known planet with life. It's 71% water-covered, has one moon that stabilizes its rotation, and sits in the 'Goldilocks zone' - the perfect distance from the Sun for liquid water to exist.",
+  "mars facts": "Mars is called the Red Planet due to iron oxide (rust) on its surface. It has two small moons (Phobos and Deimos), the largest volcano in the solar system (Olympus Mons), and evidence of ancient water flows. A day on Mars is 24.6 hours.",
+  "jupiter facts": "Jupiter is the largest planet, containing more mass than all other planets combined. It has 95 known moons including the four Galilean moons. Its Great Red Spot is a storm larger than Earth that's been raging for centuries.",
+  "saturn facts": "Saturn is famous for its prominent ring system made of ice and rock particles. It's less dense than water and has 146 known moons, including Titan which has lakes of liquid methane.",
+  "uranus facts": "Uranus rotates on its side (98° tilt) likely due to an ancient collision. It's an ice giant with 27 moons and was the first planet discovered with a telescope in 1781 by William Herschel.",
+  "neptune facts": "Neptune is the windiest planet with speeds up to 2,100 km/h. It was discovered mathematically before being observed, and takes 165 Earth years to orbit the Sun.",
+
+  // Space Phenomena
+  "what is a black hole": "A black hole is a region of spacetime where gravity is so strong that nothing, not even light, can escape once it crosses the event horizon. They form when massive stars (over 20-25 solar masses) collapse at the end of their lives. The closest known black hole to Earth is Sagittarius A* at the center of our galaxy.",
+  "what are neutron stars": "Neutron stars are incredibly dense remnants of massive stars that exploded in supernovas. They're only about 20 km across but contain more mass than our Sun. A teaspoon of neutron star material would weigh about 6 billion tons on Earth.",
+  "what are pulsars": "Pulsars are rapidly rotating neutron stars that emit beams of radiation from their magnetic poles. As they spin, these beams sweep across space like lighthouse beams, creating regular pulses we can detect on Earth.",
+  "what are quasars": "Quasars are extremely luminous active galactic nuclei powered by supermassive black holes. They're among the most distant and brightest objects in the universe, some shining with the light of trillions of stars.",
+  "what are supernovas": "Supernovas are explosive deaths of massive stars, releasing more energy in seconds than our Sun will produce in its entire 10-billion-year lifetime. They create and scatter heavy elements throughout the universe, making life possible.",
+  "gamma ray bursts": "Gamma-ray bursts are the most energetic explosions in the universe since the Big Bang. They can release more energy in 10 seconds than the Sun will in its entire lifetime, and can be seen from billions of light-years away.",
+
+  // Cosmology and Universe
+  "how big is the universe": "The observable universe is about 93 billion light-years in diameter. However, the entire universe might be infinite. We can only see a portion of it due to the finite speed of light and the age of the universe (13.8 billion years).",
+  "what is dark matter": "Dark matter is a mysterious form of matter that makes up about 27% of the universe. It doesn't emit, absorb, or reflect light, making it invisible. We know it exists because of its gravitational effects on visible matter and galaxy formation.",
+  "what is dark energy": "Dark energy makes up about 68% of the universe and is causing the expansion of the universe to accelerate. Its nature is one of the biggest mysteries in cosmology.",
+  "big bang theory": "The Big Bang theory describes how the universe expanded from an initial state of high density and temperature about 13.8 billion years ago. It's supported by evidence like cosmic microwave background radiation and the abundance of light elements.",
+  "how old is the universe": "The universe is approximately 13.8 billion years old, as determined by observations of the cosmic microwave background radiation and other astronomical measurements using the Planck satellite.",
+  "what is cosmic microwave background": "The cosmic microwave background (CMB) is the afterglow of the Big Bang, filling the entire universe. It's the oldest light in the universe, released when the universe became transparent about 380,000 years after the Big Bang.",
+
+  // Stars and Stellar Evolution
+  "how are stars born": "Stars form in nebulae when gravity causes clouds of gas and dust to collapse. As the material contracts, it heats up until nuclear fusion begins in the core, marking the birth of a new star.",
+  "stellar evolution": "Stars evolve based on their mass. Low-mass stars like our Sun become red giants then white dwarfs. Massive stars become supergiants, explode as supernovas, and leave behind neutron stars or black holes.",
+  "what are red giants": "Red giants are evolved stars that have exhausted hydrogen in their cores and expanded dramatically. Our Sun will become a red giant in about 5 billion years, growing large enough to potentially engulf Earth.",
+  "what are white dwarfs": "White dwarfs are the hot, dense cores left behind when low to medium-mass stars shed their outer layers. They're about the size of Earth but contain about half the mass of the Sun.",
+  "brown dwarfs": "Brown dwarfs are 'failed stars' - objects too small to sustain nuclear fusion. They're larger than planets but smaller than stars, glowing dimly from leftover heat from their formation.",
+
+  // Galaxies
+  "what is the milky way": "The Milky Way is our home galaxy, containing over 100 billion stars. It's a barred spiral galaxy about 100,000 light-years across. Our solar system is located about 26,000 light-years from the galactic center in the Orion Arm.",
+  "types of galaxies": "There are three main types of galaxies: spiral (like the Milky Way), elliptical (oval-shaped), and irregular (no defined shape). Galaxies can contain anywhere from millions to trillions of stars.",
+  "andromeda galaxy": "The Andromeda Galaxy (M31) is the nearest major galaxy to the Milky Way, located about 2.5 million light-years away. It's approaching us and will collide with the Milky Way in about 4.5 billion years.",
+  "galaxy clusters": "Galaxy clusters are the largest gravitationally bound structures in the universe, containing hundreds to thousands of galaxies held together by dark matter and hot gas.",
+
+  // Space Exploration
+  "apollo missions": "The Apollo program successfully landed 12 astronauts on the Moon between 1969-1972. Apollo 11 achieved the first Moon landing on July 20, 1969, with Neil Armstrong and Buzz Aldrin walking on the lunar surface.",
+  "international space station": "The ISS is a habitable artificial satellite in low Earth orbit. It's been continuously occupied since 2000 and serves as a laboratory for scientific research in microgravity.",
+  "mars exploration": "Mars has been explored by numerous missions including rovers like Curiosity, Perseverance, and Opportunity. These missions have found evidence of ancient water activity and are searching for signs of past or present life.",
+  "voyager missions": "Voyager 1 and 2, launched in 1977, have provided incredible images and data about the outer solar system. Voyager 1 is now in interstellar space, making it humanity's most distant spacecraft.",
+  "james webb telescope": "The James Webb Space Telescope is the most powerful space telescope ever built, designed to observe the universe in infrared light. It can see the first galaxies formed after the Big Bang.",
+  "hubble telescope": "The Hubble Space Telescope has been operating since 1990, providing stunning images and crucial data about the universe. It has helped determine the age of the universe and the existence of dark energy.",
+
+  // Physics and Space
   "how do rockets work": "Rockets work on Newton's third law: for every action, there's an equal and opposite reaction. They burn fuel to create hot gases that are expelled downward, which pushes the rocket upward. They carry their own oxygen supply to work in the vacuum of space.",
-  
-  "what is gravity": "Gravity is a fundamental force that attracts objects with mass toward each other. According to Einstein's theory, massive objects actually curve spacetime, and this curvature is what we experience as gravity.",
-  
-  "how old is the universe": "The universe is approximately 13.8 billion years old, as determined by observations of the cosmic microwave background radiation and other astronomical measurements."
+  "what is gravity": "Gravity is a fundamental force that attracts objects with mass toward each other. According to Einstein's theory of general relativity, massive objects actually curve spacetime, and this curvature is what we experience as gravity.",
+  "speed of light": "Light travels at 299,792,458 meters per second in vacuum. Nothing with mass can travel faster than light, and this speed limit has profound implications for space travel and communication across cosmic distances.",
+  "escape velocity": "Escape velocity is the minimum speed needed to escape a celestial body's gravitational pull. For Earth, it's about 11.2 km/s (25,000 mph). This is why rockets need to be so powerful.",
+  "orbital mechanics": "Objects orbit when they're moving fast enough horizontally that they continuously fall around a larger body. The International Space Station, for example, is constantly falling toward Earth but moving so fast it keeps missing.",
+
+  // Astrobiology
+  "search for life": "Scientists search for extraterrestrial life through projects like SETI (Search for Extraterrestrial Intelligence), studying extremophiles on Earth, and looking for biosignatures on exoplanets.",
+  "habitable zone": "The habitable zone, or 'Goldilocks zone,' is the region around a star where liquid water could exist on a planet's surface. It's not too hot, not too cold, but just right for life as we know it.",
+  "exoplanets": "Exoplanets are planets orbiting stars other than our Sun. Over 5,000 have been confirmed, with many potentially habitable worlds discovered by missions like Kepler and TESS.",
+  "extremophiles": "Extremophiles are organisms that thrive in extreme conditions (high temperature, radiation, acidity). They show that life might exist in places previously thought uninhabitable, like Mars or Jupiter's moons.",
+
+  // Time and Space
+  "light year": "A light-year is the distance light travels in one year - about 9.46 trillion kilometers or 5.88 trillion miles. It's used to measure vast distances in space.",
+  "parsec": "A parsec is about 3.26 light-years, used by astronomers to measure stellar distances. The nearest star, Proxima Centauri, is about 1.3 parsecs away.",
+  "redshift": "Redshift occurs when light from distant objects is stretched to longer, redder wavelengths due to the expansion of the universe. It helps us measure how far away and how fast objects are moving.",
+  "doppler effect": "The Doppler effect causes the frequency of waves to change when the source is moving relative to the observer. It's how we detect if stars are moving toward or away from us.",
+
+  // Space Weather and Phenomena
+  "solar wind": "Solar wind is a stream of charged particles flowing from the Sun at speeds of 300-800 km/s. It interacts with Earth's magnetic field to create phenomena like auroras.",
+  "solar flares": "Solar flares are intense bursts of radiation from the Sun's surface that can disrupt satellite communications and power grids on Earth. They're caused by magnetic field reconnection.",
+  "coronal mass ejections": "CMEs are huge bubbles of magnetic field and plasma ejected from the Sun's corona. When they hit Earth, they can cause geomagnetic storms and beautiful auroras.",
+  "auroras": "Auroras (Northern and Southern Lights) occur when solar wind particles interact with Earth's magnetic field and atmosphere, creating colorful displays of light near the poles.",
+
+  // Moons and Satellites
+  "earth's moon": "Earth's Moon is the fifth largest moon in the solar system. It's about 384,400 km away and is gradually moving away from Earth at about 3.8 cm per year due to tidal forces.",
+  "europa": "Europa, Jupiter's moon, has a subsurface ocean beneath its icy crust that may contain twice as much water as all of Earth's oceans. It's a prime target in the search for extraterrestrial life.",
+  "titan": "Titan, Saturn's largest moon, has a thick atmosphere and lakes of liquid methane and ethane. It's the only moon in our solar system with a substantial atmosphere and stable bodies of surface liquid.",
+  "enceladus": "Enceladus, one of Saturn's moons, has geysers of water ice erupting from its south pole, indicating a subsurface ocean. It's another promising location to search for life.",
+
+  // Space Technology
+  "space elevators": "Space elevators are theoretical structures that could provide access to space using a cable extending from Earth's surface to beyond geostationary orbit, potentially making space travel much cheaper.",
+  "ion drives": "Ion drives use electricity to accelerate ions to very high speeds, providing efficient propulsion for long-duration space missions. They produce very little thrust but can operate for years.",
+  "nuclear propulsion": "Nuclear propulsion could dramatically reduce travel times to Mars and other planets. Concepts include nuclear thermal rockets and nuclear electric propulsion systems.",
+  "generation ships": "Generation ships are hypothetical spacecraft that could support human populations for the centuries-long journeys to other star systems, with multiple generations living and dying aboard.",
+
+  // Recent Discoveries
+  "gravitational waves": "Gravitational waves are ripples in spacetime caused by accelerating massive objects, predicted by Einstein and first detected in 2015. They open a new window for studying the universe.",
+  "first black hole image": "In 2019, the Event Horizon Telescope captured the first image of a black hole's event horizon in galaxy M87, confirming Einstein's predictions about how black holes bend light.",
+  "water on mars": "Recent missions have confirmed that water exists on Mars as ice at the poles and possibly as seasonal brines. Ancient Mars had rivers, lakes, and possibly oceans.",
+  "potentially habitable exoplanets": "Thousands of potentially habitable exoplanets have been discovered, including Kepler-452b (Earth's cousin), Proxima Centauri b (closest exoplanet), and many others in their star's habitable zone."
 };
 
 export default function CosmosAI() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "Hello! I'm Nova, your personal space exploration assistant! 🚀 I'm here to answer all your questions about the cosmos, from planets and stars to black holes and space missions. What would you like to know about the universe?",
+      text: "Hello! I'm Nova, your personal cosmic intelligence assistant! 🚀 I have extensive knowledge about space, astronomy, physics, and the universe. I can answer questions about planets, stars, galaxies, black holes, space exploration, the Big Bang, and much more. What cosmic mystery would you like to explore today?",
       isUser: false,
       timestamp: new Date()
     }
@@ -46,6 +118,7 @@ export default function CosmosAI() {
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -60,51 +133,50 @@ export default function CosmosAI() {
     
     // Check for exact matches first
     for (const [key, response] of Object.entries(knowledgeBase)) {
-      if (lowerQuestion.includes(key)) {
+      if (lowerQuestion.includes(key.toLowerCase())) {
         return response;
       }
     }
     
-    // Check for keywords
-    if (lowerQuestion.includes('planet') || lowerQuestion.includes('planets')) {
-      return "Planets are celestial bodies that orbit stars. In our solar system, we have 8 planets, each with unique characteristics. Would you like to know more about a specific planet?";
+    // Advanced keyword matching
+    const keywords = [
+      { words: ['planet', 'planets'], response: "Planets are celestial bodies that orbit stars. In our solar system, we have 8 planets: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, and Neptune. Each has unique characteristics - would you like to know about a specific planet?" },
+      { words: ['star', 'stars'], response: "Stars are massive, luminous balls of plasma held together by gravity. They generate energy through nuclear fusion in their cores. Our Sun is a medium-sized star, and there are over 100 billion stars in our galaxy alone! Stars come in many types and sizes." },
+      { words: ['galaxy', 'galaxies'], response: "Galaxies are massive collections of stars, gas, dust, and dark matter held together by gravity. Our Milky Way contains over 100 billion stars and is just one of trillions of galaxies in the observable universe." },
+      { words: ['moon', 'moons'], response: "Moons are natural satellites that orbit planets. Earth has one moon, but some planets have many - Jupiter has 95 confirmed moons! They form through various processes and can be quite diverse in size and composition." },
+      { words: ['space', 'cosmos', 'universe'], response: "The universe is everything that exists - all matter, energy, space, and time. It's about 13.8 billion years old and contains billions of galaxies. Space is the vast, mostly empty region beyond Earth's atmosphere." },
+      { words: ['astronaut', 'space travel', 'rocket'], response: "Space travel involves overcoming Earth's gravity using rockets that work on Newton's third law. Astronauts are trained explorers who conduct research in space. Current missions go to the International Space Station and we're planning returns to the Moon and trips to Mars." },
+      { words: ['alien', 'life', 'extraterrestrial'], response: "The search for extraterrestrial life is one of the most exciting areas of astronomy! While we haven't found definitive proof yet, scientists are actively searching through SETI, studying extremophiles, and examining potentially habitable exoplanets." },
+      { words: ['time', 'relativity'], response: "Time is relative according to Einstein's theories. Time passes differently depending on gravity and speed. Near massive objects or at high speeds, time slows down relative to other reference frames - this is called time dilation." },
+      { words: ['energy', 'fusion', 'nuclear'], response: "Stars generate energy through nuclear fusion, converting hydrogen into helium and releasing tremendous amounts of energy. This same process powers the Sun and all other stars, and it's what makes life on Earth possible." },
+      { words: ['distance', 'measurement'], response: "Cosmic distances are measured in light-years (distance light travels in a year) and parsecs. The nearest star is 4.24 light-years away, and the observable universe is about 93 billion light-years across." }
+    ];
+
+    for (const keyword of keywords) {
+      if (keyword.words.some(word => lowerQuestion.includes(word))) {
+        return keyword.response;
+      }
     }
     
-    if (lowerQuestion.includes('star') || lowerQuestion.includes('stars')) {
-      return "Stars are massive, luminous balls of plasma held together by gravity. They generate energy through nuclear fusion in their cores. Our Sun is a medium-sized star, and there are billions of stars in our galaxy alone!";
-    }
-    
-    if (lowerQuestion.includes('moon') || lowerQuestion.includes('moons')) {
-      return "Moons are natural satellites that orbit planets. Earth has one moon, but some planets have many - Jupiter has 95 confirmed moons! They form through various processes and can be quite diverse in size and composition.";
-    }
-    
-    if (lowerQuestion.includes('space') || lowerQuestion.includes('cosmos')) {
-      return "Space is the vast, mostly empty region that exists beyond Earth's atmosphere. It contains galaxies, stars, planets, and mysterious phenomena like dark matter and dark energy. It's an incredible frontier for exploration and discovery!";
-    }
-    
-    if (lowerQuestion.includes('astronaut') || lowerQuestion.includes('space travel')) {
-      return "Astronauts are brave explorers who travel to space to conduct research and exploration. Space travel requires overcoming Earth's gravity, dealing with radiation, and surviving in the vacuum of space. It's one of humanity's greatest achievements!";
-    }
-    
-    if (lowerQuestion.includes('alien') || lowerQuestion.includes('life')) {
-      return "The search for extraterrestrial life is one of the most exciting areas of space science! While we haven't found definitive proof of alien life yet, scientists are actively searching through projects like SETI and by studying potentially habitable exoplanets.";
-    }
-    
-    // Default responses for common greetings and general questions
+    // Common greetings and responses
     if (lowerQuestion.includes('hello') || lowerQuestion.includes('hi')) {
-      return "Hello there, space explorer! I'm excited to help you discover the wonders of the universe. What cosmic mystery would you like to explore today?";
+      return "Hello there, cosmic explorer! I'm excited to help you discover the wonders of the universe. What aspect of space and astronomy interests you most today?";
     }
     
     if (lowerQuestion.includes('thank')) {
-      return "You're very welcome! I love sharing the amazing secrets of space with curious minds like yours. Keep exploring and asking questions! 🌟";
+      return "You're very welcome! I love sharing the amazing secrets of the cosmos with curious minds like yours. The universe is full of incredible discoveries waiting to be explored! 🌟";
     }
     
     if (lowerQuestion.includes('how are you')) {
-      return "I'm doing wonderfully, thank you for asking! I'm always energized when I get to talk about space and the cosmos. There's so much incredible stuff out there to discover!";
+      return "I'm doing wonderfully, thank you! I'm always energized when I get to talk about the incredible universe we live in. There's so much amazing stuff out there to discover and discuss!";
+    }
+
+    if (lowerQuestion.includes('help') || lowerQuestion.includes('what can you')) {
+      return "I can help you learn about astronomy, space exploration, physics, planets, stars, galaxies, black holes, the Big Bang, dark matter, exoplanets, space missions, and much more! Try asking me about any cosmic topic that interests you.";
     }
     
-    // Default response
-    return "That's a fascinating question about space! While I don't have specific information about that topic in my current knowledge base, I'd love to help you explore other cosmic wonders. Try asking me about planets, stars, black holes, the solar system, or space exploration!";
+    // Default response for unmatched questions
+    return "That's an intriguing question about the cosmos! While I have extensive knowledge about space and astronomy, I might not have specific information about that particular topic. Try asking me about planets, stars, galaxies, black holes, space exploration, the Big Bang, dark matter, or any other astronomical phenomena!";
   };
 
   const handleSendMessage = async () => {
@@ -133,7 +205,7 @@ export default function CosmosAI() {
 
       setMessages(prev => [...prev, aiMessage]);
       setIsTyping(false);
-    }, 1000 + Math.random() * 1000); // Random delay between 1-2 seconds
+    }, 800 + Math.random() * 1200); // Random delay between 0.8-2 seconds
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -145,11 +217,13 @@ export default function CosmosAI() {
 
   const suggestedQuestions = [
     "What is a black hole?",
-    "How many planets are in our solar system?",
-    "What is the Milky Way?",
-    "How do rockets work?",
+    "How are stars born?",
     "What is dark matter?",
-    "How far is Mars from Earth?"
+    "Tell me about Mars exploration",
+    "How big is the universe?",
+    "What are exoplanets?",
+    "Explain the Big Bang theory",
+    "What are neutron stars?"
   ];
 
   const handleSuggestionClick = (question: string) => {
@@ -161,14 +235,14 @@ export default function CosmosAI() {
       <div className="text-center mb-8">
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 space-text">Meet Nova</h2>
         <p className="text-xl text-gray-200 space-text">Your Personal Cosmic Intelligence Assistant</p>
-        <Badge variant="outline" className="border-purple-400 text-purple-400 mt-2">
-          AI-Powered Space Expert
+        <Badge variant="outline" className="border-purple-400 text-purple-400 mt-2 bg-black/20">
+          Advanced Space Knowledge AI
         </Badge>
       </div>
 
       <div className="max-w-4xl mx-auto">
-        <Card className="space-card border-white/20 h-[600px] flex flex-col">
-          <CardHeader>
+        <Card className="space-card border-white/20 h-[600px] flex flex-col bg-black/40">
+          <CardHeader className="flex-shrink-0">
             <CardTitle className="text-white space-text flex items-center gap-2">
               <div className="relative">
                 <Settings className="h-6 w-6 text-purple-400 animate-spin" style={{ animationDuration: '3s' }} />
@@ -182,9 +256,13 @@ export default function CosmosAI() {
             </CardTitle>
           </CardHeader>
           
-          <CardContent className="flex-1 flex flex-col p-0">
+          <CardContent className="flex-1 flex flex-col p-0 min-h-0">
             {/* Messages Area */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-4">
+            <div 
+              ref={messagesContainerRef}
+              className="flex-1 overflow-y-auto p-6 space-y-4 min-h-0"
+              style={{ maxHeight: 'calc(100% - 120px)' }}
+            >
               {messages.map((message) => (
                 <div
                   key={message.id}
@@ -194,7 +272,7 @@ export default function CosmosAI() {
                     className={`max-w-[80%] p-4 rounded-lg ${
                       message.isUser
                         ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white'
-                        : 'glass-effect text-white'
+                        : 'bg-white/10 text-white border border-white/20'
                     }`}
                   >
                     <p className="space-text">{message.text}</p>
@@ -207,7 +285,7 @@ export default function CosmosAI() {
               
               {isTyping && (
                 <div className="flex justify-start">
-                  <div className="glass-effect p-4 rounded-lg">
+                  <div className="bg-white/10 p-4 rounded-lg border border-white/20">
                     <div className="flex items-center gap-2">
                       <div className="flex gap-1">
                         <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce"></div>
@@ -225,7 +303,7 @@ export default function CosmosAI() {
 
             {/* Suggested Questions */}
             {messages.length <= 1 && (
-              <div className="px-6 py-2">
+              <div className="px-6 py-2 flex-shrink-0">
                 <p className="text-gray-300 text-sm mb-3 space-text">Try asking Nova about:</p>
                 <div className="flex flex-wrap gap-2">
                   {suggestedQuestions.map((question, index) => (
@@ -234,7 +312,7 @@ export default function CosmosAI() {
                       onClick={() => handleSuggestionClick(question)}
                       variant="outline"
                       size="sm"
-                      className="border-white/20 text-white hover:bg-white/10 text-xs"
+                      className="border-white/20 text-white hover:bg-white/10 text-xs bg-black/20"
                     >
                       {question}
                     </Button>
@@ -244,7 +322,7 @@ export default function CosmosAI() {
             )}
 
             {/* Input Area */}
-            <div className="p-6 border-t border-white/10">
+            <div className="p-6 border-t border-white/10 flex-shrink-0">
               <div className="flex gap-3">
                 <input
                   type="text"
@@ -252,7 +330,7 @@ export default function CosmosAI() {
                   onChange={(e) => setInputText(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="Ask Nova anything about space and the cosmos..."
-                  className="flex-1 p-3 rounded-lg glass-effect text-white placeholder-gray-400 border border-white/20 focus:border-purple-400 focus:outline-none"
+                  className="flex-1 p-3 rounded-lg bg-white/10 text-white placeholder-gray-400 border border-white/20 focus:border-purple-400 focus:outline-none"
                   disabled={isTyping}
                 />
                 <Button

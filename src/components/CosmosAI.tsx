@@ -13,7 +13,25 @@ interface Message {
 }
 
 const knowledgeBase = {
-  // Solar System - Comprehensive
+  // Basic Sun Facts
+  "how big is the sun": "The Sun has a diameter of about 1.39 million kilometers (864,000 miles), which is about 109 times the diameter of Earth. Its mass is approximately 1.989 × 10^30 kg, which is about 333,000 times the mass of Earth. The Sun contains 99.86% of all the mass in our solar system. You could fit about 1.3 million Earths inside the Sun!",
+  "sun size": "The Sun has a diameter of about 1.39 million kilometers (864,000 miles), which is about 109 times the diameter of Earth. Its mass is approximately 1.989 × 10^30 kg, which is about 333,000 times the mass of Earth. The Sun contains 99.86% of all the mass in our solar system. You could fit about 1.3 million Earths inside the Sun!",
+  "sun diameter": "The Sun's diameter is approximately 1.39 million kilometers (864,000 miles), making it about 109 times wider than Earth.",
+  "sun mass": "The Sun's mass is about 1.989 × 10^30 kg, which is roughly 333,000 times the mass of Earth.",
+  "sun temperature": "The Sun's core temperature is about 15 million degrees Celsius (27 million degrees Fahrenheit), while its surface temperature is about 5,778 K (5,505°C or 9,941°F).",
+  "sun age": "The Sun is approximately 4.6 billion years old and is about halfway through its main sequence lifetime. It has about 5 billion more years before it becomes a red giant.",
+
+  // Planet Sizes and Facts
+  "how big is earth": "Earth has a diameter of about 12,742 kilometers (7,918 miles) and a circumference of about 40,075 kilometers (24,901 miles) at the equator. Its mass is approximately 5.97 × 10^24 kg.",
+  "how big is jupiter": "Jupiter is the largest planet in our solar system with a diameter of about 139,820 kilometers (86,881 miles), which is about 11 times Earth's diameter. Its mass is about 318 times that of Earth.",
+  "how big is saturn": "Saturn has a diameter of about 116,460 kilometers (72,367 miles), making it about 9 times wider than Earth. Despite its size, Saturn is less dense than water.",
+  "how big is mars": "Mars has a diameter of about 6,779 kilometers (4,212 miles), which is about half the size of Earth. Its mass is about 11% of Earth's mass.",
+  "how big is venus": "Venus has a diameter of about 12,104 kilometers (7,521 miles), making it almost the same size as Earth (about 95% of Earth's diameter).",
+  "how big is mercury": "Mercury is the smallest planet with a diameter of about 4,879 kilometers (3,032 miles), which is about 38% the size of Earth.",
+  "how big is uranus": "Uranus has a diameter of about 50,724 kilometers (31,518 miles), making it about 4 times wider than Earth.",
+  "how big is neptune": "Neptune has a diameter of about 49,244 kilometers (30,598 miles), making it about 4 times wider than Earth.",
+
+  // Solar System - Comprehensive  
   "what is the sun": "The Sun is a G-type main-sequence star at the center of our solar system. It's a massive ball of hot plasma held together by gravity, with a core temperature of about 15 million degrees Celsius. The Sun generates energy through nuclear fusion, converting 600 million tons of hydrogen into helium every second, releasing the energy equivalent of 100 billion nuclear bombs per second. It contains 99.86% of the solar system's mass and could fit 1.3 million Earths inside it.",
   "how many planets": "There are 8 planets in our solar system: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, and Neptune. Pluto was reclassified as a dwarf planet in 2006 by the International Astronomical Union because it doesn't meet all three criteria for a planet: it must orbit the Sun, have sufficient mass to be roughly round, and clear its orbital neighborhood.",
   "solar system formation": "Our solar system formed about 4.6 billion years ago from the gravitational collapse of a giant molecular cloud. The Sun formed at the center, while planets formed from the accretion of dust and gas in the surrounding protoplanetary disk. Inner planets are rocky due to high temperatures, while outer planets are gas/ice giants because volatiles could condense in the cooler outer regions.",
@@ -25,6 +43,19 @@ const knowledgeBase = {
   "saturn facts": "Saturn is famous for its prominent ring system made of ice and rock particles. It's less dense than water and has 146 known moons, including Titan which has lakes of liquid methane.",
   "uranus facts": "Uranus rotates on its side (98° tilt) likely due to an ancient collision. It's an ice giant with 27 moons and was the first planet discovered with a telescope in 1781 by William Herschel.",
   "neptune facts": "Neptune is the windiest planet with speeds up to 2,100 km/h. It was discovered mathematically before being observed, and takes 165 Earth years to orbit the Sun.",
+
+  // Basic Distance Questions
+  "how far is the sun": "The Sun is approximately 149.6 million kilometers (93 million miles) away from Earth. This distance is called an Astronomical Unit (AU) and is used as a standard measurement for distances within our solar system.",
+  "distance to mars": "Mars is between 54.6 million and 401 million kilometers from Earth, depending on where both planets are in their orbits. On average, Mars is about 225 million kilometers away.",
+  "distance to moon": "The Moon is approximately 384,400 kilometers (238,855 miles) away from Earth on average.",
+  "distance to jupiter": "Jupiter is between 588 million and 968 million kilometers from Earth, depending on orbital positions.",
+  "distance to nearest star": "The nearest star to our Sun is Proxima Centauri, which is about 4.24 light-years away (approximately 40 trillion kilometers).",
+
+  // Time and Speed Questions
+  "how fast does earth orbit": "Earth orbits the Sun at an average speed of about 29.78 kilometers per second (107,000 km/h or 67,000 mph).",
+  "how fast does light travel": "Light travels at 299,792,458 meters per second in vacuum (approximately 300,000 km/s). This is the fastest possible speed in the universe.",
+  "how long to travel to mars": "With current technology, it takes about 6-9 months to travel to Mars, depending on the launch window and trajectory chosen.",
+  "how long is a light year": "A light-year is the distance light travels in one year, which is approximately 9.46 trillion kilometers (5.88 trillion miles).",
 
   // Space Phenomena
   "what is a black hole": "A black hole is a region of spacetime where gravity is so strong that nothing, not even light, can escape once it crosses the event horizon. They form when massive stars (over 20-25 solar masses) collapse at the end of their lives. The closest known black hole to Earth is Sagittarius A* at the center of our galaxy.",
@@ -89,36 +120,6 @@ const knowledgeBase = {
   "speed of light": "Light travels at 299,792,458 meters per second in vacuum. Nothing with mass can travel faster than light, and this speed limit has profound implications for space travel and communication across cosmic distances.",
   "escape velocity": "Escape velocity is the minimum speed needed to escape a celestial body's gravitational pull. For Earth, it's about 11.2 km/s (25,000 mph). This is why rockets need to be so powerful.",
   "orbital mechanics": "Objects orbit when they're moving fast enough horizontally that they continuously fall around a larger body. The International Space Station, for example, is constantly falling toward Earth but moving so fast it keeps missing.",
-
-  // Astrobiology
-  "search for life": "Scientists search for extraterrestrial life through projects like SETI (Search for Extraterrestrial Intelligence), studying extremophiles on Earth, and looking for biosignatures on exoplanets.",
-  "habitable zone": "The habitable zone, or 'Goldilocks zone,' is the region around a star where liquid water could exist on a planet's surface. It's not too hot, not too cold, but just right for life as we know it.",
-  "planet hunting": "Exoplanets are planets orbiting stars other than our Sun. Over 5,000 have been confirmed, with many potentially habitable worlds discovered by missions like Kepler and TESS.",
-  "extremophiles": "Extremophiles are organisms that thrive in extreme conditions (high temperature, radiation, acidity). They show that life might exist in places previously thought uninhabitable, like Mars or Jupiter's moons.",
-
-  // Time and Space
-  "light year": "A light-year is the distance light travels in one year - about 9.46 trillion kilometers or 5.88 trillion miles. It's used to measure vast distances in space.",
-  "parsec": "A parsec is about 3.26 light-years, used by astronomers to measure stellar distances. The nearest star, Proxima Centauri, is about 1.3 parsecs away.",
-  "redshift": "Redshift occurs when light from distant objects is stretched to longer, redder wavelengths due to the expansion of the universe. It helps us measure how far away and how fast objects are moving.",
-  "doppler effect": "The Doppler effect causes the frequency of waves to change when the source is moving relative to the observer. It's how we detect if stars are moving toward or away from us.",
-
-  // Space Weather and Phenomena
-  "solar wind": "Solar wind is a stream of charged particles flowing from the Sun at speeds of 300-800 km/s. It interacts with Earth's magnetic field to create phenomena like auroras.",
-  "solar flares": "Solar flares are intense bursts of radiation from the Sun's surface that can disrupt satellite communications and power grids on Earth. They're caused by magnetic field reconnection.",
-  "coronal mass ejections": "CMEs are huge bubbles of magnetic field and plasma ejected from the Sun's corona. When they hit Earth, they can cause geomagnetic storms and beautiful auroras.",
-  "auroras": "Auroras (Northern and Southern Lights) occur when solar wind particles interact with Earth's magnetic field and atmosphere, creating colorful displays of light near the poles.",
-
-  // Moons and Satellites
-  "earth's moon": "Earth's Moon is the fifth largest moon in the solar system. It's about 384,400 km away and is gradually moving away from Earth at about 3.8 cm per year due to tidal forces.",
-  "europa": "Europa, Jupiter's moon, has a subsurface ocean beneath its icy crust that may contain twice as much water as all of Earth's oceans. It's a prime target in the search for extraterrestrial life.",
-  "titan": "Titan, Saturn's largest moon, has a thick atmosphere and lakes of liquid methane and ethane. It's the only moon in our solar system with a substantial atmosphere and stable bodies of surface liquid.",
-  "enceladus": "Enceladus, one of Saturn's moons, has geysers of water ice erupting from its south pole, indicating a subsurface ocean. It's another promising location to search for life.",
-
-  // Space Technology
-  "space elevators": "Space elevators are theoretical structures that could provide access to space using a cable extending from Earth's surface to beyond geostationary orbit, potentially making space travel much cheaper.",
-  "ion drives": "Ion drives use electricity to accelerate ions to very high speeds, providing efficient propulsion for long-duration space missions. They produce very little thrust but can operate for years.",
-  "nuclear propulsion": "Nuclear propulsion could dramatically reduce travel times to Mars and other planets. Concepts include nuclear thermal rockets and nuclear electric propulsion systems.",
-  "generation ships": "Generation ships are hypothetical spacecraft that could support human populations for the centuries-long journeys to other star systems, with multiple generations living and dying aboard.",
 
   // Recent Discoveries
   "gravitational waves": "Gravitational waves are ripples in spacetime caused by accelerating massive objects, predicted by Einstein and first detected in 2015. They open a new window for studying the universe.",

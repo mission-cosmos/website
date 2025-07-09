@@ -49,6 +49,26 @@ const knowledgeBase = {
   "what are white dwarfs": "White dwarfs are the hot, dense cores left behind when low to medium-mass stars shed their outer layers. They're about the size of Earth but contain about half the mass of the Sun.",
   "brown dwarfs": "Brown dwarfs are 'failed stars' - objects too small to sustain nuclear fusion. They're larger than planets but smaller than stars, glowing dimly from leftover heat from their formation.",
 
+  // Extended Knowledge Base - Comprehensive Space Topics
+  "alien life": "While we haven't found definitive proof of extraterrestrial life, scientists search using the Drake Equation and look for biosignatures on exoplanets. The discovery of extremophiles on Earth suggests life could exist in harsh conditions elsewhere.",
+  "exoplanets": "Over 5,500 confirmed exoplanets have been discovered. Notable ones include Proxima Centauri b (closest to Earth), Kepler-452b ('Earth's cousin'), and TRAPPIST-1 system with 7 Earth-sized planets.",
+  "space exploration history": "Space exploration began with Sputnik 1 (1957), followed by Yuri Gagarin's first human spaceflight (1961), Apollo 11 moon landing (1969), Voyager missions (1977), Hubble Space Telescope (1990), and ongoing Mars exploration.",
+  "international space station": "The ISS orbits Earth at ~408km altitude, traveling at 28,000 km/h. It's been continuously occupied since 2000 and serves as a research laboratory for microgravity experiments and space technology development.",
+  "space telescopes": "Major space telescopes include Hubble (visible/UV light), Spitzer (infrared, now retired), Kepler/TESS (planet hunting), and James Webb Space Telescope (infrared, most powerful ever built).",
+  "mars exploration": "Mars has been explored by numerous missions: Viking landers (1976), Mars Pathfinder (1997), Spirit/Opportunity rovers, Curiosity (2012), Perseverance (2021), and Ingenuity helicopter.",
+  "asteroid belt location": "The asteroid belt lies between Mars and Jupiter, containing millions of rocky objects. Ceres is the largest object in the belt and is classified as a dwarf planet.",
+  "kuiper belt": "The Kuiper Belt extends from Neptune's orbit (30 AU) to about 50 AU from the Sun. It contains icy bodies including Pluto, Eris, Makemake, and Haumea, plus countless smaller objects.",
+  "oort cloud": "The Oort Cloud is a spherical shell of icy objects surrounding our solar system at distances of 2,000-100,000 AU. It's the source of long-period comets.",
+  "comets": "Comets are 'dirty snowballs' of ice and dust from the outer solar system. Famous ones include Halley's Comet (76-year orbit), Hale-Bopp, and NEOWISE.",
+  "meteorites": "Meteorites are space rocks that survive atmospheric entry. Types include stony meteorites (most common), iron meteorites (metal-rich), and stony-iron meteorites (mixed composition).",
+  "space weather": "Space weather includes solar flares, coronal mass ejections, and solar wind that can affect satellites, power grids, and create auroras. Solar activity follows an 11-year cycle.",
+  "gravity waves": "Gravitational waves are ripples in spacetime caused by accelerating massive objects like merging black holes or neutron stars. First detected by LIGO in 2015.",
+  "multiverse theory": "The multiverse hypothesis suggests our universe might be one of many. Types include bubble universes from eternal inflation and many-worlds interpretation of quantum mechanics.",
+  "time dilation": "Time dilation occurs due to high speeds (special relativity) or strong gravity (general relativity). Astronauts on the ISS age slightly slower than people on Earth.",
+  "wormholes": "Wormholes are theoretical 'shortcuts' through spacetime that could connect distant regions of the universe. They remain speculative and would likely be unstable.",
+  "space mining": "Space mining involves extracting resources from asteroids, the Moon, or other celestial bodies. Potential targets include water ice, rare metals, and helium-3.",
+  "space colonization": "Space colonization proposals include Mars settlements, lunar bases, and orbital habitats. Challenges include radiation, life support, psychological factors, and resource utilization.",
+
   // Galaxies
   "what is the milky way": "The Milky Way is our home galaxy, containing over 100 billion stars. It's a barred spiral galaxy about 100,000 light-years across. Our solar system is located about 26,000 light-years from the galactic center in the Orion Arm.",
   "types of galaxies": "There are three main types of galaxies: spiral (like the Milky Way), elliptical (oval-shaped), and irregular (no defined shape). Galaxies can contain anywhere from millions to trillions of stars.",
@@ -57,8 +77,8 @@ const knowledgeBase = {
 
   // Space Exploration
   "apollo missions": "The Apollo program successfully landed 12 astronauts on the Moon between 1969-1972. Apollo 11 achieved the first Moon landing on July 20, 1969, with Neil Armstrong and Buzz Aldrin walking on the lunar surface.",
-  "international space station": "The ISS is a habitable artificial satellite in low Earth orbit. It's been continuously occupied since 2000 and serves as a laboratory for scientific research in microgravity.",
-  "mars exploration": "Mars has been explored by numerous missions including rovers like Curiosity, Perseverance, and Opportunity. These missions have found evidence of ancient water activity and are searching for signs of past or present life.",
+  "iss details": "The ISS is a habitable artificial satellite in low Earth orbit. It's been continuously occupied since 2000 and serves as a laboratory for scientific research in microgravity.",
+  "mars rover missions": "Mars has been explored by numerous missions including rovers like Curiosity, Perseverance, and Opportunity. These missions have found evidence of ancient water activity and are searching for signs of past or present life.",
   "voyager missions": "Voyager 1 and 2, launched in 1977, have provided incredible images and data about the outer solar system. Voyager 1 is now in interstellar space, making it humanity's most distant spacecraft.",
   "james webb telescope": "The James Webb Space Telescope is the most powerful space telescope ever built, designed to observe the universe in infrared light. It can see the first galaxies formed after the Big Bang.",
   "hubble telescope": "The Hubble Space Telescope has been operating since 1990, providing stunning images and crucial data about the universe. It has helped determine the age of the universe and the existence of dark energy.",
@@ -73,7 +93,7 @@ const knowledgeBase = {
   // Astrobiology
   "search for life": "Scientists search for extraterrestrial life through projects like SETI (Search for Extraterrestrial Intelligence), studying extremophiles on Earth, and looking for biosignatures on exoplanets.",
   "habitable zone": "The habitable zone, or 'Goldilocks zone,' is the region around a star where liquid water could exist on a planet's surface. It's not too hot, not too cold, but just right for life as we know it.",
-  "exoplanets": "Exoplanets are planets orbiting stars other than our Sun. Over 5,000 have been confirmed, with many potentially habitable worlds discovered by missions like Kepler and TESS.",
+  "planet hunting": "Exoplanets are planets orbiting stars other than our Sun. Over 5,000 have been confirmed, with many potentially habitable worlds discovered by missions like Kepler and TESS.",
   "extremophiles": "Extremophiles are organisms that thrive in extreme conditions (high temperature, radiation, acidity). They show that life might exist in places previously thought uninhabitable, like Mars or Jupiter's moons.",
 
   // Time and Space
@@ -107,12 +127,12 @@ const knowledgeBase = {
   "potentially habitable exoplanets": "Thousands of potentially habitable exoplanets have been discovered, including Kepler-452b (Earth's cousin), Proxima Centauri b (closest exoplanet), and many others in their star's habitable zone.",
 
   // Advanced Physics and Cosmology
-  "multiverse theory": "The multiverse hypothesis suggests our universe might be one of many universes. Different types include: the Many Worlds interpretation of quantum mechanics, cosmic inflation creating bubble universes, and mathematical universe hypothesis where every mathematical structure exists as a physical reality.",
+  "multiverse hypothesis": "The multiverse hypothesis suggests our universe might be one of many universes. Different types include: the Many Worlds interpretation of quantum mechanics, cosmic inflation creating bubble universes, and mathematical universe hypothesis where every mathematical structure exists as a physical reality.",
   "string theory": "String theory proposes that fundamental particles are tiny vibrating strings rather than point particles. It attempts to unify quantum mechanics and general relativity, predicting extra spatial dimensions beyond our observed three. Different vibration modes of strings correspond to different particles.",
   "quantum mechanics space": "Quantum mechanics reveals that space itself has inherent uncertainty and fluctuations. Virtual particles constantly pop in and out of existence, and quantum entanglement shows that widely separated particles can be instantly connected, challenging our classical understanding of space and locality.",
   "spacetime curvature": "According to Einstein's general relativity, massive objects curve spacetime, and this curvature is what we experience as gravity. The more massive an object, the more it warps spacetime. GPS satellites must account for both special and general relativistic effects to maintain accuracy.",
   "hawking radiation": "Black holes aren't completely black - they emit Hawking radiation due to quantum effects near the event horizon. This causes black holes to slowly evaporate over time. Smaller black holes radiate faster than larger ones, and stellar-mass black holes would take longer than the age of the universe to evaporate.",
-  "wormholes": "Wormholes are theoretical passages through spacetime that could connect distant regions of the universe or even different universes. While mathematically possible in Einstein's equations, they would require exotic matter with negative energy density to remain stable.",
+  "spacetime tunnels": "Wormholes are theoretical passages through spacetime that could connect distant regions of the universe or even different universes. While mathematically possible in Einstein's equations, they would require exotic matter with negative energy density to remain stable.",
 
   // Deep Space Objects and Phenomena
   "magnetars": "Magnetars are neutron stars with magnetic fields a trillion times stronger than Earth's. Their magnetic fields are so intense they can strip electrons from atoms and cause starquakes that release more energy in seconds than our Sun produces in years.",
@@ -147,14 +167,28 @@ const knowledgeBase = {
 };
 
 export default function CosmosAI() {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: 1,
-      text: "Hello! I'm Nova, your personal cosmic intelligence assistant! 🚀 I have extensive knowledge about space, astronomy, physics, and the universe. I can answer questions about planets, stars, galaxies, black holes, space exploration, the Big Bang, and much more. What cosmic mystery would you like to explore today?",
-      isUser: false,
-      timestamp: new Date()
+  // Load messages from localStorage on component mount
+  const [messages, setMessages] = useState<Message[]>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('cosmos-ai-messages');
+      return saved ? JSON.parse(saved) : [
+        {
+          id: 1,
+          text: "Hello! I'm Nova, your personal cosmic intelligence assistant! 🚀 I have extensive knowledge about space, astronomy, physics, and the universe. I can answer questions about planets, stars, galaxies, black holes, space exploration, the Big Bang, and much more. What cosmic mystery would you like to explore today?",
+          isUser: false,
+          timestamp: new Date()
+        }
+      ];
     }
-  ]);
+    return [
+      {
+        id: 1,
+        text: "Hello! I'm Nova, your personal cosmic intelligence assistant! 🚀 I have extensive knowledge about space, astronomy, physics, and the universe. I can answer questions about planets, stars, galaxies, black holes, space exploration, the Big Bang, and much more. What cosmic mystery would you like to explore today?",
+        isUser: false,
+        timestamp: new Date()
+      }
+    ];
+  });
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -166,6 +200,13 @@ export default function CosmosAI() {
 
   useEffect(() => {
     scrollToBottom();
+  }, [messages]);
+
+  // Save messages to localStorage whenever messages change
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('cosmos-ai-messages', JSON.stringify(messages));
+    }
   }, [messages]);
 
   const generateResponse = (question: string): string => {

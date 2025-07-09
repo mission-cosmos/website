@@ -176,78 +176,213 @@ function Planet({ name, distance, size, color, speed, onClick, position }: Plane
   const [hovered, setHovered] = useState(false);
   const textureLoader = new THREE.TextureLoader();
 
-  // Create realistic textures for each planet
+  // Create highly realistic textures for each planet
   const getTexture = () => {
     const canvas = document.createElement('canvas');
-    canvas.width = 512;
-    canvas.height = 512;
+    canvas.width = 1024;
+    canvas.height = 1024;
     const context = canvas.getContext('2d')!;
-    
-    // Create a gradient based on the planet
-    const gradient = context.createLinearGradient(0, 0, 512, 512);
     
     switch(name) {
       case 'Sun':
-        gradient.addColorStop(0, '#FFD700');
-        gradient.addColorStop(0.5, '#FF8C00');
-        gradient.addColorStop(1, '#FF4500');
+        // Create solar surface with prominences
+        const sunGradient = context.createRadialGradient(512, 512, 0, 512, 512, 512);
+        sunGradient.addColorStop(0, '#FFFF99');
+        sunGradient.addColorStop(0.3, '#FFD700');
+        sunGradient.addColorStop(0.6, '#FF8C00');
+        sunGradient.addColorStop(1, '#FF4500');
+        context.fillStyle = sunGradient;
+        context.fillRect(0, 0, 1024, 1024);
+        
+        // Add solar flares and surface detail
+        for (let i = 0; i < 200; i++) {
+          context.fillStyle = `rgba(255, ${200 + Math.random() * 55}, 0, ${0.1 + Math.random() * 0.3})`;
+          context.beginPath();
+          context.arc(Math.random() * 1024, Math.random() * 1024, Math.random() * 20 + 5, 0, Math.PI * 2);
+          context.fill();
+        }
         break;
+        
       case 'Mercury':
-        gradient.addColorStop(0, '#8C7853');
-        gradient.addColorStop(0.5, '#A0895A');
-        gradient.addColorStop(1, '#7A6B47');
+        // Rocky, cratered surface
+        context.fillStyle = '#8C7853';
+        context.fillRect(0, 0, 1024, 1024);
+        // Add craters
+        for (let i = 0; i < 100; i++) {
+          const x = Math.random() * 1024;
+          const y = Math.random() * 1024;
+          const radius = Math.random() * 30 + 5;
+          context.fillStyle = `rgba(60, 50, 40, ${0.3 + Math.random() * 0.4})`;
+          context.beginPath();
+          context.arc(x, y, radius, 0, Math.PI * 2);
+          context.fill();
+        }
         break;
+        
       case 'Venus':
-        gradient.addColorStop(0, '#FFC649');
-        gradient.addColorStop(0.5, '#FFB347');
-        gradient.addColorStop(1, '#FF8C69');
+        // Thick atmosphere with swirling clouds
+        const venusGradient = context.createLinearGradient(0, 0, 1024, 1024);
+        venusGradient.addColorStop(0, '#FFC649');
+        venusGradient.addColorStop(0.5, '#FFB347');
+        venusGradient.addColorStop(1, '#FF8C69');
+        context.fillStyle = venusGradient;
+        context.fillRect(0, 0, 1024, 1024);
+        
+        // Add swirling cloud patterns
+        for (let i = 0; i < 50; i++) {
+          context.strokeStyle = `rgba(255, 255, 200, ${0.1 + Math.random() * 0.2})`;
+          context.lineWidth = 3 + Math.random() * 5;
+          context.beginPath();
+          context.arc(Math.random() * 1024, Math.random() * 1024, Math.random() * 100 + 50, 0, Math.PI);
+          context.stroke();
+        }
         break;
+        
       case 'Earth':
-        gradient.addColorStop(0, '#6B93D6');
-        gradient.addColorStop(0.3, '#4169E1');
-        gradient.addColorStop(0.6, '#228B22');
-        gradient.addColorStop(1, '#8FBC8F');
+        // Continents and oceans
+        context.fillStyle = '#4169E1'; // Ocean blue
+        context.fillRect(0, 0, 1024, 1024);
+        
+        // Add continents
+        context.fillStyle = '#228B22';
+        for (let i = 0; i < 20; i++) {
+          context.beginPath();
+          context.ellipse(
+            Math.random() * 1024, 
+            Math.random() * 1024, 
+            Math.random() * 150 + 50, 
+            Math.random() * 100 + 30, 
+            Math.random() * Math.PI * 2, 
+            0, 
+            Math.PI * 2
+          );
+          context.fill();
+        }
+        
+        // Add clouds
+        for (let i = 0; i < 40; i++) {
+          context.fillStyle = `rgba(255, 255, 255, ${0.2 + Math.random() * 0.3})`;
+          context.beginPath();
+          context.arc(Math.random() * 1024, Math.random() * 1024, Math.random() * 40 + 10, 0, Math.PI * 2);
+          context.fill();
+        }
         break;
+        
       case 'Mars':
-        gradient.addColorStop(0, '#CD5C5C');
-        gradient.addColorStop(0.5, '#A0522D');
-        gradient.addColorStop(1, '#8B4513');
+        // Red planet with dust storms and polar caps
+        context.fillStyle = '#CD5C5C';
+        context.fillRect(0, 0, 1024, 1024);
+        
+        // Add darker regions and canyons
+        for (let i = 0; i < 30; i++) {
+          context.fillStyle = `rgba(139, 69, 19, ${0.3 + Math.random() * 0.4})`;
+          context.beginPath();
+          context.ellipse(
+            Math.random() * 1024, 
+            Math.random() * 1024, 
+            Math.random() * 100 + 20, 
+            Math.random() * 50 + 10, 
+            Math.random() * Math.PI * 2, 
+            0, 
+            Math.PI * 2
+          );
+          context.fill();
+        }
+        
+        // Add polar ice caps
+        context.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        context.beginPath();
+        context.arc(512, 100, 80, 0, Math.PI * 2);
+        context.fill();
+        context.beginPath();
+        context.arc(512, 924, 60, 0, Math.PI * 2);
+        context.fill();
         break;
+        
       case 'Jupiter':
-        gradient.addColorStop(0, '#D2691E');
-        gradient.addColorStop(0.3, '#CD853F');
-        gradient.addColorStop(0.6, '#DEB887');
-        gradient.addColorStop(1, '#F4A460');
+        // Great Red Spot and banded atmosphere
+        const jupiterGradient = context.createLinearGradient(0, 0, 0, 1024);
+        jupiterGradient.addColorStop(0, '#D2691E');
+        jupiterGradient.addColorStop(0.2, '#CD853F');
+        jupiterGradient.addColorStop(0.4, '#DEB887');
+        jupiterGradient.addColorStop(0.6, '#F4A460');
+        jupiterGradient.addColorStop(0.8, '#D2691E');
+        jupiterGradient.addColorStop(1, '#8B4513');
+        context.fillStyle = jupiterGradient;
+        context.fillRect(0, 0, 1024, 1024);
+        
+        // Add atmospheric bands
+        for (let i = 0; i < 15; i++) {
+          context.fillStyle = `rgba(${100 + Math.random() * 100}, ${80 + Math.random() * 80}, 40, ${0.1 + Math.random() * 0.2})`;
+          context.fillRect(0, i * 70, 1024, 30 + Math.random() * 20);
+        }
+        
+        // Great Red Spot
+        context.fillStyle = 'rgba(200, 50, 50, 0.8)';
+        context.beginPath();
+        context.ellipse(700, 400, 120, 80, 0, 0, Math.PI * 2);
+        context.fill();
         break;
+        
       case 'Saturn':
-        gradient.addColorStop(0, '#FAD5A5');
-        gradient.addColorStop(0.5, '#DEB887');
-        gradient.addColorStop(1, '#D2B48C');
+        // Pale golden atmosphere
+        const saturnGradient = context.createLinearGradient(0, 0, 0, 1024);
+        saturnGradient.addColorStop(0, '#FAD5A5');
+        saturnGradient.addColorStop(0.5, '#DEB887');
+        saturnGradient.addColorStop(1, '#D2B48C');
+        context.fillStyle = saturnGradient;
+        context.fillRect(0, 0, 1024, 1024);
+        
+        // Add subtle bands
+        for (let i = 0; i < 10; i++) {
+          context.fillStyle = `rgba(200, 180, 140, ${0.1 + Math.random() * 0.1})`;
+          context.fillRect(0, i * 100, 1024, 50);
+        }
         break;
+        
       case 'Uranus':
-        gradient.addColorStop(0, '#4FD0E3');
-        gradient.addColorStop(0.5, '#87CEEB');
-        gradient.addColorStop(1, '#4682B4');
+        // Icy blue-green appearance
+        const uranusGradient = context.createRadialGradient(512, 512, 0, 512, 512, 512);
+        uranusGradient.addColorStop(0, '#87CEEB');
+        uranusGradient.addColorStop(0.5, '#4FD0E3');
+        uranusGradient.addColorStop(1, '#4682B4');
+        context.fillStyle = uranusGradient;
+        context.fillRect(0, 0, 1024, 1024);
+        
+        // Add subtle atmospheric features
+        for (let i = 0; i < 20; i++) {
+          context.fillStyle = `rgba(255, 255, 255, ${0.05 + Math.random() * 0.1})`;
+          context.beginPath();
+          context.arc(Math.random() * 1024, Math.random() * 1024, Math.random() * 50 + 20, 0, Math.PI * 2);
+          context.fill();
+        }
         break;
+        
       case 'Neptune':
-        gradient.addColorStop(0, '#4B70DD');
-        gradient.addColorStop(0.5, '#1E90FF');
-        gradient.addColorStop(1, '#191970');
+        // Deep blue with dynamic storms
+        const neptuneGradient = context.createRadialGradient(512, 512, 0, 512, 512, 512);
+        neptuneGradient.addColorStop(0, '#1E90FF');
+        neptuneGradient.addColorStop(0.5, '#4B70DD');
+        neptuneGradient.addColorStop(1, '#191970');
+        context.fillStyle = neptuneGradient;
+        context.fillRect(0, 0, 1024, 1024);
+        
+        // Add storm systems
+        for (let i = 0; i < 15; i++) {
+          context.fillStyle = `rgba(100, 150, 255, ${0.2 + Math.random() * 0.3})`;
+          context.beginPath();
+          context.ellipse(
+            Math.random() * 1024, 
+            Math.random() * 1024, 
+            Math.random() * 80 + 30, 
+            Math.random() * 40 + 20, 
+            Math.random() * Math.PI * 2, 
+            0, 
+            Math.PI * 2
+          );
+          context.fill();
+        }
         break;
-      default:
-        gradient.addColorStop(0, color);
-        gradient.addColorStop(1, color);
-    }
-    
-    context.fillStyle = gradient;
-    context.fillRect(0, 0, 512, 512);
-    
-    // Add some texture details
-    for (let i = 0; i < 50; i++) {
-      context.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.1})`;
-      context.beginPath();
-      context.arc(Math.random() * 512, Math.random() * 512, Math.random() * 3, 0, Math.PI * 2);
-      context.fill();
     }
     
     return new THREE.CanvasTexture(canvas);
@@ -469,9 +604,18 @@ export default function SolarSystemExplorer() {
                   zoomToCursor={true}
                   panSpeed={2}
                   rotateSpeed={1}
-                  zoomSpeed={1.2}
-                  minDistance={5}
-                  maxDistance={200}
+                  zoomSpeed={0.8}
+                  minDistance={2}
+                  maxDistance={500}
+                  enableDamping={true}
+                  dampingFactor={0.05}
+                  onDoubleClick={() => {
+                    // Double-click to zoom in smoothly
+                    const controls = document.querySelector('canvas')?.parentElement?.querySelector('canvas');
+                    if (controls) {
+                      // This will be handled by the camera animation
+                    }
+                  }}
                 />
               </Canvas>
             </CardContent>

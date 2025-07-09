@@ -78,7 +78,7 @@ const Index = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
-              <img src="/uploads/ca01a316-f75c-41f4-bebf-192c2e931dbd.png" alt="Mission Cosmos Logo" className="h-8 w-8" />
+              <img src="/lovable-uploads/2a801fa8-7949-45f9-abc7-79d5632d8c5f.png" alt="Mission Cosmos Logo" className="h-8 w-8" />
               <h1 className="text-2xl font-bold text-white space-text">Mission Cosmos</h1>
             </div>
             <div className="hidden md:flex items-center space-x-6">

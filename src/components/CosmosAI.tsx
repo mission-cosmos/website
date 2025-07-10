@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Settings, Star, Rocket, Zap } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Settings, Star, Rocket, Zap, Key } from 'lucide-react';
 
 interface Message {
   id: number;
@@ -11,57 +12,65 @@ interface Message {
   timestamp: Date;
 }
 
-const knowledgeBase = {
-  // Basic Sun Facts
-  "how big is the sun": "The Sun has a diameter of about 1.39 million kilometers (864,000 miles), which is about 109 times the diameter of Earth. Its mass is approximately 1.989 × 10^30 kg, which is about 333,000 times the mass of Earth. The Sun contains 99.86% of all the mass in our solar system. You could fit about 1.3 million Earths inside the Sun!",
-  "sun size": "The Sun has a diameter of about 1.39 million kilometers (864,000 miles), which is about 109 times the diameter of Earth. Its mass is approximately 1.989 × 10^30 kg, which is about 333,000 times the mass of Earth. The Sun contains 99.86% of all the mass in our solar system. You could fit about 1.3 million Earths inside the Sun!",
-  "sun diameter": "The Sun's diameter is approximately 1.39 million kilometers (864,000 miles), making it about 109 times wider than Earth.",
-  "sun mass": "The Sun's mass is about 1.989 × 10^30 kg, which is roughly 333,000 times the mass of Earth.",
-  "sun temperature": "The Sun's core temperature is about 15 million degrees Celsius (27 million degrees Fahrenheit), while its surface temperature is about 5,778 K (5,505°C or 9,941°F).",
-  "sun age": "The Sun is approximately 4.6 billion years old and is about halfway through its main sequence lifetime. It has about 5 billion more years before it becomes a red giant.",
+const getAIResponse = async (question: string, apiKey: string): Promise<string> => {
+  if (!apiKey) {
+    return "Please enter your Perplexity API key to unlock my full astronomical knowledge!";
+  }
 
-  // Planet Sizes and Facts
-  "how big is earth": "Earth has a diameter of about 12,742 kilometers (7,918 miles) and a circumference of about 40,075 kilometers (24,901 miles) at the equator. Its mass is approximately 5.97 × 10^24 kg.",
-  "how big is jupiter": "Jupiter is the largest planet in our solar system with a diameter of about 139,820 kilometers (86,881 miles), which is about 11 times Earth's diameter. Its mass is about 318 times that of Earth.",
-  "how big is saturn": "Saturn has a diameter of about 116,460 kilometers (72,367 miles), making it about 9 times wider than Earth. Despite its size, Saturn is less dense than water.",
-  "how big is mars": "Mars has a diameter of about 6,779 kilometers (4,212 miles), which is about half the size of Earth. Its mass is about 11% of Earth's mass.",
-  "how big is venus": "Venus has a diameter of about 12,104 kilometers (7,521 miles), making it almost the same size as Earth (about 95% of Earth's diameter).",
-  "how big is mercury": "Mercury is the smallest planet with a diameter of about 4,879 kilometers (3,032 miles), which is about 38% the size of Earth.",
-  "how big is uranus": "Uranus has a diameter of about 50,724 kilometers (31,518 miles), making it about 4 times wider than Earth.",
-  "how big is neptune": "Neptune has a diameter of about 49,244 kilometers (30,598 miles), making it about 4 times wider than Earth.",
+  try {
+    const response = await fetch('https://api.perplexity.ai/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'llama-3.1-sonar-large-128k-online',
+        messages: [
+          {
+            role: 'system',
+            content: 'You are Nova, an expert cosmic AI assistant with deep knowledge of astronomy, astrophysics, cosmology, space exploration, and all things related to the universe. Provide detailed, accurate, and engaging answers about space topics. Be enthusiastic and educational while maintaining scientific accuracy. If asked about non-space topics, politely redirect to space-related subjects.'
+          },
+          {
+            role: 'user',
+            content: question
+          }
+        ],
+        temperature: 0.3,
+        top_p: 0.9,
+        max_tokens: 800,
+        return_images: false,
+        return_related_questions: false,
+        frequency_penalty: 1,
+        presence_penalty: 0
+      }),
+    });
 
-  // Solar System - Comprehensive  
-  "what is the sun": "The Sun is a G-type main-sequence star at the center of our solar system. It's a massive ball of hot plasma held together by gravity, with a core temperature of about 15 million degrees Celsius. The Sun generates energy through nuclear fusion, converting 600 million tons of hydrogen into helium every second, releasing the energy equivalent of 100 billion nuclear bombs per second. It contains 99.86% of the solar system's mass and could fit 1.3 million Earths inside it.",
-  "how many planets": "There are 8 planets in our solar system: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, and Neptune. Pluto was reclassified as a dwarf planet in 2006 by the International Astronomical Union because it doesn't meet all three criteria for a planet: it must orbit the Sun, have sufficient mass to be roughly round, and clear its orbital neighborhood.",
-  "solar system formation": "Our solar system formed about 4.6 billion years ago from the gravitational collapse of a giant molecular cloud. The Sun formed at the center, while planets formed from the accretion of dust and gas in the surrounding protoplanetary disk. Inner planets are rocky due to high temperatures, while outer planets are gas/ice giants because volatiles could condense in the cooler outer regions.",
-  "mercury facts": "Mercury is the smallest planet and closest to the Sun. It has extreme temperature variations (427°C day, -173°C night), no atmosphere, and takes 88 Earth days to orbit the Sun. One day on Mercury lasts 59 Earth days due to its slow rotation.",
-  "venus facts": "Venus is the hottest planet with surface temperatures of 462°C due to its thick carbon dioxide atmosphere creating a runaway greenhouse effect. It rotates backwards (retrograde) and has the longest day of any planet - 243 Earth days.",
-  "earth facts": "Earth is the only known planet with life. It's 71% water-covered, has one moon that stabilizes its rotation, and sits in the 'Goldilocks zone' - the perfect distance from the Sun for liquid water to exist.",
-  "mars facts": "Mars is called the Red Planet due to iron oxide (rust) on its surface. It has two small moons (Phobos and Deimos), the largest volcano in the solar system (Olympus Mons), and evidence of ancient water flows. A day on Mars is 24.6 hours.",
-  "jupiter facts": "Jupiter is the largest planet, containing more mass than all other planets combined. It has 95 known moons including the four Galilean moons. Its Great Red Spot is a storm larger than Earth that's been raging for centuries.",
-  "saturn facts": "Saturn is famous for its prominent ring system made of ice and rock particles. It's less dense than water and has 146 known moons, including Titan which has lakes of liquid methane.",
-  "uranus facts": "Uranus rotates on its side (98° tilt) likely due to an ancient collision. It's an ice giant with 27 moons and was the first planet discovered with a telescope in 1781 by William Herschel.",
-  "neptune facts": "Neptune is the windiest planet with speeds up to 2,100 km/h. It was discovered mathematically before being observed, and takes 165 Earth years to orbit the Sun.",
+    if (!response.ok) {
+      throw new Error(`API request failed: ${response.status}`);
+    }
 
-  // General responses for better interaction
-  "hello": "Hello! I'm Nova, your cosmic AI assistant. Ask me anything about space, astronomy, or the universe!",
-  "hi": "Hi there! I'm here to help you explore the wonders of the cosmos. What would you like to know?",
-  "what can you do": "I can answer questions about planets, stars, galaxies, space exploration, physics, and much more! Try asking me about the size of planets, how stars work, or any space facts you're curious about.",
-  "thanks": "You're welcome! Keep exploring the universe with curiosity!",
-  "thank you": "My pleasure! The cosmos is full of amazing discoveries waiting to be shared."
+    const data = await response.json();
+    return data.choices[0]?.message?.content || "I'm having trouble accessing my cosmic knowledge right now. Please try again!";
+  } catch (error) {
+    console.error('Perplexity API error:', error);
+    return "I'm experiencing some cosmic interference! Please check your API key and try again. Make sure you have a valid Perplexity API key.";
+  }
 };
 
 export default function CosmosAI() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "Hello! I'm Nova, your cosmic AI assistant. Ask me anything about space, astronomy, or the universe! Try asking me 'How big is the Sun?' or 'What are black holes?'",
+      text: "Hello! I'm Nova, your cosmic AI assistant with access to the latest astronomical knowledge! I can answer any question about space, astronomy, cosmology, and the universe. Ask me about neutron stars, black holes, exoplanets, galaxy formation, or anything cosmic! First, please enter your Perplexity API key below to unlock my full potential.",
       isUser: false,
       timestamp: new Date()
     }
   ]);
   const [inputText, setInputText] = useState('');
+  const [apiKey, setApiKey] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [showApiKeyInput, setShowApiKeyInput] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -71,39 +80,6 @@ export default function CosmosAI() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
-
-  const findBestMatch = (query: string): string => {
-    const normalizedQuery = query.toLowerCase().trim();
-    
-    // Direct match
-    if (knowledgeBase[normalizedQuery as keyof typeof knowledgeBase]) {
-      return knowledgeBase[normalizedQuery as keyof typeof knowledgeBase];
-    }
-
-    // Partial matches
-    const keys = Object.keys(knowledgeBase);
-    for (const key of keys) {
-      if (normalizedQuery.includes(key) || key.includes(normalizedQuery)) {
-        return knowledgeBase[key as keyof typeof knowledgeBase];
-      }
-    }
-
-    // Keyword-based matching
-    if (normalizedQuery.includes('big') || normalizedQuery.includes('size') || normalizedQuery.includes('diameter')) {
-      if (normalizedQuery.includes('sun')) return knowledgeBase["how big is the sun"];
-      if (normalizedQuery.includes('earth')) return knowledgeBase["how big is earth"];
-      if (normalizedQuery.includes('jupiter')) return knowledgeBase["how big is jupiter"];
-      if (normalizedQuery.includes('saturn')) return knowledgeBase["how big is saturn"];
-      if (normalizedQuery.includes('mars')) return knowledgeBase["how big is mars"];
-      if (normalizedQuery.includes('venus')) return knowledgeBase["how big is venus"];
-      if (normalizedQuery.includes('mercury')) return knowledgeBase["how big is mercury"];
-      if (normalizedQuery.includes('uranus')) return knowledgeBase["how big is uranus"];
-      if (normalizedQuery.includes('neptune')) return knowledgeBase["how big is neptune"];
-    }
-
-    // Default response for unmatched queries
-    return "That's a fascinating question! While I have extensive knowledge about space and astronomy, I might not have specific information about that topic yet. Try asking me about planet sizes, stellar facts, or space exploration. You can ask things like 'How big is Jupiter?' or 'What are neutron stars?'";
-  };
 
   const handleSendMessage = async () => {
     if (!inputText.trim()) return;
@@ -116,12 +92,12 @@ export default function CosmosAI() {
     };
 
     setMessages(prev => [...prev, userMessage]);
+    const currentInput = inputText;
     setInputText('');
     setIsTyping(true);
 
-    // Simulate AI thinking time
-    setTimeout(() => {
-      const response = findBestMatch(inputText);
+    try {
+      const response = await getAIResponse(currentInput, apiKey);
       
       const aiMessage: Message = {
         id: messages.length + 2,
@@ -131,8 +107,17 @@ export default function CosmosAI() {
       };
 
       setMessages(prev => [...prev, aiMessage]);
+    } catch (error) {
+      const errorMessage: Message = {
+        id: messages.length + 2,
+        text: "I'm experiencing some cosmic interference! Please check your connection and try again.",
+        isUser: false,
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
       setIsTyping(false);
-    }, 1000 + Math.random() * 1000);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -143,11 +128,14 @@ export default function CosmosAI() {
   };
 
   const suggestedQuestions = [
-    "How big is the Sun?",
-    "What are black holes?",
-    "How many moons does Jupiter have?",
-    "What is the Milky Way?",
-    "How far is Mars from Earth?"
+    "What are neutron stars?",
+    "How do black holes form?",
+    "What is dark matter?",
+    "How big is the universe?",
+    "What are exoplanets?",
+    "How do stars die?",
+    "What is the Big Bang theory?",
+    "What are quasars?"
   ];
 
   return (
@@ -221,6 +209,48 @@ export default function CosmosAI() {
               <div ref={messagesEndRef} />
             </div>
 
+            {/* API Key Input */}
+            {showApiKeyInput && (
+              <div className="space-y-2 p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+                <div className="flex items-center gap-2">
+                  <Key className="h-4 w-4 text-yellow-400" />
+                  <p className="text-yellow-400 text-sm font-medium">Perplexity API Key Required</p>
+                </div>
+                <p className="text-gray-300 text-xs">
+                  To unlock my full astronomical knowledge, please enter your Perplexity API key. 
+                  Get one at <a href="https://docs.perplexity.ai/docs/getting-started" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">perplexity.ai</a>
+                </p>
+                <div className="flex gap-2">
+                  <Input
+                    type="password"
+                    value={apiKey}
+                    onChange={(e) => setApiKey(e.target.value)}
+                    placeholder="Enter your Perplexity API key..."
+                    className="bg-black/20 border-white/20 text-white placeholder-gray-400"
+                  />
+                  <Button
+                    onClick={() => {
+                      if (apiKey.trim()) {
+                        setShowApiKeyInput(false);
+                        const welcomeMessage: Message = {
+                          id: messages.length + 1,
+                          text: "Perfect! I'm now connected to my vast cosmic knowledge base. Ask me anything about the universe - from the smallest subatomic particles to the largest galaxy clusters!",
+                          isUser: false,
+                          timestamp: new Date()
+                        };
+                        setMessages(prev => [...prev, welcomeMessage]);
+                      }
+                    }}
+                    disabled={!apiKey.trim()}
+                    variant="outline"
+                    className="border-yellow-500/50 text-yellow-400 hover:bg-yellow-500/10"
+                  >
+                    Connect
+                  </Button>
+                </div>
+              </div>
+            )}
+
             {/* Suggested Questions */}
             <div className="space-y-2">
               <p className="text-white text-sm space-text">Suggested questions:</p>
@@ -260,8 +290,18 @@ export default function CosmosAI() {
 
             <div className="text-center">
               <p className="text-xs text-gray-400 space-text">
-                Nova AI is powered by extensive astronomical knowledge. Ask away!
+                Nova AI is powered by Perplexity's real-time astronomical knowledge. Ask any cosmic question!
               </p>
+              {!showApiKeyInput && (
+                <Button
+                  onClick={() => setShowApiKeyInput(true)}
+                  variant="ghost"
+                  size="sm"
+                  className="text-xs text-gray-500 hover:text-gray-300 mt-1"
+                >
+                  Change API Key
+                </Button>
+              )}
             </div>
           </CardContent>
         </Card>

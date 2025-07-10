@@ -488,6 +488,38 @@ function Starfield() {
   );
 }
 
+function FlyingAsteroid({ initialPosition }: { initialPosition: [number, number, number] }) {
+  const meshRef = useRef<THREE.Mesh>(null!);
+  const velocity = useMemo(() => [
+    (Math.random() - 0.5) * 0.2,
+    (Math.random() - 0.5) * 0.1,
+    (Math.random() - 0.5) * 0.2
+  ], []);
+
+  useFrame(() => {
+    if (meshRef.current) {
+      meshRef.current.position.x += velocity[0];
+      meshRef.current.position.y += velocity[1];
+      meshRef.current.position.z += velocity[2];
+      meshRef.current.rotation.x += 0.02;
+      meshRef.current.rotation.y += 0.01;
+
+      // Reset position when too far
+      if (Math.abs(meshRef.current.position.x) > 100 || 
+          Math.abs(meshRef.current.position.z) > 100) {
+        meshRef.current.position.set(initialPosition[0], initialPosition[1], initialPosition[2]);
+      }
+    }
+  });
+
+  return (
+    <mesh ref={meshRef} position={initialPosition}>
+      <dodecahedronGeometry args={[Math.random() * 0.1 + 0.05]} />
+      <meshPhongMaterial color="#8B4513" />
+    </mesh>
+  );
+}
+
 function AsteroidBelt() {
   const count = 200;
   const positions = useMemo(() => {
@@ -596,6 +628,18 @@ export default function SolarSystemExplorer() {
                 
                 {/* Asteroid Belt */}
                 <AsteroidBelt />
+                
+                {/* Flying Asteroids */}
+                {Array.from({ length: 8 }, (_, i) => (
+                  <FlyingAsteroid 
+                    key={`flying-${i}`}
+                    initialPosition={[
+                      (Math.random() - 0.5) * 80,
+                      (Math.random() - 0.5) * 20,
+                      (Math.random() - 0.5) * 80
+                    ]}
+                  />
+                ))}
                 
                 <OrbitControls 
                   enablePan={true} 

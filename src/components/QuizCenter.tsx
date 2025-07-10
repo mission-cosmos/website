@@ -94,6 +94,126 @@ const questions: Question[] = [
     correctAnswer: 2,
     difficulty: "Hard",
     explanation: "Dark matter makes up approximately 27% of the universe, while dark energy accounts for 68%, and normal matter only 5%."
+  },
+  {
+    id: 11,
+    question: "How many Earth days is one day on Venus?",
+    options: ["24 hours", "59 days", "243 days", "365 days"],
+    correctAnswer: 2,
+    difficulty: "Medium",
+    explanation: "One day on Venus lasts 243 Earth days, making it longer than a Venusian year (225 Earth days)."
+  },
+  {
+    id: 12,
+    question: "What is the Great Red Spot on Jupiter?",
+    options: ["A volcano", "A storm system", "A moon", "A crater"],
+    correctAnswer: 1,
+    difficulty: "Easy",
+    explanation: "The Great Red Spot is a massive storm system on Jupiter that has been raging for centuries and is larger than Earth."
+  },
+  {
+    id: 13,
+    question: "Which planet was discovered using mathematical predictions before being observed?",
+    options: ["Uranus", "Neptune", "Pluto", "Saturn"],
+    correctAnswer: 1,
+    difficulty: "Hard",
+    explanation: "Neptune was discovered in 1846 through mathematical predictions by Urbain Le Verrier and John Couch Adams based on perturbations in Uranus's orbit."
+  },
+  {
+    id: 14,
+    question: "What is the asteroid belt?",
+    options: ["A ring around Saturn", "A region between Mars and Jupiter", "Debris around Earth", "Ice chunks beyond Neptune"],
+    correctAnswer: 1,
+    difficulty: "Easy",
+    explanation: "The asteroid belt is a region between Mars and Jupiter containing millions of rocky objects, including the dwarf planet Ceres."
+  },
+  {
+    id: 15,
+    question: "Which moon in our solar system has active geysers?",
+    options: ["Europa", "Enceladus", "Titan", "Io"],
+    correctAnswer: 1,
+    difficulty: "Medium",
+    explanation: "Enceladus, one of Saturn's moons, has active ice geysers that shoot water vapor into space from its south polar region."
+  },
+  {
+    id: 16,
+    question: "What causes the seasons on Earth?",
+    options: ["Distance from the Sun", "Axial tilt", "Solar flares", "Moon's gravity"],
+    correctAnswer: 1,
+    difficulty: "Medium",
+    explanation: "Earth's seasons are caused by its 23.5-degree axial tilt, which changes how directly sunlight hits different parts of Earth throughout the year."
+  },
+  {
+    id: 17,
+    question: "How fast does the International Space Station orbit Earth?",
+    options: ["17,500 mph", "25,000 mph", "11,000 mph", "30,000 mph"],
+    correctAnswer: 0,
+    difficulty: "Hard",
+    explanation: "The ISS orbits Earth at approximately 17,500 mph (28,000 km/h), completing one orbit every 90 minutes."
+  },
+  {
+    id: 18,
+    question: "What is the Kuiper Belt?",
+    options: ["A region of comets beyond Neptune", "An asteroid belt", "Saturn's rings", "A galaxy cluster"],
+    correctAnswer: 0,
+    difficulty: "Hard",
+    explanation: "The Kuiper Belt is a region beyond Neptune containing icy objects and dwarf planets like Pluto, Eris, and Makemake."
+  },
+  {
+    id: 19,
+    question: "Which planet has the strongest magnetic field?",
+    options: ["Earth", "Jupiter", "Saturn", "Uranus"],
+    correctAnswer: 1,
+    difficulty: "Medium",
+    explanation: "Jupiter has the strongest magnetic field in our solar system, about 20,000 times stronger than Earth's."
+  },
+  {
+    id: 20,
+    question: "What type of star will our Sun become at the end of its life?",
+    options: ["Black hole", "Neutron star", "White dwarf", "Red supergiant"],
+    correctAnswer: 2,
+    difficulty: "Medium",
+    explanation: "Our Sun will eventually become a white dwarf star after going through its red giant phase in about 5 billion years."
+  },
+  {
+    id: 21,
+    question: "How many astronauts have walked on the Moon?",
+    options: ["6", "12", "8", "16"],
+    correctAnswer: 1,
+    difficulty: "Easy",
+    explanation: "Twelve astronauts have walked on the Moon during the Apollo missions between 1969 and 1972."
+  },
+  {
+    id: 22,
+    question: "What is the coldest planet in our solar system?",
+    options: ["Neptune", "Uranus", "Pluto", "Saturn"],
+    correctAnswer: 1,
+    difficulty: "Medium",
+    explanation: "Uranus is the coldest planet with temperatures dropping to -224°C (-371°F), even colder than Neptune despite being closer to the Sun."
+  },
+  {
+    id: 23,
+    question: "Which spacecraft was the first to leave our solar system?",
+    options: ["Voyager 1", "Voyager 2", "Pioneer 10", "New Horizons"],
+    correctAnswer: 0,
+    difficulty: "Hard",
+    explanation: "Voyager 1 became the first human-made object to enter interstellar space in 2012, after traveling for 35 years."
+  },
+  {
+    id: 24,
+    question: "What is the largest volcano in our solar system?",
+    options: ["Mount Everest", "Olympus Mons", "Mauna Kea", "Vesuvius"],
+    correctAnswer: 1,
+    difficulty: "Easy",
+    explanation: "Olympus Mons on Mars is the largest volcano in our solar system, standing about 69,000 feet (21 km) high."
+  },
+  {
+    id: 25,
+    question: "How long is a light-year?",
+    options: ["9.46 trillion km", "1 million km", "150 million km", "1 billion km"],
+    correctAnswer: 0,
+    difficulty: "Hard",
+    explanation: "A light-year is the distance light travels in one year, approximately 9.46 trillion kilometers (5.88 trillion miles)."
   }
 ];
 

@@ -1,17 +1,21 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { PenTool, BookOpen, Sparkles, Save, RotateCcw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 
 const CosmicJournal = () => {
   const [currentPromptIndex, setCurrentPromptIndex] = useState(0);
   const [journalEntry, setJournalEntry] = useState("");
-  const [savedEntries, setSavedEntries] = useState<Array<{prompt: string, entry: string, date: string}>>([]);
+  const [savedEntries, setSavedEntries] = useState<Array<{id: string, prompt_title: string, content: string, created_at: string, prompt_category?: string}>>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const prompts = [
     {
@@ -85,19 +89,65 @@ const CosmicJournal = () => {
     setJournalEntry("");
   };
 
-  const saveEntry = () => {
-    if (journalEntry.trim()) {
-      const newEntry = {
-        prompt: currentPrompt.title,
-        entry: journalEntry,
-        date: new Date().toLocaleDateString()
-      };
-      setSavedEntries(prev => [newEntry, ...prev]);
+  // Load saved entries on component mount
+  useEffect(() => {
+    if (user) {
+      loadEntries();
+    }
+  }, [user]);
+
+  const loadEntries = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('journal_entries')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setSavedEntries(data || []);
+    } catch (error) {
+      console.error('Error loading entries:', error);
+      toast({
+        title: "Error loading entries",
+        description: "Could not load your journal entries.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const saveEntry = async () => {
+    if (!journalEntry.trim() || !user) return;
+
+    setIsLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('journal_entries')
+        .insert({
+          user_id: user.id,
+          prompt_title: currentPrompt.title,
+          prompt_category: currentPrompt.category,
+          content: journalEntry.trim()
+        })
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      setSavedEntries(prev => [data, ...prev]);
       toast({
         title: "Entry Saved! 🌟",
         description: "Your cosmic thoughts have been saved to your journal.",
       });
       setJournalEntry("");
+    } catch (error) {
+      console.error('Error saving entry:', error);
+      toast({
+        title: "Error saving entry",
+        description: "Could not save your journal entry. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -156,11 +206,11 @@ const CosmicJournal = () => {
             <div className="flex flex-wrap justify-center gap-4">
               <Button
                 onClick={saveEntry}
-                disabled={!journalEntry.trim()}
+                disabled={!journalEntry.trim() || isLoading}
                 className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white disabled:opacity-50"
               >
                 <Save className="h-4 w-4 mr-2" />
-                Save Entry
+                {isLoading ? "Saving..." : "Save Entry"}
               </Button>
               <Button
                 onClick={nextPrompt}
@@ -202,14 +252,16 @@ const CosmicJournal = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-4 max-h-96 overflow-y-auto">
-                {savedEntries.map((entry, index) => (
-                  <div key={index} className="bg-slate-900/50 p-4 rounded-lg border border-slate-600/30">
+                {savedEntries.map((entry) => (
+                  <div key={entry.id} className="bg-slate-900/50 p-4 rounded-lg border border-slate-600/30">
                     <div className="flex justify-between items-start mb-2">
-                      <h4 className="font-semibold text-white">{entry.prompt}</h4>
-                      <span className="text-xs text-gray-400">{entry.date}</span>
+                      <h4 className="font-semibold text-white">{entry.prompt_title}</h4>
+                      <span className="text-xs text-gray-400">
+                        {new Date(entry.created_at).toLocaleDateString()}
+                      </span>
                     </div>
                     <p className="text-gray-300 text-sm leading-relaxed">
-                      {entry.entry.length > 200 ? `${entry.entry.substring(0, 200)}...` : entry.entry}
+                      {entry.content.length > 200 ? `${entry.content.substring(0, 200)}...` : entry.content}
                     </p>
                   </div>
                 ))}

@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Rocket, Globe, BookOpen, PenTool, Star, Zap, Target, Brain, Mail, Orbit, Settings, Users } from "lucide-react";
+import { Rocket, Globe, BookOpen, PenTool, Star, Zap, Target, Brain, Mail, Orbit, Settings, Users, LogOut, User } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 import RedPlanetRoverWrapper from "../components/RedPlanetRoverWrapper";
 import AstroRun from "../components/AstroRun";
 import CosmicFacts from "../components/CosmicFacts";
@@ -14,12 +15,36 @@ import Contact from "../components/Contact";
 import SolarSystemExplorer from "../components/SolarSystemExplorer";
 import QuizCenter from "../components/QuizCenter";
 import SpaceSimulations from "../components/SpaceSimulations";
-import CosmosAI from "../components/CosmosAI";
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState("home");
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, loading, signOut } = useAuth();
+
+  // Redirect to auth if not logged in
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate('/auth');
+    }
+  }, [loading, user, navigate]);
+
+  // Show loading state while auth is being determined
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-black">
+        <div className="text-center">
+          <Star className="h-16 w-16 text-yellow-400 animate-spin mx-auto mb-4" />
+          <p className="text-white text-lg">Loading Mission Cosmos...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render if not authenticated
+  if (!user) {
+    return null;
+  }
 
   // Update active section based on URL
   useEffect(() => {
@@ -45,9 +70,6 @@ const Index = () => {
         break;
       case '/simulations':
         setActiveSection('simulations');
-        break;
-      case '/cosmos-ai':
-        setActiveSection('cosmos-ai');
         break;
       default:
         setActiveSection('home');
@@ -90,7 +112,6 @@ const Index = () => {
                 { key: "simulations", label: "Simulations" },
                 { key: "facts", label: "Cosmic Facts" },
                 { key: "journal", label: "Journal" },
-                { key: "cosmos-ai", label: "Cosmos AI" },
                 { key: "contact", label: "Contact" },
               ].map(({ key, label }) => (
                 <button
@@ -103,6 +124,18 @@ const Index = () => {
                   {label}
                 </button>
               ))}
+              <div className="flex items-center space-x-2 ml-4">
+                <User className="h-4 w-4 text-white" />
+                <span className="text-white text-sm">{user?.email?.split('@')[0]}</span>
+                <Button
+                  onClick={signOut}
+                  variant="ghost"
+                  size="sm"
+                  className="text-white hover:text-red-400"
+                >
+                  <LogOut className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -140,7 +173,6 @@ const Index = () => {
                   { icon: Brain, title: "Quiz Center", desc: "Test your cosmic knowledge", color: "text-green-400" },
                   { icon: Rocket, title: "Simulations", desc: "Experience realistic space scenarios", color: "text-orange-400" },
                   { icon: Zap, title: "Astro Run", desc: "Race through space adventures", color: "text-purple-400" },
-                  { icon: Settings, title: "Cosmos AI", desc: "Your personal space assistant", color: "text-cyan-400" },
                   { icon: BookOpen, title: "Cosmic Facts", desc: "Discover amazing space knowledge", color: "text-pink-400" },
                   { icon: PenTool, title: "Cosmic Journal", desc: "Reflect and imagine the universe", color: "text-indigo-400" }
                 ].map((feature, index) => (
@@ -227,12 +259,6 @@ const Index = () => {
         </div>
       )}
 
-      {/* Cosmos AI Section */}
-      {activeSection === "cosmos-ai" && (
-        <div className="pt-20 pb-16">
-          <CosmosAI />
-        </div>
-      )}
 
       {/* Cosmic Facts Section */}
       {activeSection === "facts" && (
@@ -264,7 +290,6 @@ const Index = () => {
             { key: "solar-system", icon: Orbit, label: "Solar" },
             { key: "quiz", icon: Brain, label: "Quiz" },
             { key: "simulations", icon: Target, label: "Sims" },
-            { key: "cosmos-ai", icon: Settings, label: "AI" },
             { key: "facts", icon: BookOpen, label: "Facts" },
             { key: "journal", icon: PenTool, label: "Journal" },
             { key: "contact", icon: Mail, label: "Contact" },

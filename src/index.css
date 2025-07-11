@@ -125,6 +125,20 @@
   animation: zoom 20s infinite linear;
 }
 
+/* Additional space-themed animations */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
+}
+
 .stars:after {
   content: "";
   position: absolute;

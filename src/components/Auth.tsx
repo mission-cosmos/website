@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Rocket, Mail, Lock, User, Star } from 'lucide-react';
+import { Rocket, Mail, Lock, User, Star, Sparkles, Globe, Orbit } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
@@ -100,165 +100,277 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-8">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <div className="flex justify-center items-center gap-2 mb-4">
-            <Rocket className="h-8 w-8 text-blue-400" />
-            <h1 className="text-2xl font-bold text-white">Mission Cosmos</h1>
-          </div>
-          <p className="text-gray-400">Join the cosmic exploration community</p>
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Enhanced space background */}
+      <div className="absolute inset-0 space-background">
+        <div className="stars"></div>
+        <div className="shooting-stars">
+          <div className="shooting-star"></div>
+          <div className="shooting-star"></div>
+          <div className="shooting-star"></div>
         </div>
+      </div>
+      
+      {/* Floating cosmic elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-20 left-10 text-blue-400/20 animate-pulse">
+          <Star className="h-8 w-8" />
+        </div>
+        <div className="absolute top-40 right-20 text-purple-400/20 animate-bounce">
+          <Sparkles className="h-6 w-6" />
+        </div>
+        <div className="absolute bottom-32 left-16 text-cyan-400/20 animate-pulse">
+          <Globe className="h-10 w-10" />
+        </div>
+        <div className="absolute bottom-20 right-10 text-pink-400/20 animate-spin-slow">
+          <Orbit className="h-7 w-7" />
+        </div>
+      </div>
 
-        <Card className="bg-slate-800/50 border-slate-600/50">
-          <CardHeader>
-            <CardTitle className="text-white text-center flex items-center justify-center gap-2">
-              <Star className="h-5 w-5 text-yellow-400" />
-              Welcome Aboard
-            </CardTitle>
-            <CardDescription className="text-center text-gray-400">
-              Sign in to save your cosmic journey
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Tabs defaultValue="signin" className="space-y-4">
-              <TabsList className="grid w-full grid-cols-2 bg-slate-700">
-                <TabsTrigger value="signin" className="text-white">Sign In</TabsTrigger>
-                <TabsTrigger value="signup" className="text-white">Sign Up</TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="signin">
-                <form onSubmit={handleSignIn} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="signin-email" className="text-white">Email</Label>
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                      <Input
-                        id="signin-email"
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="your@email.com"
-                        className="pl-10 bg-slate-700/50 border-slate-600 text-white"
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="signin-password" className="text-white">Password</Label>
-                    <div className="relative">
-                      <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                      <Input
-                        id="signin-password"
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Your password"
-                        className="pl-10 bg-slate-700/50 border-slate-600 text-white"
-                        required
-                      />
-                    </div>
-                  </div>
-                  <Button 
-                    type="submit" 
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-                    disabled={isLoading}
-                  >
-                    {isLoading ? "Signing In..." : "Sign In"}
-                  </Button>
-                </form>
-              </TabsContent>
-
-              <TabsContent value="signup">
-                <form onSubmit={handleSignUp} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-name" className="text-white">Full Name</Label>
-                    <div className="relative">
-                      <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                      <Input
-                        id="signup-name"
-                        type="text"
-                        value={fullName}
-                        onChange={(e) => setFullName(e.target.value)}
-                        placeholder="Your full name"
-                        className="pl-10 bg-slate-700/50 border-slate-600 text-white"
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-email" className="text-white">Email</Label>
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                      <Input
-                        id="signup-email"
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="your@email.com"
-                        className="pl-10 bg-slate-700/50 border-slate-600 text-white"
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="signup-password" className="text-white">Password</Label>
-                    <div className="relative">
-                      <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                      <Input
-                        id="signup-password"
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Create a password"
-                        className="pl-10 bg-slate-700/50 border-slate-600 text-white"
-                        required
-                        minLength={6}
-                      />
-                    </div>
-                  </div>
-                  <Button 
-                    type="submit" 
-                    className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
-                    disabled={isLoading}
-                  >
-                    {isLoading ? "Creating Account..." : "Create Account"}
-                  </Button>
-                </form>
-              </TabsContent>
-            </Tabs>
-
-            <div className="mt-6">
+      <div className="relative z-10 min-h-screen flex items-center justify-center px-4 py-8">
+        <div className="w-full max-w-md">
+          {/* Header */}
+          <div className="text-center mb-8 animate-fade-in">
+            <div className="flex justify-center items-center gap-3 mb-6">
               <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t border-slate-600" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-slate-800 px-2 text-gray-400">Or continue with</span>
+                <Rocket className="h-12 w-12 text-blue-400 animate-pulse" />
+                <div className="absolute -top-1 -right-1">
+                  <Star className="h-4 w-4 text-yellow-400 animate-bounce" />
                 </div>
               </div>
+              <div>
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent space-text">
+                  Mission Cosmos
+                </h1>
+                <div className="flex justify-center gap-1 mt-1">
+                  <div className="w-1 h-1 bg-blue-400 rounded-full animate-pulse"></div>
+                  <div className="w-1 h-1 bg-purple-400 rounded-full animate-pulse delay-100"></div>
+                  <div className="w-1 h-1 bg-cyan-400 rounded-full animate-pulse delay-200"></div>
+                </div>
+              </div>
+            </div>
+            <p className="text-gray-300 text-lg space-text">
+              Join the cosmic exploration community
+            </p>
+            <p className="text-gray-400 text-sm mt-2">
+              Your journey through the universe begins here
+            </p>
+          </div>
+
+          {/* Main Auth Card */}
+          <Card className="bg-slate-900/90 border-slate-600/50 backdrop-blur-lg shadow-2xl shadow-blue-500/10 animate-scale-in">
+            <CardHeader className="text-center pb-4">
+              <CardTitle className="text-white text-xl flex items-center justify-center gap-2 space-text">
+                <div className="relative">
+                  <Star className="h-6 w-6 text-yellow-400 animate-pulse" />
+                  <div className="absolute inset-0 h-6 w-6 border border-yellow-400/50 rounded-full animate-ping"></div>
+                </div>
+                Welcome Aboard, Explorer
+              </CardTitle>
+              <CardDescription className="text-center text-gray-300 space-text">
+                Sign in to save your cosmic discoveries and continue your journey through the stars
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <Tabs defaultValue="signin" className="space-y-6">
+                <TabsList className="grid w-full grid-cols-2 bg-slate-800/80 border border-slate-600/50">
+                  <TabsTrigger 
+                    value="signin" 
+                    className="text-gray-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white"
+                  >
+                    Sign In
+                  </TabsTrigger>
+                  <TabsTrigger 
+                    value="signup" 
+                    className="text-gray-300 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-pink-600 data-[state=active]:text-white"
+                  >
+                    Launch Mission
+                  </TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="signin" className="space-y-4">
+                  <form onSubmit={handleSignIn} className="space-y-5">
+                    <div className="space-y-3">
+                      <Label htmlFor="signin-email" className="text-gray-200 font-medium space-text">
+                        Email Address
+                      </Label>
+                      <div className="relative group">
+                        <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400 group-focus-within:text-blue-400 transition-colors" />
+                        <Input
+                          id="signin-email"
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder="astronaut@cosmos.space"
+                          className="pl-10 bg-slate-800/70 border-slate-600/70 text-white placeholder:text-gray-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 transition-all"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-3">
+                      <Label htmlFor="signin-password" className="text-gray-200 font-medium space-text">
+                        Mission Password
+                      </Label>
+                      <div className="relative group">
+                        <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400 group-focus-within:text-blue-400 transition-colors" />
+                        <Input
+                          id="signin-password"
+                          type="password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          placeholder="••••••••••"
+                          className="pl-10 bg-slate-800/70 border-slate-600/70 text-white placeholder:text-gray-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 transition-all"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <Button 
+                      type="submit" 
+                      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium py-3 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-300 space-text"
+                      disabled={isLoading}
+                    >
+                      {isLoading ? (
+                        <div className="flex items-center gap-2">
+                          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                          Launching...
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-2">
+                          <Rocket className="h-4 w-4" />
+                          Launch Into Cosmos
+                        </div>
+                      )}
+                    </Button>
+                  </form>
+                </TabsContent>
+
+                <TabsContent value="signup" className="space-y-4">
+                  <form onSubmit={handleSignUp} className="space-y-5">
+                    <div className="space-y-3">
+                      <Label htmlFor="signup-name" className="text-gray-200 font-medium space-text">
+                        Astronaut Name
+                      </Label>
+                      <div className="relative group">
+                        <User className="absolute left-3 top-3 h-4 w-4 text-gray-400 group-focus-within:text-purple-400 transition-colors" />
+                        <Input
+                          id="signup-name"
+                          type="text"
+                          value={fullName}
+                          onChange={(e) => setFullName(e.target.value)}
+                          placeholder="Commander Cosmos"
+                          className="pl-10 bg-slate-800/70 border-slate-600/70 text-white placeholder:text-gray-400 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20 transition-all"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-3">
+                      <Label htmlFor="signup-email" className="text-gray-200 font-medium space-text">
+                        Mission Email
+                      </Label>
+                      <div className="relative group">
+                        <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400 group-focus-within:text-purple-400 transition-colors" />
+                        <Input
+                          id="signup-email"
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder="explorer@universe.space"
+                          className="pl-10 bg-slate-800/70 border-slate-600/70 text-white placeholder:text-gray-400 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20 transition-all"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-3">
+                      <Label htmlFor="signup-password" className="text-gray-200 font-medium space-text">
+                        Mission Password
+                      </Label>
+                      <div className="relative group">
+                        <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400 group-focus-within:text-purple-400 transition-colors" />
+                        <Input
+                          id="signup-password"
+                          type="password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          placeholder="Create your cosmic key"
+                          className="pl-10 bg-slate-800/70 border-slate-600/70 text-white placeholder:text-gray-400 focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20 transition-all"
+                          required
+                          minLength={6}
+                        />
+                      </div>
+                      <p className="text-xs text-gray-400 space-text">
+                        Minimum 6 characters for intergalactic security
+                      </p>
+                    </div>
+                    <Button 
+                      type="submit" 
+                      className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium py-3 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-all duration-300 space-text"
+                      disabled={isLoading}
+                    >
+                      {isLoading ? (
+                        <div className="flex items-center gap-2">
+                          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                          Preparing Launch...
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-2">
+                          <Star className="h-4 w-4" />
+                          Begin Mission
+                        </div>
+                      )}
+                    </Button>
+                  </form>
+                </TabsContent>
+              </Tabs>
+
+              {/* Divider */}
+              <div className="relative my-6">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t border-slate-600/50" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-slate-900 px-3 text-gray-400 space-text">
+                    Or join via the galaxy network
+                  </span>
+                </div>
+              </div>
+
+              {/* Google Sign In */}
               <Button
                 onClick={handleGoogleSignIn}
                 variant="outline"
-                className="w-full mt-4 border-slate-600 text-white hover:bg-slate-700"
+                className="w-full border-slate-600/70 bg-slate-800/50 text-white hover:bg-slate-700/70 hover:border-slate-500 transition-all duration-300 py-3 group"
                 disabled={isLoading}
               >
-                <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
-                  <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                  <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                  <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                  <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                </svg>
-                Sign in with Google
+                <div className="flex items-center gap-3">
+                  <svg className="w-5 h-5 group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                  </svg>
+                  <span className="space-text font-medium">
+                    {isLoading ? "Connecting to galaxy..." : "Continue with Google"}
+                  </span>
+                </div>
               </Button>
-            </div>
-          </CardContent>
-        </Card>
 
-        <div className="text-center mt-6">
-          <p className="text-xs text-gray-400">
-            By joining Mission Cosmos, you agree to explore the universe responsibly
-          </p>
+            </CardContent>
+          </Card>
+
+          {/* Footer */}
+          <div className="text-center mt-8 space-y-3 animate-fade-in">
+            <p className="text-sm text-gray-400 space-text">
+              By joining Mission Cosmos, you agree to explore the universe responsibly
+            </p>
+            <div className="flex justify-center gap-2">
+              <div className="w-2 h-2 bg-blue-400/50 rounded-full animate-pulse"></div>
+              <div className="w-2 h-2 bg-purple-400/50 rounded-full animate-pulse delay-75"></div>
+              <div className="w-2 h-2 bg-cyan-400/50 rounded-full animate-pulse delay-150"></div>
+            </div>
+            <p className="text-xs text-gray-500 space-text">
+              🚀 Ready to explore the infinite cosmos? Your adventure starts now!
+            </p>
+          </div>
         </div>
       </div>
     </div>

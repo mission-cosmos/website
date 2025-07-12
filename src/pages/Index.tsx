@@ -131,7 +131,7 @@ const Index = () => {
                 Mission Cosmos is an interactive digital space lab for students and dreamers to discover the wonders of the universe through games, stories, and cosmic creativity.
               </p>
               
-              {/* Feature Cards */}
+              {/* Feature Cards - Organized 4x2 grid */}
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-16">
                 {[
                   { icon: Target, title: "Red-Planet Rover", desc: "Navigate Mars terrain and complete missions", color: "text-red-400" },
@@ -140,7 +140,8 @@ const Index = () => {
                   { icon: Rocket, title: "Simulations", desc: "Experience realistic space scenarios", color: "text-orange-400" },
                   { icon: Zap, title: "Astro Run", desc: "Race through space adventures", color: "text-purple-400" },
                   { icon: BookOpen, title: "Cosmic Facts", desc: "Discover amazing space knowledge", color: "text-pink-400" },
-                  { icon: PenTool, title: "Cosmic Journal", desc: "Reflect and imagine the universe", color: "text-indigo-400" }
+                  { icon: PenTool, title: "Cosmic Journal", desc: "Reflect and imagine the universe", color: "text-indigo-400" },
+                  { icon: Star, title: "Space Explorer", desc: "Journey through infinite possibilities", color: "text-yellow-400" }
                 ].map((feature, index) => (
                   <Card key={index} className="space-card hover:bg-white/10 transition-all hover:scale-105 border-white/20">
                     <CardHeader className="text-center">

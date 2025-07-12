@@ -176,6 +176,19 @@ function Planet({ name, distance, size, color, speed, onClick, position }: Plane
   const [hovered, setHovered] = useState(false);
   const textureLoader = new THREE.TextureLoader();
 
+  // Real axial tilts for planets (in degrees)
+  const axialTilts: Record<string, number> = {
+    'Sun': 7.25,
+    'Mercury': 0.034,
+    'Venus': 177.4, // Nearly upside down
+    'Earth': 23.4,
+    'Mars': 25.2,
+    'Jupiter': 3.1,
+    'Saturn': 26.7,
+    'Uranus': 97.8, // Extreme tilt - rotates on its side
+    'Neptune': 28.3
+  };
+
   // Create highly realistic textures for each planet
   const getTexture = () => {
     const canvas = document.createElement('canvas');
@@ -394,8 +407,11 @@ function Planet({ name, distance, size, color, speed, onClick, position }: Plane
       meshRef.current.position.x = Math.cos(time * speed) * distance;
       meshRef.current.position.z = Math.sin(time * speed) * distance;
     }
-    // Add rotation for realism
+    // Add rotation for realism with axial tilt
     if (meshRef.current) {
+      // Apply realistic axial tilt
+      const tiltRadians = (axialTilts[name] || 0) * (Math.PI / 180);
+      meshRef.current.rotation.z = tiltRadians;
       meshRef.current.rotation.y += 0.01;
     }
   });

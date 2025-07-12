@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Rocket, Globe, BookOpen, PenTool, Star, Zap, Target, Brain, Mail, Orbit, Settings, Users, LogOut, User } from "lucide-react";
-import { useAuth } from "@/hooks/useAuth";
+
 import RedPlanetRoverWrapper from "../components/RedPlanetRoverWrapper";
 import AstroRun from "../components/AstroRun";
 import CosmicFacts from "../components/CosmicFacts";
@@ -20,31 +20,6 @@ const Index = () => {
   const [activeSection, setActiveSection] = useState("home");
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, loading, signOut } = useAuth();
-
-  // Redirect to auth if not logged in
-  useEffect(() => {
-    if (!loading && !user) {
-      navigate('/auth');
-    }
-  }, [loading, user, navigate]);
-
-  // Show loading state while auth is being determined
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-black">
-        <div className="text-center">
-          <Star className="h-16 w-16 text-yellow-400 animate-spin mx-auto mb-4" />
-          <p className="text-white text-lg">Loading Mission Cosmos...</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Don't render if not authenticated
-  if (!user) {
-    return null;
-  }
 
   // Update active section based on URL
   useEffect(() => {
@@ -124,17 +99,8 @@ const Index = () => {
                   {label}
                 </button>
               ))}
-              <div className="flex items-center space-x-2 ml-4">
-                <User className="h-4 w-4 text-white" />
-                <span className="text-white text-sm">{user?.email?.split('@')[0]}</span>
-                <Button
-                  onClick={signOut}
-                  variant="ghost"
-                  size="sm"
-                  className="text-white hover:text-red-400"
-                >
-                  <LogOut className="h-4 w-4" />
-                </Button>
+              <div className="text-white text-sm">
+                Mission Cosmos
               </div>
             </div>
           </div>
